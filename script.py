@@ -1,7 +1,6 @@
 import fire
 import geopandas as gpd
-import geoplot as gplt
-import matplotlib.pyplot as plt
+import plotly.express as px
 
 
 def area(input_file, output_file):
@@ -13,12 +12,19 @@ def area(input_file, output_file):
 
     df = df.sort_values(by=["area"], ascending=False)
 
-    ax = gplt.webmap(df["geometry"], zoom=16, figsize=(24, 18))
-    gplt.choropleth(df["geometry"], hue=df["area"], legend=True, cmap="Oranges", ax=ax)
+    fig = px.choropleth(
+        df,
+        geojson=df,
+        featureidkey="id",
+        locations="id",
+        color="area",
+        #mapbox_style="open-street-map",
+        #center={"lat": 48.801067, "lon": 8.324541},
+    )
+    with open(output_file, "w") as f:
+        fig.write_html(f)
 
-    plt.savefig(output_file)
-
-    print(df[["area", "addr:street", "addr:housenumber", "building"]])
+    print(df)
 
 
 if __name__ == "__main__":
