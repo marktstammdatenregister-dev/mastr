@@ -2,4 +2,8 @@ FROM neerteam/geopandas@sha256:a5f1de13268d3a71ea9f78fb88fd4499077bec8351b09e594
 
 RUN pip3 install \
       fire \
-      geoplot
+      geoplot \
+      pyrosm
+
+RUN pip3 install \
+      pyarrow
