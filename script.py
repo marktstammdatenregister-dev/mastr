@@ -16,9 +16,6 @@ def area(input_file, output_file):
     ax = gplt.webmap(df["geometry"], zoom=16, figsize=(24, 18))
     gplt.choropleth(df["geometry"], hue=df["area"], legend=True, cmap="Oranges", ax=ax)
 
-    df["coords"] = df["geometry"].apply(lambda x: x.centroid.coords[:])
-    df["coords"] = [coords[0] for coords in df["coords"]]
-
     plt.savefig(output_file)
 
     print(df[["area", "addr:street", "addr:housenumber", "building"]])
