@@ -46,6 +46,8 @@ limit
 
 ```
 CREATE INDEX multipolygons_area ON multipolygons(Area(Transform(GEOMETRY, 25832)));
+CREATE INDEX multipolygons_building ON multipolygons(building); // For building facet -- doesn't work
+CREATE INDEX multipolygons_administrative ON multipolygons(name, boundary); // For subqueries
 ```
 
 ```
@@ -180,3 +182,51 @@ from
       and area > 1000
   )
 ```
+
+```
+BEGIN TRANSACTION;
+DROP TABLE lines;
+DROP TABLE multilinestrings;
+DROP TABLE other_relations;
+DROP TABLE points;
+DELETE FROM multipolygons WHERE building is null and boundary != "administrative";
+END TRANSACTION;
+VACUUM;
+```
+
+```
+select
+  AsGeoJSON(GEOMETRY),
+  Area(Transform(GEOMETRY, 25832)) as area,
+  ogc_fid,
+  name,
+  amenity,
+  building,
+  other_tags
+from
+  multipolygons,
+  (
+    select
+      GEOMETRY as city_boundary
+    from
+      multipolygons
+    where
+      name == :city_name
+      AND boundary == "administrative"
+    limit
+      1
+  )
+where
+  building is not null
+  and (amenity is null or amenity != "place_of_worship")
+  and within(GEOMETRY, city_boundary)
+  and area > cast(:minimum_area as int)
+order by
+  area desc
+```
+
+https://wiki.openstreetmap.org/wiki/Key:roof:shape
+
+Aerial view:
+https://github.com/digidem/leaflet-bing-layer/blob/gh-pages/index.html
+https://gitlab.com/IvanSanchez/Leaflet.GridLayer.GoogleMutant/-/tree/master
