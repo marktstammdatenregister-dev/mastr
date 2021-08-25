@@ -1,5 +1,8 @@
 ```
 ogr2ogr -f SQLite out.sqlite karlsruhe-regbez-latest.osm.pbf -progress -dsco SPATIALITE=YES -gt 65536
+ogr2ogr -f SQLite out-shape.sqlite ~/Downloads/karlsruhe-regbez-latest-free.shp/gis_osm_buildings_a_free_1.shp -progress -dsco SPATIALITE=YES -gt 65536 -a_srs "EPSG:4326" -nlt PROMOTE_TO_MULTI
+datasette --load-extension=/nix/store/xvwp2hapx8ihfsdx02nnjpv8aa8pgk74-libspatialite-4.3.0a/lib/mod_spatialite.so out.sqlite  --setting sql_time_limit_ms 5000
+spatialite -header -csv out.sqlite <buildings-in-Gaggenau.sql >buildings-in-Gaggenau.csv
 ```
 
 
@@ -46,8 +49,19 @@ limit
 
 ```
 CREATE INDEX multipolygons_area ON multipolygons(Area(Transform(GEOMETRY, 25832)));
-CREATE INDEX multipolygons_building ON multipolygons(building); // For building facet -- doesn't work
 CREATE INDEX multipolygons_administrative ON multipolygons(name, boundary); // For subqueries
+CREATE INDEX multipolygons_building ON multipolygons(building); // For building facet -- doesn't work
+
+# CREATE VIEW multipolygons_administrative_boundary AS SELECT (name, GEOMETRY) FROM multipolygons WHERE boundary == "administrative";
+
+CREATE VIEW multipolygons_eligible_building AS SELECT * FROM multipolygons
+                    where
+                      building is not null
+                      and building != "church"
+                      and building != "chapel"
+                      and building != "mosque"
+                      and building != "synagogue"
+                      and building != "temple"
 ```
 
 ```
@@ -230,3 +244,7 @@ https://wiki.openstreetmap.org/wiki/Key:roof:shape
 Aerial view:
 https://github.com/digidem/leaflet-bing-layer/blob/gh-pages/index.html
 https://gitlab.com/IvanSanchez/Leaflet.GridLayer.GoogleMutant/-/tree/master
+
+`boundary == "postal_code"` could also be used as a polygon filter
+
+There is a feature "solar panel"!
