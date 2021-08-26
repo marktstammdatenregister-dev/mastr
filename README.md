@@ -5,6 +5,11 @@ datasette --load-extension=/nix/store/xvwp2hapx8ihfsdx02nnjpv8aa8pgk74-libspatia
 spatialite -header -csv out.sqlite <buildings-in-Gaggenau.sql >buildings-in-Gaggenau.csv
 ```
 
+```
+docker build . --progress=plain -f Dockerfile.datasette -t pvdb
+docker run --rm -p 8001:8001 pvdb datasette -p 8001 -h 0.0.0.0 /work/osm.db --load-extension=spatialite --metadata /work/metadata.yaml
+```
+
 
 Takes 18 seconds:
 ```

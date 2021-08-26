@@ -1,0 +1,52 @@
+databases:
+    osm:
+        queries:
+            by_administrative_boundary:
+                title: Search by administrative boundary
+                description_html: |-
+                    <p>The results are sorted by building area. Places of worship like chapels are excluded from the results.
+
+                    <table>
+                    <caption>Parameters</caption>
+                    <tr>
+                    <td><code>boundary_name</code></td>
+                    <td>The name of the administrative boundary, e.g. the name of a town.</td>
+                    </tr>
+                    <tr>
+                    <td><code>limit</code></td>
+                    <td>The number of results to show.</td>
+                    </tr>
+                    </table>
+                sql: |-
+                    select
+                      AsGeoJSON(GEOMETRY),
+                      Area(Transform(GEOMETRY, 25832)) as area,
+                      ogc_fid,
+                      name,
+                      amenity,
+                      building,
+                      other_tags
+                    from
+                      multipolygons,
+                      (
+                        select
+                          GEOMETRY as query_boundary
+                        from
+                          multipolygons
+                        where
+                          name == :boundary_name
+                          AND boundary == "administrative"
+                        limit
+                          1
+                      )
+                    where
+                      building is not null
+                      and building != "church"
+                      and building != "chapel"
+                      and building != "mosque"
+                      and building != "synagogue"
+                      and building != "temple"
+                      and within(GEOMETRY, query_boundary)
+                    order by
+                      area desc
+                    limit cast(:limit as INT)
