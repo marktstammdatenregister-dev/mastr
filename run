@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-docker run --rm -it \
-    -v "$(pwd):/work" \
-    $(docker build --quiet .) \
-    python3 /work/script.py area /work/export.geojson /work/out.png
