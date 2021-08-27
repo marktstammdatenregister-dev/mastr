@@ -21,6 +21,7 @@ databases:
                     select
                       AsGeoJSON(GEOMETRY) as geojson,
                       area,
+                      operator,
                       ogc_fid,
                       name,
                       amenity,

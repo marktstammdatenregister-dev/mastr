@@ -1,3 +1,4 @@
 *
-!/multipolygons-area.sql
 !/metadata.yaml
+!/multipolygons-area.sql
+!/osmconf.ini

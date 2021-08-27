@@ -11,8 +11,14 @@ RUN apt-get -qq update \
 
 WORKDIR /work
 ARG OSM_URL
-RUN wget --output-document raw.osm.pbf --no-verbose "${OSM_URL}"
-RUN ogr2ogr -f SQLite osm.db raw.osm.pbf -dsco SPATIALITE=YES -gt 65536 -where "building is not null or boundary = 'administrative'" multipolygons
+COPY ./osmconf.ini .
+RUN wget --output-document raw.osm.pbf --no-verbose "${OSM_URL}" \
+ && ogr2ogr -f SQLite osm.db raw.osm.pbf \
+      -where "building is not null or boundary = 'administrative'" multipolygons \
+      --config OSM_CONFIG_FILE osmconf.ini \
+      -dsco SPATIALITE=YES \
+      -gt 65536 \
+ && rm raw.osm.pbf
 
 COPY ./multipolygons-area.sql .
 RUN spatialite osm.db <multipolygons-area.sql
