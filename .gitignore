@@ -1,0 +1,5 @@
+# SQLite databases
+*.db
+
+# OSM exports
+*.osm.pbf
