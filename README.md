@@ -6,10 +6,20 @@ spatialite -header -csv out.sqlite <buildings-in-Gaggenau.sql >buildings-in-Gagg
 ```
 
 ```
-docker build . --progress=plain -f Dockerfile.datasette -t pvdb
+https://download.geofabrik.de/europe/germany/baden-wuerttemberg-210826.osm.pbf
+docker build . --build-arg OSM_URL=https://download.geofabrik.de/europe/germany/baden-wuerttemberg-210826.osm.pbf --progress=plain -f datasette.Dockerfile -t pvdb
+docker build . --build-arg OSM_URL=https://download.geofabrik.de/europe/germany/baden-wuerttemberg/karlsruhe-regbez-210826.osm.pbf -f datasette.Dockerfile -t pvdb
 docker run --rm -p 8001:8001 pvdb datasette -p 8001 -h 0.0.0.0 /work/osm.db --load-extension=spatialite --metadata /work/metadata.yaml
 ```
 
+```
+# https://gis.stackexchange.com/a/372398
+ogrinfo raw.gpkg -sql 'SELECT Area(Transform(geom, 25832)) as area FROM multipolygons WHERE building is not null LIMIT 10' -dialect indirect_sqlite
+
+ogr2ogr -f SQLite buildings.db karlsruhe-regbez-latest.osm.pbf --config OSM_CONFIG_FILE osmconf.ini -progress -dsco SPATIALITE=YES -gt 65536 -sql 'select * from multipolygons where building is not null'
+ogr2ogr -f SQLite buildings.db karlsruhe-regbez-latest.osm.pbf -progress -dsco SPATIALITE=YES -gt 65536 -sql 'select * from multipolygons where building is not null'
+ogr2ogr -f SQLite administrative.db karlsruhe-regbez-latest.osm.pbf -progress -dsco SPATIALITE=YES -gt 65536 -sql "select * from multipolygons where boundary = 'administrative'"
+```
 
 Takes 18 seconds:
 ```

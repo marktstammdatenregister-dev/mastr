@@ -7,19 +7,18 @@ RUN apt-get -qq update \
  && true
 
 WORKDIR /work
-RUN wget -O raw.osm.pbf https://download.geofabrik.de/europe/germany/baden-wuerttemberg-210824.osm.pbf
-RUN ogr2ogr -f SQLite raw.db raw.osm.pbf -dsco SPATIALITE=YES -gt 65536
+ARG OSM_URL
+RUN wget --output-document raw.osm.pbf --no-verbose "${OSM_URL}"
+RUN ogr2ogr -f SQLite osm.db raw.osm.pbf -dsco SPATIALITE=YES -gt 65536 -where "building is not null or boundary = 'administrative'" multipolygons
 
-COPY ./preprocess.sql .
-RUN ls -lh raw.db
-RUN spatialite raw.db <preprocess.sql
-RUN ls -lh raw.db
+COPY ./multipolygons-area.sql .
+RUN spatialite osm.db <multipolygons-area.sql
 
 
 FROM datasetteproject/datasette:0.58.1@sha256:e8749dd66c79c1808c37746469ecf73b816df515283745b4a5d53ce7f8f9c873 AS datasette
 
 WORKDIR /work
-COPY --from=builder /work/raw.db osm.db
+COPY --from=builder /work/osm.db .
 COPY ./metadata.yaml .
 
 RUN pip install datasette-leaflet-geojson

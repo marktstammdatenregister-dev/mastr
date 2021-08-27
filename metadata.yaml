@@ -20,7 +20,7 @@ databases:
                 sql: |-
                     select
                       AsGeoJSON(GEOMETRY),
-                      Area(Transform(GEOMETRY, 25832)) as area,
+                      area,
                       ogc_fid,
                       name,
                       amenity,
