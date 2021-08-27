@@ -19,7 +19,7 @@ databases:
                     </table>
                 sql: |-
                     select
-                      AsGeoJSON(GEOMETRY),
+                      AsGeoJSON(GEOMETRY) as geojson,
                       area,
                       ogc_fid,
                       name,
