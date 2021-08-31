@@ -20,13 +20,13 @@ databases:
                 sql: |-
                     select
                       AsGeoJSON(GEOMETRY) as geojson,
-                      area,
+                      CAST(area as INTEGER) as area_sqm,
                       operator,
-                      ogc_fid,
                       name,
                       amenity,
                       building,
-                      other_tags
+                      other_tags,
+                      ogc_fid
                     from
                       multipolygons,
                       (
