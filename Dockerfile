@@ -38,6 +38,10 @@ USER datasette:datasette
 
 COPY --from=builder /work/osm.db .
 COPY ./metadata.yaml .
+COPY ./settings.json .
 
 ENTRYPOINT ["dumb-init", "--"]
-CMD ["datasette", "--port=8080", "--host=0.0.0.0", "/work/osm.db", "--load-extension=spatialite", "--metadata=/work/metadata.yaml"]
+
+# Use "." as the configuration directory. This loads *.db, metadata.yaml, settings.json, etc.
+# https://docs.datasette.io/en/stable/settings.html#configuration-directory-mode
+CMD ["datasette", "--port=8080", "--host=0.0.0.0", "--load-extension=spatialite", "."]
