@@ -7,7 +7,7 @@ RUN apt-get -qq update \
       gdal-bin \
       spatialite-bin \
       wget \
- && true
+ && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /work
 ARG OSM_URL
@@ -28,8 +28,13 @@ RUN spatialite osm.db <multipolygons-area.sql
 #
 FROM datasetteproject/datasette:0.58.1@sha256:e8749dd66c79c1808c37746469ecf73b816df515283745b4a5d53ce7f8f9c873 AS datasette
 RUN apt-get -qq update \
- && apt-get -qq install dumb-init
-RUN pip install datasette-leaflet-geojson
+ && apt-get -qq install dumb-init \
+ && rm -rf /var/lib/apt/lists/*
+RUN pip install \
+      datasette-cluster-map \
+      https://github.com/curiousleo/datasette-leaflet-geojson/archive/53bde7c1c3a8fb2e5b2842988f5430e03064554a.tar.gz \
+      datasette-vega \
+ && true
 
 WORKDIR /work
 RUN groupadd -r datasette && useradd --no-log-init -r -g datasette datasette
