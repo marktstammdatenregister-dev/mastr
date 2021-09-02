@@ -26,7 +26,9 @@ databases:
                       amenity,
                       building,
                       other_tags,
-                      ogc_fid
+                      ogc_fid,
+                      Y(Centroid(GEOMETRY)) as latitude,
+                      X(Centroid(GEOMETRY)) as longitude
                     from
                       multipolygons,
                       (
