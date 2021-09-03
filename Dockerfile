@@ -32,7 +32,7 @@ RUN apt-get -qq update \
  && rm -rf /var/lib/apt/lists/*
 RUN pip install \
       datasette-cluster-map \
-      https://github.com/curiousleo/datasette-leaflet-geojson/archive/53bde7c1c3a8fb2e5b2842988f5430e03064554a.tar.gz \
+      https://github.com/curiousleo/datasette-leaflet-geojson/archive/1e402abeb77192e0b8d51504b46055f1e1b4cf4d.tar.gz \
       datasette-vega \
  && true
 
