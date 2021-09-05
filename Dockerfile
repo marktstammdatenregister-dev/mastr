@@ -12,11 +12,11 @@ RUN apt-get -qq update \
 
 WORKDIR /work
 ARG OSM_URL
-COPY ./osmconf.ini .
+COPY ./buildings.ini .
 RUN wget --output-document raw.osm.pbf --no-verbose "${OSM_URL}" \
  && ogr2ogr -f SQLite osm.db raw.osm.pbf \
       -where "building is not null or boundary = 'administrative'" multipolygons \
-      --config OSM_CONFIG_FILE osmconf.ini \
+      --config OSM_CONFIG_FILE buildings.ini \
       -dsco SPATIALITE=YES \
       -gt 65536 \
  && rm raw.osm.pbf
