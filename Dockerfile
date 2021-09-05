@@ -12,7 +12,7 @@ RUN apt-get -qq update \
 
 WORKDIR /work
 ARG OSM_URL
-COPY ./buildings.ini .
+COPY ./buildings.ini ./points.ini ./
 RUN wget --output-document raw.osm.pbf --no-verbose "${OSM_URL}" \
  && ogr2ogr -f SQLite osm.db raw.osm.pbf multipolygons \
       -where "building is not null or boundary = 'administrative'" \
@@ -26,7 +26,7 @@ RUN wget --output-document raw.osm.pbf --no-verbose "${OSM_URL}" \
        -gt 65536 \
  && rm raw.osm.pbf
 
-COPY ./multipolygons-area.sql .
+COPY ./multipolygons-area.sql ./
 RUN spatialite osm.db <multipolygons-area.sql \
  && brotli -4 --rm --output=osm.db.br osm.db \
  && brotli -4 --rm --output=points.db.br points.db
