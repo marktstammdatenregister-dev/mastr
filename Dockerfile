@@ -60,4 +60,4 @@ ENTRYPOINT ["dumb-init", "--"]
 
 # Use "." as the configuration directory. This loads *.db, metadata.yaml, settings.json, etc.
 # https://docs.datasette.io/en/stable/settings.html#configuration-directory-mode
-CMD ["sh", "-c", "brotli --rm --decompress --no-copy-stat *.db.br && datasette --port=8080 --host=0.0.0.0 --load-extension=spatialite ."]
+CMD ["sh", "-c", "brotli --rm --decompress --no-copy-stat *.db.br && datasette --port=8080 --host=0.0.0.0 --load-extension=spatialite --cors ."]
