@@ -5,6 +5,8 @@ pkgs.mkShell {
     brotli
     flyctl
     gdal_2
+    pup
+    pypy3Packages.xmlschema
     rlwrap
     spatialite_tools
     sqlite

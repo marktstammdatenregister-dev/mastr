@@ -9,11 +9,11 @@ buildings.db: input.osm.pbf buildings.ini multipolygons-area.sql
 		-gt 65536
 	spatialite "$@" <multipolygons-area.sql
 
-boundaries.db: input.osm.pbf buildings.ini
+boundaries.db: input.osm.pbf boundaries.ini
 	rm -f "$@"
 	ogr2ogr -f SQLite "$@" input.osm.pbf multipolygons \
 		-where "boundary = 'administrative'" \
-		--config OSM_CONFIG_FILE buildings.ini \
+		--config OSM_CONFIG_FILE boundaries.ini \
 		-dsco SPATIALITE=YES \
 		-gt 65536
 

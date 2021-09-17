@@ -39,7 +39,6 @@ USER datasette:datasette
 
 COPY --from=builder-osm /work/boundaries.db.br .
 COPY --from=builder-osm /work/buildings.db.br .
-COPY --from=builder-osm /work/points.db.br .
 COPY ./metadata.yaml .
 COPY ./settings.json .
 

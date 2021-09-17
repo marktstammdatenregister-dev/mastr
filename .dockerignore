@@ -4,6 +4,7 @@
 !/settings.json
 
 !/osm/Makefile
+!/osm/boundaries.ini
 !/osm/buildings.ini
 !/osm/multipolygons-area.sql
 !/osm/points.ini
