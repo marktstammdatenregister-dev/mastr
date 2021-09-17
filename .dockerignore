@@ -1,6 +1,9 @@
 *
-!/buildings.ini
+
 !/metadata.yaml
-!/multipolygons-area.sql
-!/points.ini
 !/settings.json
+
+!/osm/Makefile
+!/osm/buildings.ini
+!/osm/multipolygons-area.sql
+!/osm/points.ini

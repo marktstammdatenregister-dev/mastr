@@ -1,35 +1,21 @@
 #
 # Build the database.
 #
-FROM docker.io/ubuntu:20.04@sha256:1e48201ccc2ab83afc435394b3bf70af0fa0055215c1e26a5da9b50a1ae367c9 as builder
+FROM docker.io/ubuntu:20.04@sha256:1e48201ccc2ab83afc435394b3bf70af0fa0055215c1e26a5da9b50a1ae367c9 as builder-osm
 RUN apt-get -qq update \
  && apt-get -qq install \
       brotli \
       gdal-bin \
+      make \
       spatialite-bin \
       wget \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /work
 ARG OSM_URL
-COPY ./buildings.ini ./points.ini ./
-RUN wget --output-document raw.osm.pbf --no-verbose "${OSM_URL}" \
- && ogr2ogr -f SQLite osm.db raw.osm.pbf multipolygons \
-      -where "building is not null or boundary = 'administrative'" \
-      --config OSM_CONFIG_FILE buildings.ini \
-      -dsco SPATIALITE=YES \
-      -gt 65536 \
- && ogr2ogr -f SQLite points.db raw.osm.pbf points \
-       -where "generator_source = 'solar'" \
-       --config OSM_CONFIG_FILE points.ini \
-       -dsco SPATIALITE=YES \
-       -gt 65536 \
- && rm raw.osm.pbf
-
-COPY ./multipolygons-area.sql ./
-RUN spatialite osm.db <multipolygons-area.sql \
- && brotli -4 --rm --output=osm.db.br osm.db \
- && brotli -4 --rm --output=points.db.br points.db
+RUN wget --output-document input.osm.pbf --no-verbose "${OSM_URL}"
+COPY ./osm/ ./
+RUN make -j all && make clean-intermediate
 
 #
 # Run datasette.
@@ -51,8 +37,9 @@ RUN groupadd -r datasette && useradd --no-log-init -r -g datasette datasette
 RUN chown datasette:datasette .
 USER datasette:datasette
 
-COPY --from=builder /work/osm.db.br .
-COPY --from=builder /work/points.db.br .
+COPY --from=builder-osm /work/boundaries.db.br .
+COPY --from=builder-osm /work/buildings.db.br .
+COPY --from=builder-osm /work/points.db.br .
 COPY ./metadata.yaml .
 COPY ./settings.json .
 
