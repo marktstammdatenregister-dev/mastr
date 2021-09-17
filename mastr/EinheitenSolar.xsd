@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="EinheitenSolar">
+    <xs:complexType>
+      <xs:sequence>
+	      <xs:element ref="EinheitSolar" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EinheitSolar">
+    <!--
+      Created using [1] as a guide. Discrepancies are marked with comments.
+      [1] https://www.marktstammdatenregister.de/MaStRHilfe/files/gesamtdatenexport/Dokumentation%20MaStR%20Gesamtdatenexport.pdf (version 2021-09-01)
+    -->
+    <xs:complexType>
+      <xs:all>
+        <xs:element type="xs:string" name="EinheitMastrNummer"/>
+        <xs:element type="xs:dateTime" name="DatumLetzteAktualisierung"/>
+        <xs:element type="xs:string" name="LokationMaStRNummer" minOccurs="0"/> <!-- Marked as mandatory in [1] -->
+        <xs:element type="xs:nonNegativeInteger" name="NetzbetreiberpruefungStatus"/>
+        <xs:element type="xs:date" name="NetzbetreiberpruefungDatum" minOccurs="0"/>
+        <xs:element type="xs:string" name="AnlagenbetreiberMastrNummer" minOccurs="0"/> <!-- Marked as mandatory in [1] -->
+        <xs:element type="xs:nonNegativeInteger" name="Land"/>
+        <xs:element type="xs:nonNegativeInteger" name="Bundesland" minOccurs="0"/>
+        <xs:element type="xs:string" name="Landkreis" minOccurs="0"/>
+        <xs:element type="xs:string" name="Gemeinde" minOccurs="0"/>
+        <xs:element type="xs:string" name="Gemeindeschluessel" minOccurs="0"/>
+        <xs:element type="xs:string" name="Postleitzahl"/>
+        <xs:element type="xs:string" name="Gemarkung" minOccurs="0"/>
+        <xs:element type="xs:string" name="FlurFlurstuecknummern" minOccurs="0"/>
+        <xs:element type="xs:string" name="Strasse" minOccurs="0"/>
+        <xs:element type="xs:boolean" name="StrasseNichtGefunden" minOccurs="0"/>
+        <xs:element type="xs:string" name="Hausnummer" minOccurs="0"/>  <!-- Marked as mandatory in [1] -->
+        <xs:element type="xs:boolean" name="Hausnummer_nv" minOccurs="0"/>
+        <xs:element type="xs:boolean" name="HausnummerNichtGefunden" minOccurs="0"/>
+        <xs:element type="xs:string" name="Adresszusatz" minOccurs="0"/>
+        <xs:element type="xs:string" name="Ort"/>
+        <xs:element type="xs:decimal" name="Laengengrad" minOccurs="0"/>
+        <xs:element type="xs:decimal" name="Breitengrad" minOccurs="0"/>
+        <xs:element type="xs:date" name="Registrierungsdatum" minOccurs="0"/>
+        <xs:element type="xs:date" name="GeplantesInbetriebnahmedatum" minOccurs="0"/>
+        <xs:element type="xs:date" name="Inbetriebnahmedatum" minOccurs="0"/>
+        <xs:element type="xs:date" name="DatumEndgueltigeStilllegung" minOccurs="0"/>
+        <xs:element type="xs:date" name="DatumBeginnVoruebergehendeStilllegung" minOccurs="0"/>
+        <xs:element type="xs:date" name="DatumWiederaufnahmeBetrieb" minOccurs="0"/>
+        <xs:element type="xs:nonNegativeInteger" name="EinheitSystemstatus" minOccurs="0"/>
+        <xs:element type="xs:nonNegativeInteger" name="EinheitBetriebsstatus"/>
+        <xs:element type="xs:string" name="BestandsanlageMastrNummer" minOccurs="0"/>
+        <xs:element type="xs:boolean" name="NichtVorhandenInMigriertenEinheiten" minOccurs="0"/>
+        <xs:element type="xs:string" name="AltAnlagenbentreiberMastrNummer" minOccurs="0"/>
+        <xs:element type="xs:date" name="DatumDesBetreiberwechsels" minOccurs="0"/>
+        <xs:element type="xs:date" name="DatumRegistrierungDesBetreiberwechsels" minOccurs="0"/>
+        <xs:element type="xs:string" name="NameStromerzeugungseinheit"/>
+        <xs:element type="xs:string" name="Weic" minOccurs="0"/> <!-- Marked as mandatory in [1] -->
+        <xs:element type="xs:boolean" name="Weic_nv"/>
+        <xs:element type="xs:string" name="WeicDisplayName" minOccurs="0"/>
+        <xs:element type="xs:string" name="Kraftwerksnummer" minOccurs="0"/> <!-- Marked as mandatory in [1] -->
+        <xs:element type="xs:boolean" name="Kraftwerksnummer_nv"/> <!-- Marked as string in [1] -->
+        <xs:element type="xs:nonNegativeInteger" name="Energietraeger"/>
+        <xs:element type="xs:decimal" name="Bruttoleistung"/>
+        <xs:element type="xs:decimal" name="Nettonennleistung"/>
+        <xs:element type="xs:boolean" name="AnschlussAnHoechstOderHochSpannung" minOccurs="0"/>
+        <xs:element type="xs:boolean" name="Schwarzstartfaehigkeit" minOccurs="0"/>
+        <xs:element type="xs:boolean" name="Inselbetriebsfaehigkeit" minOccurs="0"/>
+        <xs:element type="xs:string" name="Einsatzverantwortlicher" minOccurs="0"/>
+        <xs:element type="xs:boolean" name="FernsteuerbarkeitNb" minOccurs="0"/>
+        <xs:element type="xs:boolean" name="FernsteuerbarkeitDv" minOccurs="0"/>
+        <xs:element type="xs:boolean" name="FernsteuerbarkeitDr" minOccurs="0"/>
+        <xs:element type="xs:nonNegativeInteger" name="Einspeisungsart" minOccurs="0"/>
+        <xs:element type="xs:boolean" name="PraequalifiziertFuerRegelenergie" minOccurs="0"/>
+        <xs:element type="xs:string" name="GenMastrNummer" minOccurs="0"/>
+        <xs:element type="xs:string" name="ZugeordneteWirkleistungWechselrichter" minOccurs="0"/> <!-- Lower case "z" in [1] -->
+        <xs:element type="xs:nonNegativeInteger" name="GemeinsamerWechselrichterMitSpeicher" minOccurs="0"/>
+        <xs:element type="xs:nonNegativeInteger" name="AnzahlModule" minOccurs="0"/>
+        <xs:element type="xs:nonNegativeInteger" name="Lage" minOccurs="0"/>
+        <xs:element type="xs:nonNegativeInteger" name="Leistungsbegrenzung" minOccurs="0"/>
+        <xs:element type="xs:boolean" name="EinheitlicheAusrichtungUndNeigungswinkel" minOccurs="0"/>
+        <xs:element type="xs:nonNegativeInteger" name="Hauptausrichtung" minOccurs="0"/>
+        <xs:element type="xs:nonNegativeInteger" name="HauptausrichtungNeigungswinkel" minOccurs="0"/>
+        <xs:element type="xs:nonNegativeInteger" name="Nebenausrichtung" minOccurs="0"/>
+        <xs:element type="xs:nonNegativeInteger" name="NebenausrichtungNeigungswinkel" minOccurs="0"/>
+        <xs:element type="xs:decimal" name="InAnspruchGenommeneFlaeche" minOccurs="0"/>
+        <xs:element type="xs:string" name="ArtDerFlaecheIds" minOccurs="0"/>
+        <xs:element type="xs:decimal" name="InAnspruchGenommeneAckerflaeche" minOccurs="0"/>
+        <xs:element type="xs:nonNegativeInteger" name="Nutzungsbereich" minOccurs="0"/>
+        <xs:element type="xs:string" name="EegMaStRNummer" minOccurs="0"/> <!-- Marked as mandatory in [1] -->
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
