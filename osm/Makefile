@@ -17,20 +17,12 @@ boundaries.db: input.osm.pbf buildings.ini
 		-dsco SPATIALITE=YES \
 		-gt 65536
 
-points.db: input.osm.pbf points.ini
-	rm -f "$@"
-	ogr2ogr -f SQLite "$@" input.osm.pbf points \
-		-where "generator_source = 'solar'" \
-		--config OSM_CONFIG_FILE points.ini \
-		-dsco SPATIALITE=YES \
-		-gt 65536
-
 %.br: %
 	brotli -4 --keep --output="$@" "$<"
 
 .PHONY: all
-all: buildings.db.br boundaries.db.br points.db.br
+all: buildings.db.br boundaries.db.br
 
 .PHONY: clean-intermediate
 clean-intermediate:
-	rm -f buildings.db boundaries.db points.db
+	rm -f buildings.db boundaries.db
