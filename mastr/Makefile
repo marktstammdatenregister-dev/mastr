@@ -7,7 +7,7 @@
 Gesamtdatenexport.zip:
 	curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload | \
 		pup 'a[href^="https://download.marktstammdatenregister.de/Gesamtdatenexport"][href$$=".zip"] attr{href}' | \
-		xargs axel --output=$@
+		xargs axel --quiet --output=$@
 
 .PHONY: download
 download: Gesamtdatenexport.zip
@@ -16,9 +16,7 @@ download: Gesamtdatenexport.zip
 xml_files := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'EinheitenSolar_')
 csv_files := $(xml_files:%.xml=%.csv)
 
-$(warning $(csv_files))
-
-# This rule unzips a single XML files, transforms it to JSON, and then
+# This rule unzips a single XML file, transforms it to JSON, and then
 # transforms it to CSV.
 #
 # We perform all of this in a single rule so we can delete the XML and JSON

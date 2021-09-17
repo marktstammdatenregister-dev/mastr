@@ -3,6 +3,12 @@
 !/metadata.yaml
 !/settings.json
 
+!/mastr/EinheitenSolar-points.sql
+!/mastr/EinheitenSolar.jq
+!/mastr/EinheitenSolar.sql
+!/mastr/EinheitenSolar.xsd
+!/mastr/Makefile
+
 !/osm/Makefile
 !/osm/boundaries.ini
 !/osm/buildings.ini
