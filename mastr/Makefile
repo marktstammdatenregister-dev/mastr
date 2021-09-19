@@ -32,6 +32,7 @@ csv_files := $(xml_files:%.xml=%.csv)
 
 EinheitenSolar-csv.sql: EinheitenSolar.sql $(csv_files)
 	cp EinheitenSolar.sql $@
+	echo '.mode csv' >>$@
 	printf "%s\0" $(csv_files) | \
 		xargs -0 --no-run-if-empty --max-args=1 -I'{}' sh -c 'echo ".import {} EinheitenSolar --skip 1" >>$@'
 

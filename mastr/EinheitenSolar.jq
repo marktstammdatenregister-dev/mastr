@@ -3,8 +3,8 @@
 # Derived from https://stackoverflow.com/a/32965227
 # List of column names generated via: s/.*name="\([^"]\+\)".*$/\1/g
 
-.EinheitSolar
-| [
+."EinheitSolar"
+| ([
   "EinheitMastrNummer",
   "DatumLetzteAktualisierung",
   "LokationMaStRNummer",
@@ -74,8 +74,9 @@
   "ArtDerFlaecheIds",
   "InAnspruchGenommeneAckerflaeche",
   "Nutzungsbereich",
-  "EegMaStRNummer"
-] as $cols
+  "EegMaStRNummer",
+  "Dummy because lists cannot end with a comma in jq"
+] | .[:-1]) as $cols
 | map(. as $row | $cols | map($row[.])) as $rows
 | $cols, $rows[]
 | @csv
