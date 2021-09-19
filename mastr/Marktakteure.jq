@@ -3,7 +3,7 @@
 # Derived from https://stackoverflow.com/a/32965227
 # List of column names generated via: s/.*name="\([^"]\+\)".*$/\1/g
 
-.EinheitSolar
+.Marktakteur
 | [
   "MastrNummer",
   "DatumLetzeAktualisierung",

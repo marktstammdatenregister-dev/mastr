@@ -65,3 +65,5 @@ CREATE TABLE "Marktakteure" (
   'BelieferungVonLetztverbrauchernGas' INTEGER,
   'BelieferungHaushaltskundenGas' INTEGER
 );
+
+.mode csv
