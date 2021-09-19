@@ -1,0 +1,144 @@
+---
+root: Marktakteure
+element: Marktakteur
+primary: MastrNummer
+fields:
+  # defaults:
+  #   xsd: string
+  #   sqlite: text
+  #   mandatory: false
+  - name: MastrNummer
+    mandatory: true
+  - name: DatumLetzeAktualisierung
+    xsd: dateTime
+    sqlite: text
+  - name: Personenart
+    mandatory: true
+  - name: MarktakteurVorname
+  - name: MarktakteurNachname
+  - name: Firmenname
+  - name: Marktfunktion
+    mandatory: true
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: Rechtsform
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: SonstigeRechtsform
+  - name: Marktrollen
+  - name: Land
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: Region
+  - name: Strasse
+  - name: Hausnummer
+  - name: Hausnummer_nv
+    xsd: boolean
+    sqlite: text
+  - name: Adresszusatz
+  - name: Postleitzahl
+  - name: Ort
+  - name: Bundesland
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: Netz
+  - name: Nuts2
+  - name: Email
+  - name: Telefon
+  - name: Fax
+  - name: Fax_nv
+    xsd: boolean
+    sqlite: text
+  - name: Webseite
+  - name: Webseite_nv
+    xsd: boolean
+    sqlite: text
+  - name: Registergericht
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: Registergericht_nv
+    xsd: boolean
+    sqlite: text
+  - name: RegistergerichtAusland
+  - name: RegistergerichtAusland_nv
+    xsd: boolean
+    sqlite: text
+  - name: Registernummer
+  - name: Registernummer_nv
+    xsd: boolean
+    sqlite: text
+  - name: RegisternummerAusland
+  - name: RegisternummerAusland_nv
+    xsd: boolean
+    sqlite: text
+  - name: Taetigkeitsbeginn
+    xsd: date
+    sqlite: text
+  - name: AcerCode
+  - name: AcerCode_nv
+    xsd: boolean
+    sqlite: text
+  - name: Umsatzsteueridentifikationsnummer
+  - name: Umsatzsteueridentifikationsnummer_nv
+    xsd: boolean
+    sqlite: text
+  - name: Taetigkeitsende
+    xsd: date
+    sqlite: text
+  - name: Taetigkeitsende_nv
+    xsd: boolean
+    sqlite: text
+  - name: BundesnetzagenturBetriebsnummer
+  - name: BundesnetzagenturBetriebsnummer_nv
+    xsd: boolean
+    sqlite: text
+  - name: LandAnZustelladresse
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: PostleitzahlAnZustelladresse
+  - name: OrtAnZustelladresse
+  - name: StrasseAnZustelladresse
+  - name: HausnummerAnZustelladresse
+  - name: HausnummerAnZustelladresse_nv
+    xsd: boolean
+    sqlite: text
+  - name: AdresszusatzAnZustelladresse
+  - name: Kmu
+    xsd: boolean
+    sqlite: text
+  - name: TelefonnummerVMav
+  - name: EmailVMav
+  - name: RegistrierungsdatumMarktakteur
+    xsd: dateTime
+    sqlite: text
+  - name: HauptwirtdschaftszweigAbteilung
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: HauptwirtdschaftszweigGruppe
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: HauptwirtdschaftszweigAbschnitt
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: Direktvermarktungsunternehmen
+    xsd: boolean
+    sqlite: text
+  - name: BelieferungVonLetztverbrauchernStrom
+    xsd: boolean
+    sqlite: text
+  - name: BelieferungHaushaltskundenStrom
+    xsd: boolean
+    sqlite: text
+  - name: Gasgrosshaendler
+    xsd: boolean
+    sqlite: text
+  - name: Stromgrosshaendler
+    xsd: boolean
+    sqlite: text
+  - name: BelieferungVonLetztverbrauchernGas
+    xsd: boolean
+    sqlite: text
+  - name: BelieferungHaushaltskundenGas
+    xsd: boolean
+    sqlite: text
+---

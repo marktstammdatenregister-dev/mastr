@@ -1,0 +1,6 @@
+create table '{{root}}' (
+  {{#fields}}
+  '{{name}}' {{#sqlite}}{{sqlite}}{{/sqlite}}{{^sqlite}}text{{/sqlite}}{{#mandatory}} not null{{/mandatory}},
+  {{/fields}}
+  primary key ('{{primary}}')
+);
