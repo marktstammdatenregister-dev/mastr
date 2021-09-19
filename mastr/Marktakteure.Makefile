@@ -35,13 +35,10 @@ Marktakteure-csv.sql: Marktakteure.sql $(csv_files)
 	printf "%s\0" $(csv_files) | \
 		xargs -0 --no-run-if-empty --max-args=1 -I'{}' sh -c 'echo ".import {} Marktakteure --skip 1" >>$@'
 
-Marktakteure-raw.db: Marktakteure-csv.sql
+Marktakteure.db: Marktakteure-csv.sql
 	rm -f $@
 	sqlite3 $@ <$<
-
-Marktakteure.db: Marktakteure-raw.db Marktakteure-points.sql
-	cp Marktakteure{-raw,}.db
-	spatialite $@ <Marktakteure-points.sql
+	sqlite3 $@ <<<'VACUUM; ANALYZE;'
 
 Marktakteure.db.br: Marktakteure.db
 	brotli -4 --keep --force --output=$@ $<

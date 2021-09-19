@@ -42,6 +42,7 @@ EinheitenSolar-raw.db: EinheitenSolar-csv.sql
 EinheitenSolar.db: EinheitenSolar-raw.db EinheitenSolar-points.sql
 	cp EinheitenSolar{-raw,}.db
 	spatialite $@ <EinheitenSolar-points.sql
+	sqlite3 $@ <<<'VACUUM; ANALYZE;'
 
 EinheitenSolar.db.br: EinheitenSolar.db
 	brotli -4 --keep --force --output=$@ $<
