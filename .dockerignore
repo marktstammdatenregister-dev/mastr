@@ -3,14 +3,10 @@
 !/metadata.yaml
 !/settings.json
 
-!/mastr/EinheitenSolar-points.sql
-!/mastr/EinheitenSolar.jq
-!/mastr/EinheitenSolar.sql
-!/mastr/EinheitenSolar.xsd
-!/mastr/Makefile
+!/mastr/Marktstammdatenregister.db.br
 
-!/osm/Makefile
-!/osm/boundaries.ini
-!/osm/buildings.ini
-!/osm/multipolygons-area.sql
-!/osm/points.ini
+#!/osm/Makefile
+#!/osm/boundaries.ini
+#!/osm/buildings.ini
+#!/osm/multipolygons-area.sql
+#!/osm/points.ini

@@ -1,55 +1,89 @@
 databases:
-    osm:
+    Marktstammdatenregister:
+        tables:
+            EinheitenSolar:
+                plugins:
+                    datasette-cluster-map:
+                        "latitude_column": Breitengrad
+                        "longitude_column": Laengengrad
         queries:
-            by_administrative_boundary:
-                title: Search by administrative boundary
-                description_html: |-
-                    <p>The results are sorted by building area. Places of worship like chapels are excluded from the results.
-
-                    <table>
-                    <caption>Parameters</caption>
-                    <tr>
-                    <td><code>boundary_name</code></td>
-                    <td>The name of the administrative boundary, e.g. the name of a town.</td>
-                    </tr>
-                    <tr>
-                    <td><code>limit</code></td>
-                    <td>The number of results to show.</td>
-                    </tr>
-                    </table>
+            NachNettonennleistung:
+                title: Photovoltaikanlagen im gegebenen Ort, sortiert nach Nettonennleistung
                 sql: |-
                     select
-                      AsGeoJSON(GEOMETRY) as geojson,
-                      CAST(area as INTEGER) as area_sqm,
-                      operator,
-                      name,
-                      amenity,
-                      building,
-                      other_tags,
-                      ogc_fid,
-                      Y(Centroid(GEOMETRY)) as latitude,
-                      X(Centroid(GEOMETRY)) as longitude
+                      Nettonennleistung,
+                      Bruttoleistung,
+                      AnzahlModule,
+                      Firmenname,
+                      NameStromerzeugungseinheit,
+                      Inbetriebnahmedatum,
+                      EinheitSystemstatus,
+                      EinheitBetriebsstatus,
+                      EinheitMastrNummer,
+                      AnlagenbetreiberMastrNummer,
+                      EegMaStRNummer,
+                      Laengengrad as longitude,
+                      Breitengrad as latitude
                     from
-                      multipolygons,
-                      (
-                        select
-                          GEOMETRY as query_boundary
-                        from
-                          multipolygons
-                        where
-                          name == :boundary_name
-                          AND boundary == "administrative"
-                        limit
-                          1
-                      )
+                      EinheitenSolar e
+                      join Marktakteure m on e.AnlagenbetreiberMastrNummer = m.MastrNummer
                     where
-                      building is not null
-                      and building != "church"
-                      and building != "chapel"
-                      and building != "mosque"
-                      and building != "synagogue"
-                      and building != "temple"
-                      and within(GEOMETRY, query_boundary)
+                      e.Ort = :Ort
+                      and DatumEndgueltigeStilllegung = ''
                     order by
-                      area desc
-                    limit cast(:limit as INT)
+                      e.Nettonennleistung desc
+
+    #osm:
+    #    queries:
+    #        by_administrative_boundary:
+    #            title: Search by administrative boundary
+    #            description_html: |-
+    #                <p>The results are sorted by building area. Places of worship like chapels are excluded from the results.
+    #
+    #                <table>
+    #                <caption>Parameters</caption>
+    #                <tr>
+    #                <td><code>boundary_name</code></td>
+    #                <td>The name of the administrative boundary, e.g. the name of a town.</td>
+    #                </tr>
+    #                <tr>
+    #                <td><code>limit</code></td>
+    #                <td>The number of results to show.</td>
+    #                </tr>
+    #                </table>
+    #            sql: |-
+    #                select
+    #                  AsGeoJSON(GEOMETRY) as geojson,
+    #                  CAST(area as INTEGER) as area_sqm,
+    #                  operator,
+    #                  name,
+    #                  amenity,
+    #                  building,
+    #                  other_tags,
+    #                  ogc_fid,
+    #                  Y(Centroid(GEOMETRY)) as latitude,
+    #                  X(Centroid(GEOMETRY)) as longitude
+    #                from
+    #                  multipolygons,
+    #                  (
+    #                    select
+    #                      GEOMETRY as query_boundary
+    #                    from
+    #                      multipolygons
+    #                    where
+    #                      name == :boundary_name
+    #                      AND boundary == "administrative"
+    #                    limit
+    #                      1
+    #                  )
+    #                where
+    #                  building is not null
+    #                  and building != "church"
+    #                  and building != "chapel"
+    #                  and building != "mosque"
+    #                  and building != "synagogue"
+    #                  and building != "temple"
+    #                  and within(GEOMETRY, query_boundary)
+    #                order by
+    #                  area desc
+    #                limit cast(:limit as INT)
