@@ -1,0 +1,164 @@
+---
+root: EinheitenSolar
+element: EinheitSolar
+primary: EinheitMastrNummer
+fields:
+  # defaults:
+  #   xsd: string
+  #   sqlite: text
+  #   mandatory: false
+  - name: EinheitMastrNummer
+    mandatory: true
+  - name: DatumLetzteAktualisierung
+    xsd: dateTime
+    sqlite: text
+    mandatory: true
+  - name: LokationMaStRNummer
+  - name: NetzbetreiberpruefungStatus
+    xsd: nonNegativeInteger
+    sqlite: integer
+    mandatory: true
+  - name: NetzbetreiberpruefungDatum
+    xsd: date
+  - name: AnlagenbetreiberMastrNummer
+  - name: Land
+    xsd: nonNegativeInteger
+    sqlite: integer
+    mandatory: true
+  - name: Bundesland
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: Landkreis
+  - name: Gemeinde
+  - name: Gemeindeschluessel
+  - name: Postleitzahl
+    mandatory: true
+  - name: Gemarkung
+  - name: FlurFlurstuecknummern
+  - name: Strasse
+  - name: StrasseNichtGefunden
+    xsd: boolean
+    sqlite: text
+  - name: Hausnummer
+  - name: Hausnummer_nv
+    xsd: boolean
+    sqlite: text
+  - name: HausnummerNichtGefunden
+  - name: Adresszusatz
+  - name: Ort
+  - name: Laengengrad
+    xsd: decimal
+    sqlite: real
+  - name: Breitengrad
+    xsd: decimal
+    sqlite: real
+  - name: Registrierungsdatum
+  - name: GeplantesInbetriebnahmedatum
+  - name: Inbetriebnahmedatum
+  - name: DatumEndgueltigeStilllegung
+  - name: DatumBeginnVoruebergehendeStilllegung
+  - name: DatumWiederaufnahmeBetrieb
+  - name: EinheitSystemstatus
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: EinheitBetriebsstatus
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: BestandsanlageMastrNummer
+  - name: NichtVorhandenInMigriertenEinheiten
+    xsd: boolean
+    sqlite: text
+  - name: AltAnlagenbentreiberMastrNummer
+  - name: DatumDesBetreiberwechsels
+  - name: DatumRegistrierungDesBetreiberwechsels
+  - name: NameStromerzeugungseinheit
+    mandatory: true
+  - name: Weic
+  - name: Weic_nv
+    xsd: boolean
+    sqlite: text
+    mandatory: true
+  - name: WeicDisplayName
+  - name: Kraftwerksnummer
+  - name: Kraftwerksnummer_nv
+    mandatory: true
+    xsd: boolean
+    sqlite: text
+  - name: Energietraeger
+    xsd: nonNegativeInteger
+    sqlite: integer
+    mandatory: true
+  - name: Bruttoleistung
+    xsd: decimal
+    sqlite: real
+    mandatory: true
+  - name: Nettonennleistung
+    xsd: decimal
+    sqlite: real
+    mandatory: true
+  - name: AnschlussAnHoechstOderHochSpannung
+    xsd: boolean
+    sqlite: text
+  - name: Schwarzstartfaehigkeit
+    xsd: boolean
+    sqlite: text
+  - name: Inselbetriebsfaehigkeit
+    xsd: boolean
+    sqlite: text
+  - name: Einsatzverantwortlicher
+  - name: FernsteuerbarkeitNb
+    xsd: boolean
+    sqlite: text
+  - name: FernsteuerbarkeitDv
+    xsd: boolean
+    sqlite: text
+  - name: FernsteuerbarkeitDr
+    xsd: boolean
+    sqlite: text
+  - name: Einspeisungsart
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: PraequalifiziertFuerRegelenergie
+    xsd: boolean
+    sqlite: text
+  - name: GenMastrNummer
+  - name: ZugeordneteWirkleistungWechselrichter
+  - name: GemeinsamerWechselrichterMitSpeicher
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: AnzahlModule
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: Lage
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: Leistungsbegrenzung
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: EinheitlicheAusrichtungUndNeigungswinkel
+    xsd: boolean
+    sqlite: text
+  - name: Hauptausrichtung
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: HauptausrichtungNeigungswinkel
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: Nebenausrichtung
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: NebenausrichtungNeigungswinkel
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: InAnspruchGenommeneFlaeche
+    xsd: decimal
+    sqlite: real
+  - name: ArtDerFlaecheIds
+  - name: InAnspruchGenommeneAckerflaeche
+    xsd: decimal
+    sqlite: real
+  - name: Nutzungsbereich
+    xsd: nonNegativeInteger
+    sqlite: integer
+  - name: EegMaStRNummer
+---
