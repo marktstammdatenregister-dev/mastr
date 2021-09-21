@@ -8,6 +8,7 @@ pkgs.mkShell {
     flyctl
     gdal_2
     libxml2
+    mustache-go
     pup
     pypy3Packages.xmlschema
     rlwrap

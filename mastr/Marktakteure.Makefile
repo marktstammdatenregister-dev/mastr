@@ -22,7 +22,7 @@ csv_files := $(xml_files:%.xml=%.csv)
 # We perform all of this in a single rule so we can delete the XML and JSON
 # files immediately. They are large and only necessary to create the (much
 # smaller) CSV files.
-%.csv: Gesamtdatenexport.zip Marktakteure.xsd Marktakteure.jq
+Marktakteure_%.csv: Gesamtdatenexport.zip Marktakteure.xsd Marktakteure.jq
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	rm -f $(@:%.csv=%.json)
 	xmlschema-xml2json --schema=Marktakteure.xsd $(@:%.csv=%.xml)
