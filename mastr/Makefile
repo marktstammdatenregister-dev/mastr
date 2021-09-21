@@ -65,6 +65,9 @@ Marktakteure-csv.sql: Marktakteure.sql $(Marktakteure_csv)
 Marktstammdatenregister.db: $(Marktstammdatenregister_sql)
 	rm -f $@
 	cat $(Marktstammdatenregister_sql) | sqlite3 $@
+	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_Ort_Nettonennleistung on EinheitenSolar(Ort, Nettonennleistung);'
+	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_Inbetriebnahmedatum_Nettonennleistung on EinheitenSolar(Inbetriebnahmedatum, Nettonennleistung);'
+	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_DatumEndgueltigeStilllegung_Nettonennleistung on EinheitenSolar(DatumEndgueltigeStilllegung, Nettonennleistung);'
 	sqlite3 $@ <<<'VACUUM; ANALYZE;'
 
 Marktstammdatenregister.db.br: Marktstammdatenregister.db
