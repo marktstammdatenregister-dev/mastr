@@ -21,6 +21,7 @@ fields:
   - name: NetzbetreiberpruefungDatum
     xsd: date
   - name: AnlagenbetreiberMastrNummer
+    references: Marktakteure(MastrNummer)
   - name: Land
     xsd: nonNegativeInteger
     sqlite: integer
