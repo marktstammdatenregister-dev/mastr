@@ -4,8 +4,11 @@ databases:
             EinheitenSolar:
                 plugins:
                     datasette-cluster-map:
-                        "latitude_column": Breitengrad
-                        "longitude_column": Laengengrad
+                        latitude_column: Breitengrad
+                        longitude_column: Laengengrad
+                facets: [Bundesland, Nutzungsbereich]
+            Marktakteure:
+                facets: [Bundesland, Rechtsform, Personenart]
             Katalogkategorien:
                 label_column: Name
             Katalogwerte:

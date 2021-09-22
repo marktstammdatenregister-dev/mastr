@@ -1,3 +1,4 @@
 {
-    "sql_time_limit_ms": 5000
+    "sql_time_limit_ms": 5000,
+    "suggest_facets": false
 }
