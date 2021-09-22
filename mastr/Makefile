@@ -100,10 +100,9 @@ Marktstammdatenregister.db: $(Marktstammdatenregister_sql)
 	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_Ort_Nettonennleistung on EinheitenSolar(Ort, Nettonennleistung);'
 	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_Inbetriebnahmedatum_Nettonennleistung on EinheitenSolar(Inbetriebnahmedatum, Nettonennleistung);'
 	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_DatumEndgueltigeStilllegung_Nettonennleistung on EinheitenSolar(DatumEndgueltigeStilllegung, Nettonennleistung);'
-	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_EinheitSystemstatus_EinheitBetriebsstatus on EinheitenSolar(EinheitSystemstatus, EinheitBetriebsstatus);'
+	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_EinheitBetriebsstatus on EinheitenSolar(EinheitBetriebsstatus);'
 	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_Bundesland on EinheitenSolar(Bundesland);'
 	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_Landkreis on EinheitenSolar(Landkreis);'
-	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_Energietraeger on EinheitenSolar(Energietraeger);'
 	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_Nutzungsbereich on EinheitenSolar(Nutzungsbereich);'
 	sqlite3 $@ <<<'VACUUM; ANALYZE;'
 
