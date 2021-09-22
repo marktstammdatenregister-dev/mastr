@@ -1,0 +1,16 @@
+---
+root: Katalogkategorien
+element: Katalogkategorie
+primary: Id
+fields:
+  # defaults:
+  #   xsd: string
+  #   sqlite: text
+  #   mandatory: false
+  - name: Id
+    xsd: nonNegativeInteger
+    sqlite: integer
+    mandatory: true
+  - name: Name
+    mandatory: true
+---

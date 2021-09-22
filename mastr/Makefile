@@ -19,7 +19,13 @@ EinheitenSolar_csv := $(EinheitenSolar_xml:%.xml=%.csv)
 Marktakteure_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'Marktakteure_')
 Marktakteure_csv := $(Marktakteure_xml:%.xml=%.csv)
 
-Marktstammdatenregister_sql := EinheitenSolar-csv.sql Marktakteure-csv.sql
+Katalogkategorien_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'Katalogkategorien')
+Katalogkategorien_csv := $(Katalogkategorien_xml:%.xml=%.csv)
+
+Katalogwerte_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'Katalogwerte')
+Katalogwerte_csv := $(Katalogwerte_xml:%.xml=%.csv)
+
+Marktstammdatenregister_sql := EinheitenSolar-csv.sql Marktakteure-csv.sql Katalogkategorien-csv.sql Katalogwerte-csv.sql
 
 %.xsd: %.yml XSD.mustache
 	mustache $< XSD.mustache >$@
@@ -50,6 +56,20 @@ Marktakteure_%.csv: Gesamtdatenexport.zip Marktakteure.xsd Marktakteure.jq
 	jq -r -f Marktakteure.jq $(@:%.csv=%.json) >$@
 	rm $(@:%.csv=%.json)
 
+Katalogkategorien.csv: Gesamtdatenexport.zip Katalogkategorien.xsd Katalogkategorien.jq
+	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
+	xmlschema-xml2json --schema=Katalogkategorien.xsd --force $(@:%.csv=%.xml)
+	rm $(@:%.csv=%.xml)
+	jq -r -f Katalogkategorien.jq $(@:%.csv=%.json) >$@
+	rm $(@:%.csv=%.json)
+
+Katalogwerte.csv: Gesamtdatenexport.zip Katalogwerte.xsd Katalogwerte.jq
+	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
+	xmlschema-xml2json --schema=Katalogwerte.xsd --force $(@:%.csv=%.xml)
+	rm $(@:%.csv=%.xml)
+	jq -r -f Katalogwerte.jq $(@:%.csv=%.json) >$@
+	rm $(@:%.csv=%.json)
+
 EinheitenSolar-csv.sql: EinheitenSolar.sql $(EinheitenSolar_csv)
 	cp EinheitenSolar.sql $@
 	echo '.mode csv' >>$@
@@ -61,6 +81,18 @@ Marktakteure-csv.sql: Marktakteure.sql $(Marktakteure_csv)
 	echo '.mode csv' >>$@
 	printf "%s\0" $(Marktakteure_csv) | \
 		xargs -0 --no-run-if-empty --max-args=1 -I'{}' sh -c 'echo ".import {} Marktakteure --skip 1" >>$@'
+
+Katalogkategorien-csv.sql: Katalogkategorien.sql $(Katalogkategorien_csv)
+	cp Katalogkategorien.sql $@
+	echo '.mode csv' >>$@
+	printf "%s\0" $(Katalogkategorien_csv) | \
+		xargs -0 --no-run-if-empty --max-args=1 -I'{}' sh -c 'echo ".import {} Katalogkategorien --skip 1" >>$@'
+
+Katalogwerte-csv.sql: Katalogwerte.sql $(Katalogwerte_csv)
+	cp Katalogwerte.sql $@
+	echo '.mode csv' >>$@
+	printf "%s\0" $(Katalogwerte_csv) | \
+		xargs -0 --no-run-if-empty --max-args=1 -I'{}' sh -c 'echo ".import {} Katalogwerte --skip 1" >>$@'
 
 Marktstammdatenregister.db: $(Marktstammdatenregister_sql)
 	rm -f $@

@@ -1,0 +1,21 @@
+---
+root: Katalogwerte
+element: Katalogwert
+primary: Id
+fields:
+  # defaults:
+  #   xsd: string
+  #   sqlite: text
+  #   mandatory: false
+  - name: Id
+    xsd: nonNegativeInteger
+    sqlite: integer
+    mandatory: true
+  - name: Wert
+    mandatory: true
+  - name: KatalogKategorieId
+    xsd: nonNegativeInteger
+    sqlite: integer
+    mandatory: true
+    references: Katalogkategorien(Id)
+---
