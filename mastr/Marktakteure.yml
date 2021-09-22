@@ -13,7 +13,10 @@ fields:
     xsd: dateTime
     sqlite: text
   - name: Personenart
+    xsd: nonNegativeInteger
+    sqlite: integer
     mandatory: true
+    references: Katalogwerte(Id)
   - name: MarktakteurVorname
   - name: MarktakteurNachname
   - name: Firmenname
@@ -24,11 +27,13 @@ fields:
   - name: Rechtsform
     xsd: nonNegativeInteger
     sqlite: integer
+    references: Katalogwerte(Id)
   - name: SonstigeRechtsform
   - name: Marktrollen
   - name: Land
     xsd: nonNegativeInteger
     sqlite: integer
+    references: Katalogwerte(Id)
   - name: Region
   - name: Strasse
   - name: Hausnummer
@@ -41,6 +46,7 @@ fields:
   - name: Bundesland
     xsd: nonNegativeInteger
     sqlite: integer
+    references: Katalogwerte(Id)
   - name: Netz
   - name: Nuts2
   - name: Email
@@ -114,12 +120,15 @@ fields:
   - name: HauptwirtdschaftszweigAbteilung
     xsd: nonNegativeInteger
     sqlite: integer
+    references: Katalogwerte(Id)
   - name: HauptwirtdschaftszweigGruppe
     xsd: nonNegativeInteger
     sqlite: integer
+    references: Katalogwerte(Id)
   - name: HauptwirtdschaftszweigAbschnitt
     xsd: nonNegativeInteger
     sqlite: integer
+    references: Katalogwerte(Id)
   - name: Direktvermarktungsunternehmen
     xsd: boolean
     sqlite: text
