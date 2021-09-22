@@ -13,9 +13,12 @@ databases:
                 label_column: Name
             Katalogwerte:
                 label_column: Wert
+            sqlite_stat1:
+                hidden: true
         queries:
             NachNettonennleistung:
                 title: Photovoltaikanlagen im gegebenen Ort, sortiert nach Nettonennleistung
+                hide_sql: true
                 sql: |-
                     select
                       Nettonennleistung,
@@ -41,6 +44,7 @@ databases:
                       e.Nettonennleistung desc
             LeistungMonatlichGesamt:
                 title: Monatliche Entwicklung der Nettonennleistung in ganz Deutschland
+                hide_sql: true
                 sql: |-
                     with per_month_started as (
                       select
