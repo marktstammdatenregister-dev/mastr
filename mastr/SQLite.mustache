@@ -3,4 +3,4 @@ create table '{{root}}' (
   '{{name}}' {{#sqlite}}{{sqlite}}{{/sqlite}}{{^sqlite}}text{{/sqlite}}{{#mandatory}} not null{{/mandatory}}{{#references}} references {{references}} deferrable initially deferred{{/references}},
   {{/fields}}
   primary key ('{{primary}}')
-);
+){{#without_rowid}} without rowid{{/without_rowid}};

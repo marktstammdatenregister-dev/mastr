@@ -26,9 +26,11 @@ fields:
     xsd: nonNegativeInteger
     sqlite: integer
     mandatory: true
+    references: Katalogwerte(Id)
   - name: Bundesland
     xsd: nonNegativeInteger
     sqlite: integer
+    references: Katalogwerte(Id)
   - name: Landkreis
   - name: Gemeinde
   - name: Gemeindeschluessel
@@ -62,9 +64,11 @@ fields:
   - name: EinheitSystemstatus
     xsd: nonNegativeInteger
     sqlite: integer
+    references: Katalogwerte(Id)
   - name: EinheitBetriebsstatus
     xsd: nonNegativeInteger
     sqlite: integer
+    references: Katalogwerte(Id)
   - name: BestandsanlageMastrNummer
   - name: NichtVorhandenInMigriertenEinheiten
     xsd: boolean
@@ -89,6 +93,7 @@ fields:
     xsd: nonNegativeInteger
     sqlite: integer
     mandatory: true
+    references: Katalogwerte(Id)
   - name: Bruttoleistung
     xsd: decimal
     sqlite: real
@@ -119,6 +124,7 @@ fields:
   - name: Einspeisungsart
     xsd: nonNegativeInteger
     sqlite: integer
+    references: Katalogwerte(Id)
   - name: PraequalifiziertFuerRegelenergie
     xsd: boolean
     sqlite: text
@@ -127,30 +133,37 @@ fields:
   - name: GemeinsamerWechselrichterMitSpeicher
     xsd: nonNegativeInteger
     sqlite: integer
+    references: Katalogwerte(Id)
   - name: AnzahlModule
     xsd: nonNegativeInteger
     sqlite: integer
   - name: Lage
     xsd: nonNegativeInteger
     sqlite: integer
+    references: Katalogwerte(Id)
   - name: Leistungsbegrenzung
     xsd: nonNegativeInteger
     sqlite: integer
+    references: Katalogwerte(Id)
   - name: EinheitlicheAusrichtungUndNeigungswinkel
     xsd: boolean
     sqlite: text
   - name: Hauptausrichtung
     xsd: nonNegativeInteger
     sqlite: integer
+    references: Katalogwerte(Id)
   - name: HauptausrichtungNeigungswinkel
     xsd: nonNegativeInteger
     sqlite: integer
+    references: Katalogwerte(Id)
   - name: Nebenausrichtung
     xsd: nonNegativeInteger
     sqlite: integer
+    references: Katalogwerte(Id)
   - name: NebenausrichtungNeigungswinkel
     xsd: nonNegativeInteger
     sqlite: integer
+    references: Katalogwerte(Id)
   - name: InAnspruchGenommeneFlaeche
     xsd: decimal
     sqlite: real
@@ -161,5 +174,6 @@ fields:
   - name: Nutzungsbereich
     xsd: nonNegativeInteger
     sqlite: integer
+    references: Katalogwerte(Id)
   - name: EegMaStRNummer
 ---

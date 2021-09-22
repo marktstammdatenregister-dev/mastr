@@ -2,6 +2,7 @@
 root: Katalogwerte
 element: Katalogwert
 primary: Id
+without_rowid: true
 fields:
   # defaults:
   #   xsd: string
