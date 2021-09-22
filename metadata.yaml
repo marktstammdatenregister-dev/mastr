@@ -7,12 +7,12 @@ databases:
                         latitude_column: Breitengrad
                         longitude_column: Laengengrad
                 facets: [Bundesland, Nutzungsbereich]
-            Marktakteure:
-                facets: [Bundesland, Rechtsform, Personenart]
             Katalogkategorien:
                 label_column: Name
+                hidden: true
             Katalogwerte:
                 label_column: Wert
+                hidden: true
             sqlite_stat1:
                 hidden: true
         queries:
