@@ -1,0 +1,19 @@
+---
+root: Lokationen
+element: Lokation
+primary: MastrNummer
+fields:
+  # defaults:
+  #   xsd: string
+  #   sqlite: text
+  #   mandatory: false
+  - name: DatumLetzteAktualisierung
+    xsd: dateTime
+  - name: MastrNummer
+    mandatory: true
+  - name: NameDerTechnischenLokation
+  - name: Lokationtyp
+    mandatory: true
+  - name: VerknuepfteEinheitenMaStRNummern
+  - name: NetzanschlusspunkteMaStRNummern
+---
