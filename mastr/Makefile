@@ -16,6 +16,9 @@ download: Gesamtdatenexport.zip
 EinheitenSolar_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'EinheitenSolar_')
 EinheitenSolar_csv := $(EinheitenSolar_xml:%.xml=%.csv)
 
+AnlagenEegSolar_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'AnlagenEegSolar_')
+AnlagenEegSolar_csv := $(AnlagenEegSolar_xml:%.xml=%.csv)
+
 Marktakteure_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'Marktakteure_')
 Marktakteure_csv := $(Marktakteure_xml:%.xml=%.csv)
 
@@ -25,7 +28,7 @@ Katalogkategorien_csv := $(Katalogkategorien_xml:%.xml=%.csv)
 Katalogwerte_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'Katalogwerte')
 Katalogwerte_csv := $(Katalogwerte_xml:%.xml=%.csv)
 
-Marktstammdatenregister_sql := EinheitenSolar-csv.sql Marktakteure-csv.sql Katalogkategorien-csv.sql Katalogwerte-csv.sql
+Marktstammdatenregister_sql := EinheitenSolar-csv.sql AnlagenEegSolar-csv.sql Marktakteure-csv.sql Katalogkategorien-csv.sql Katalogwerte-csv.sql
 
 %.xsd: %.yml XSD.mustache
 	mustache $< XSD.mustache >$@
@@ -47,6 +50,13 @@ EinheitenSolar_%.csv: Gesamtdatenexport.zip EinheitenSolar.xsd EinheitenSolar.jq
 	xmlschema-xml2json --schema=EinheitenSolar.xsd --force $(@:%.csv=%.xml)
 	rm $(@:%.csv=%.xml)
 	jq -r -f EinheitenSolar.jq $(@:%.csv=%.json) >$@
+	rm $(@:%.csv=%.json)
+
+AnlagenEegSolar_%.csv: Gesamtdatenexport.zip AnlagenEegSolar.xsd AnlagenEegSolar.jq
+	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
+	xmlschema-xml2json --schema=AnlagenEegSolar.xsd --force $(@:%.csv=%.xml)
+	rm $(@:%.csv=%.xml)
+	jq -r -f AnlagenEegSolar.jq $(@:%.csv=%.json) >$@
 	rm $(@:%.csv=%.json)
 
 Marktakteure_%.csv: Gesamtdatenexport.zip Marktakteure.xsd Marktakteure.jq
@@ -75,6 +85,12 @@ EinheitenSolar-csv.sql: EinheitenSolar.sql $(EinheitenSolar_csv)
 	echo '.mode csv' >>$@
 	printf "%s\0" $(EinheitenSolar_csv) | \
 		xargs -0 --no-run-if-empty --max-args=1 -I'{}' sh -c 'echo ".import {} EinheitenSolar --skip 1" >>$@'
+
+AnlagenEegSolar-csv.sql: AnlagenEegSolar.sql $(AnlagenEegSolar_csv)
+	cp AnlagenEegSolar.sql $@
+	echo '.mode csv' >>$@
+	printf "%s\0" $(AnlagenEegSolar_csv) | \
+		xargs -0 --no-run-if-empty --max-args=1 -I'{}' sh -c 'echo ".import {} AnlagenEegSolar --skip 1" >>$@'
 
 Marktakteure-csv.sql: Marktakteure.sql $(Marktakteure_csv)
 	cp Marktakteure.sql $@

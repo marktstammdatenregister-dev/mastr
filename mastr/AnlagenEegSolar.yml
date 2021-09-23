@@ -1,0 +1,54 @@
+---
+root: AnlagenEegSolar
+element: AnlageEegSolar
+primary: EegMaStRNummer
+fields:
+  # defaults:
+  #   xsd: string
+  #   sqlite: text
+  #   mandatory: false
+  - name: Registrierungsdatum
+    xsd: date
+    mandatory: true
+  - name: DatumLetzteAktualisierung
+    xsd: dateTime
+    mandatory: true
+  - name: EegInbetriebnahmedatum
+    xsd: date
+  - name: EegMaStRNummer
+    mandatory: true
+  - name: InanspruchnahmeZahlungNachEeg
+    xsd: boolean
+  - name: AnlagenschluesselEeg
+  - name: AnlagenkennzifferAnlagenregister
+  - name: AnlagenkennzifferAnlagenregister_nv
+    xsd: boolean
+    mandatory: true
+  - name: InstallierteLeistung
+    xsd: decimal
+    sqlite: real
+  - name: RegistrierungsnummerPvMeldeportal
+  - name: RegistrierungsnummerPvMeldeportal_nv
+    xsd: boolean
+    mandatory: true
+  - name: MieterstromZugeordnet
+    xsd: boolean
+  - name: MieterstromRegistrierungsdatum
+    xsd: date
+  - name: MieterstromMeldedatum # Not mentioned in the documentation
+    xsd: date
+  - name: MieterstromErsteZuordnungZuschlag
+    xsd: date
+  - name: AusschreibungZuschlag
+    xsd: boolean
+  - name: ZugeordneteGebotsmenge
+    xsd: decimal
+    sqlite: real
+  - name: Zuschlagsnummer
+  - name: AnlageBetriebsstatus
+    xsd: nonNegativeInteger
+    sqlite: integer
+    mandatory: true
+    references: Katalogwerte(Id)
+  - name: VerknuepfteEinheitenMaStRNummern
+---
