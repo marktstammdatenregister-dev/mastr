@@ -6,7 +6,6 @@ databases:
                     datasette-cluster-map:
                         latitude_column: Breitengrad
                         longitude_column: Laengengrad
-                facets: [Bundesland, Nutzungsbereich]
             Katalogkategorien:
                 label_column: Name
                 hidden: true
