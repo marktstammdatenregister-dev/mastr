@@ -135,6 +135,7 @@ Marktstammdatenregister.db: $(Marktstammdatenregister_sql)
 	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_Bundesland on EinheitenSolar(Bundesland);'
 	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_Landkreis on EinheitenSolar(Landkreis);'
 	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_Nutzungsbereich on EinheitenSolar(Nutzungsbereich);'
+	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_AnlagenbetreiberMastrNummer on EinheitenSolar(AnlagenbetreiberMastrNummer);'
 	sqlite3 $@ <<<'VACUUM; ANALYZE;'
 
 Marktstammdatenregister.db.br: Marktstammdatenregister.db
