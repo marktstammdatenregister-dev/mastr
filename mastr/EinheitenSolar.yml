@@ -14,6 +14,7 @@ fields:
     sqlite: text
     mandatory: true
   - name: LokationMaStRNummer
+    references: Lokationen(MastrNummer)
   - name: NetzbetreiberpruefungStatus
     xsd: nonNegativeInteger
     sqlite: integer
@@ -176,4 +177,5 @@ fields:
     sqlite: integer
     references: Katalogwerte(Id)
   - name: EegMaStRNummer
+    references: AnlagenEegSolar(EegMaStRNummer)
 ---
