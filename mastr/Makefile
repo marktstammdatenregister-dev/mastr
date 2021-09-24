@@ -50,44 +50,50 @@ Marktstammdatenregister_sql := EinheitenSolar-csv.sql AnlagenEegSolar-csv.sql Lo
 # smaller) CSV files.
 EinheitenSolar_%.csv: Gesamtdatenexport.zip EinheitenSolar.xsd EinheitenSolar.jq
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
-	xmlschema-xml2json --schema=EinheitenSolar.xsd --force $(@:%.csv=%.xml)
+	xmllint --schema EinheitenSolar.xsd --noout $(@:%.csv=%.xml)
+	pypy3 xml2json.py $(@:%.csv=%.xml) EinheitenSolar EinheitSolar >$(@:%.csv=%.json)
 	rm $(@:%.csv=%.xml)
-	jq -r -f EinheitenSolar.jq $(@:%.csv=%.json) >$@
+	jq -s -r -f EinheitenSolar.jq $(@:%.csv=%.json) >$@
 	rm $(@:%.csv=%.json)
 
 AnlagenEegSolar_%.csv: Gesamtdatenexport.zip AnlagenEegSolar.xsd AnlagenEegSolar.jq
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
-	xmlschema-xml2json --schema=AnlagenEegSolar.xsd --force $(@:%.csv=%.xml)
+	xmllint --schema AnlagenEegSolar.xsd --noout $(@:%.csv=%.xml)
+	pypy3 xml2json.py $(@:%.csv=%.xml) AnlagenEegSolar AnlageEegSolar >$(@:%.csv=%.json)
 	rm $(@:%.csv=%.xml)
-	jq -r -f AnlagenEegSolar.jq $(@:%.csv=%.json) >$@
+	jq -s -r -f AnlagenEegSolar.jq $(@:%.csv=%.json) >$@
 	rm $(@:%.csv=%.json)
 
 Lokationen_%.csv: Gesamtdatenexport.zip Lokationen.xsd Lokationen.jq
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
-	xmlschema-xml2json --schema=Lokationen.xsd --force $(@:%.csv=%.xml)
+	xmllint --schema Lokationen.xsd --noout $(@:%.csv=%.xml)
+	pypy3 xml2json.py $(@:%.csv=%.xml) Lokationen Lokation >$(@:%.csv=%.json)
 	rm $(@:%.csv=%.xml)
-	jq -r -f Lokationen.jq $(@:%.csv=%.json) >$@
+	jq -s -r -f Lokationen.jq $(@:%.csv=%.json) >$@
 	rm $(@:%.csv=%.json)
 
 Marktakteure_%.csv: Gesamtdatenexport.zip Marktakteure.xsd Marktakteure.jq
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
-	xmlschema-xml2json --schema=Marktakteure.xsd --force $(@:%.csv=%.xml)
+	xmllint --schema Marktakteure.xsd --noout $(@:%.csv=%.xml)
+	pypy3 xml2json.py $(@:%.csv=%.xml) Marktakteure Marktakteur >$(@:%.csv=%.json)
 	rm $(@:%.csv=%.xml)
-	jq -r -f Marktakteure.jq $(@:%.csv=%.json) >$@
+	jq -s -r -f Marktakteure.jq $(@:%.csv=%.json) >$@
 	rm $(@:%.csv=%.json)
 
 Katalogkategorien.csv: Gesamtdatenexport.zip Katalogkategorien.xsd Katalogkategorien.jq
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
-	xmlschema-xml2json --schema=Katalogkategorien.xsd --force $(@:%.csv=%.xml)
+	xmllint --schema Katalogkategorien.xsd --noout $(@:%.csv=%.xml)
+	pypy3 xml2json.py $(@:%.csv=%.xml) Katalogkategorien Katalogkategorie >$(@:%.csv=%.json)
 	rm $(@:%.csv=%.xml)
-	jq -r -f Katalogkategorien.jq $(@:%.csv=%.json) >$@
+	jq -s -r -f Katalogkategorien.jq $(@:%.csv=%.json) >$@
 	rm $(@:%.csv=%.json)
 
 Katalogwerte.csv: Gesamtdatenexport.zip Katalogwerte.xsd Katalogwerte.jq
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
-	xmlschema-xml2json --schema=Katalogwerte.xsd --force $(@:%.csv=%.xml)
+	xmllint --schema Katalogwerte.xsd --noout $(@:%.csv=%.xml)
+	pypy3 xml2json.py $(@:%.csv=%.xml) Katalogwerte Katalogwert >$(@:%.csv=%.json)
 	rm $(@:%.csv=%.xml)
-	jq -r -f Katalogwerte.jq $(@:%.csv=%.json) >$@
+	jq -s -r -f Katalogwerte.jq $(@:%.csv=%.json) >$@
 	rm $(@:%.csv=%.json)
 
 EinheitenSolar-csv.sql: EinheitenSolar.sql $(EinheitenSolar_csv)
