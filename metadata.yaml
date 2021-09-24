@@ -98,6 +98,27 @@ databases:
                       per_month_cumulative
                     where
                       Monat > '2010-00';
+            BuergerenergieNachLeistung:
+                title: Bürgerenergie nach Gesamtleistung
+                hide_sql: true
+                sql: |-
+                    select
+                      cast(sum(Nettonennleistung) as integer) as Leistung,
+                      m.Ort,
+                      m.Firmenname,
+                      m.Taetigkeitsbeginn,
+                      count(e.EinheitMastrNummer) as AnzahlEinheiten,
+                      m.MastrNummer
+                    from
+                      Marktakteure m
+                      left join EinheitenSolar e on e.AnlagenbetreiberMastrNummer = m.MastrNummer
+                    where
+                      m.Firmenname like "%bürger%"
+                      and m.Firmenname not like "%bürgerlich%"
+                    group by
+                      m.MastrNummer
+                    order by
+                      Leistung desc
 
     #osm:
     #    queries:
