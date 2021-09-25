@@ -6,6 +6,7 @@ pkgs.mkShell {
     docker-compose
     flyctl
     gdal_2
+    go
     libxml2
     mustache-go
     pup
