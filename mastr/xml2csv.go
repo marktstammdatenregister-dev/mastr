@@ -38,8 +38,6 @@ const (
 	finished
 )
 
-var descriptorFileName string
-
 func decodeDescriptor(descriptorFileName string) (*tableDescriptor, error) {
 	var tableDescriptor tableDescriptor
 	f, err := os.Open(descriptorFileName)
@@ -82,10 +80,12 @@ func (f *fields) record(item map[string]string) []string {
 }
 
 func convertXml(td *tableDescriptor, d *xml.Decoder, w *csv.Writer) error {
-	state := startRoot
+	root := td.Root
+	element := td.Element
 	fields := newFields(td.Fields)
-	item := make(map[string]string)
 
+	state := startRoot
+	item := make(map[string]string)
 	var fieldName string
 	var fieldValue []byte
 
@@ -104,8 +104,8 @@ func convertXml(td *tableDescriptor, d *xml.Decoder, w *csv.Writer) error {
 			switch t := tok.(type) {
 			case xml.StartElement:
 				name := xml.StartElement(t).Name.Local
-				if name != td.Root {
-					return fmt.Errorf("[%d] expected start of %s, got %s", state, td.Root, name)
+				if name != root {
+					return fmt.Errorf("[%d] expected start of %s, got %s", state, root, name)
 				}
 				state = startItemOrEndRoot
 			default: // ignore
@@ -114,14 +114,14 @@ func convertXml(td *tableDescriptor, d *xml.Decoder, w *csv.Writer) error {
 			switch t := tok.(type) {
 			case xml.StartElement:
 				name := xml.StartElement(t).Name.Local
-				if name != td.Element {
-					return fmt.Errorf("[%d] expected start of %s, got %s", state, td.Element, name)
+				if name != element {
+					return fmt.Errorf("[%d] expected start of %s, got %s", state, element, name)
 				}
 				state = startFieldOrEndItem
 			case xml.EndElement:
 				name := xml.EndElement(t).Name.Local
-				if name != td.Root {
-					return fmt.Errorf("[%d] expected start of %s, got %s", state, td.Root, name)
+				if name != root {
+					return fmt.Errorf("[%d] expected start of %s, got %s", state, root, name)
 				}
 				state = finished
 			default: // ignore
@@ -134,8 +134,8 @@ func convertXml(td *tableDescriptor, d *xml.Decoder, w *csv.Writer) error {
 				state = fieldValueOrEndField
 			case xml.EndElement:
 				name := xml.EndElement(t).Name.Local
-				if name != td.Element {
-					return fmt.Errorf("[%d] expected end of %s, got %s", state, td.Element, name)
+				if name != element {
+					return fmt.Errorf("[%d] expected end of %s, got %s", state, element, name)
 				}
 				w.Write(fields.record(item))
 				item = make(map[string]string)
