@@ -39,8 +39,11 @@ Marktstammdatenregister_sql := EinheitenSolar-csv.sql AnlagenEegSolar-csv.sql Lo
 %.sql: %.yml SQLite.mustache
 	mustache $< SQLite.mustache >$@
 
-%.jq: %.yml JQ.mustache
-	mustache $< JQ.mustache >$@
+%.json: %.yml
+	yj <$< >$@
+
+xml2csv: xml2csv.go
+	go build -o $@ $<
 
 # This rule unzips a single XML file, transforms it to JSON, and then
 # transforms it to CSV.
@@ -48,53 +51,35 @@ Marktstammdatenregister_sql := EinheitenSolar-csv.sql AnlagenEegSolar-csv.sql Lo
 # We perform all of this in a single rule so we can delete the XML and JSON
 # files immediately. They are large and only necessary to create the (much
 # smaller) CSV files.
-EinheitenSolar_%.csv: Gesamtdatenexport.zip EinheitenSolar.xsd EinheitenSolar.jq
+EinheitenSolar_%.csv: Gesamtdatenexport.zip EinheitenSolar.xsd EinheitenSolar.json xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema EinheitenSolar.xsd --noout $(@:%.csv=%.xml)
-	pypy3 xml2json.py $(@:%.csv=%.xml) EinheitenSolar EinheitSolar >$(@:%.csv=%.json)
-	rm $(@:%.csv=%.xml)
-	jq -s -r -f EinheitenSolar.jq $(@:%.csv=%.json) >$@
-	rm $(@:%.csv=%.json)
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor EinheitenSolar.json >$@
 
-AnlagenEegSolar_%.csv: Gesamtdatenexport.zip AnlagenEegSolar.xsd AnlagenEegSolar.jq
+AnlagenEegSolar_%.csv: Gesamtdatenexport.zip AnlagenEegSolar.xsd AnlagenEegSolar.json xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema AnlagenEegSolar.xsd --noout $(@:%.csv=%.xml)
-	pypy3 xml2json.py $(@:%.csv=%.xml) AnlagenEegSolar AnlageEegSolar >$(@:%.csv=%.json)
-	rm $(@:%.csv=%.xml)
-	jq -s -r -f AnlagenEegSolar.jq $(@:%.csv=%.json) >$@
-	rm $(@:%.csv=%.json)
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor AnlagenEegSolar.json >$@
 
-Lokationen_%.csv: Gesamtdatenexport.zip Lokationen.xsd Lokationen.jq
+Lokationen_%.csv: Gesamtdatenexport.zip Lokationen.xsd Lokationen.json xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema Lokationen.xsd --noout $(@:%.csv=%.xml)
-	pypy3 xml2json.py $(@:%.csv=%.xml) Lokationen Lokation >$(@:%.csv=%.json)
-	rm $(@:%.csv=%.xml)
-	jq -s -r -f Lokationen.jq $(@:%.csv=%.json) >$@
-	rm $(@:%.csv=%.json)
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor Lokationen.json >$@
 
-Marktakteure_%.csv: Gesamtdatenexport.zip Marktakteure.xsd Marktakteure.jq
+Marktakteure_%.csv: Gesamtdatenexport.zip Marktakteure.xsd Marktakteure.json xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema Marktakteure.xsd --noout $(@:%.csv=%.xml)
-	pypy3 xml2json.py $(@:%.csv=%.xml) Marktakteure Marktakteur >$(@:%.csv=%.json)
-	rm $(@:%.csv=%.xml)
-	jq -s -r -f Marktakteure.jq $(@:%.csv=%.json) >$@
-	rm $(@:%.csv=%.json)
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor Marktakteure.json >$@
 
-Katalogkategorien.csv: Gesamtdatenexport.zip Katalogkategorien.xsd Katalogkategorien.jq
+Katalogkategorien.csv: Gesamtdatenexport.zip Katalogkategorien.xsd Katalogkategorien.json xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema Katalogkategorien.xsd --noout $(@:%.csv=%.xml)
-	pypy3 xml2json.py $(@:%.csv=%.xml) Katalogkategorien Katalogkategorie >$(@:%.csv=%.json)
-	rm $(@:%.csv=%.xml)
-	jq -s -r -f Katalogkategorien.jq $(@:%.csv=%.json) >$@
-	rm $(@:%.csv=%.json)
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor Katalogkategorien.json >$@
 
-Katalogwerte.csv: Gesamtdatenexport.zip Katalogwerte.xsd Katalogwerte.jq
+Katalogwerte.csv: Gesamtdatenexport.zip Katalogwerte.xsd Katalogwerte.json xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema Katalogwerte.xsd --noout $(@:%.csv=%.xml)
-	pypy3 xml2json.py $(@:%.csv=%.xml) Katalogwerte Katalogwert >$(@:%.csv=%.json)
-	rm $(@:%.csv=%.xml)
-	jq -s -r -f Katalogwerte.jq $(@:%.csv=%.json) >$@
-	rm $(@:%.csv=%.json)
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor Katalogwerte.json >$@
 
 EinheitenSolar-csv.sql: EinheitenSolar.sql $(EinheitenSolar_csv)
 	cp EinheitenSolar.sql $@
