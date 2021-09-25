@@ -42,11 +42,11 @@ fields:
   - name: Strasse
   - name: StrasseNichtGefunden
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: Hausnummer
   - name: Hausnummer_nv
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: HausnummerNichtGefunden
   - name: Adresszusatz
   - name: Ort
@@ -73,7 +73,7 @@ fields:
   - name: BestandsanlageMastrNummer
   - name: NichtVorhandenInMigriertenEinheiten
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: AltAnlagenbentreiberMastrNummer
   - name: DatumDesBetreiberwechsels
   - name: DatumRegistrierungDesBetreiberwechsels
@@ -82,14 +82,14 @@ fields:
   - name: Weic
   - name: Weic_nv
     xsd: boolean
-    sqlite: text
+    sqlite: integer
     mandatory: true
   - name: WeicDisplayName
   - name: Kraftwerksnummer
   - name: Kraftwerksnummer_nv
     mandatory: true
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: Energietraeger
     xsd: nonNegativeInteger
     sqlite: integer
@@ -105,30 +105,30 @@ fields:
     mandatory: true
   - name: AnschlussAnHoechstOderHochSpannung
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: Schwarzstartfaehigkeit
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: Inselbetriebsfaehigkeit
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: Einsatzverantwortlicher
   - name: FernsteuerbarkeitNb
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: FernsteuerbarkeitDv
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: FernsteuerbarkeitDr
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: Einspeisungsart
     xsd: nonNegativeInteger
     sqlite: integer
     references: Katalogwerte(Id)
   - name: PraequalifiziertFuerRegelenergie
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: GenMastrNummer
   - name: ZugeordneteWirkleistungWechselrichter
   - name: GemeinsamerWechselrichterMitSpeicher
@@ -148,7 +148,7 @@ fields:
     references: Katalogwerte(Id)
   - name: EinheitlicheAusrichtungUndNeigungswinkel
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: Hauptausrichtung
     xsd: nonNegativeInteger
     sqlite: integer

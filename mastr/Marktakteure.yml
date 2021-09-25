@@ -39,7 +39,7 @@ fields:
   - name: Hausnummer
   - name: Hausnummer_nv
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: Adresszusatz
   - name: Postleitzahl
   - name: Ort
@@ -54,50 +54,50 @@ fields:
   - name: Fax
   - name: Fax_nv
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: Webseite
   - name: Webseite_nv
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: Registergericht
     xsd: nonNegativeInteger
     sqlite: integer
   - name: Registergericht_nv
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: RegistergerichtAusland
   - name: RegistergerichtAusland_nv
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: Registernummer
   - name: Registernummer_nv
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: RegisternummerAusland
   - name: RegisternummerAusland_nv
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: Taetigkeitsbeginn
     xsd: date
     sqlite: text
   - name: AcerCode
   - name: AcerCode_nv
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: Umsatzsteueridentifikationsnummer
   - name: Umsatzsteueridentifikationsnummer_nv
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: Taetigkeitsende
     xsd: date
     sqlite: text
   - name: Taetigkeitsende_nv
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: BundesnetzagenturBetriebsnummer
   - name: BundesnetzagenturBetriebsnummer_nv
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: LandAnZustelladresse
     xsd: nonNegativeInteger
     sqlite: integer
@@ -107,11 +107,11 @@ fields:
   - name: HausnummerAnZustelladresse
   - name: HausnummerAnZustelladresse_nv
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: AdresszusatzAnZustelladresse
   - name: Kmu
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: TelefonnummerVMav
   - name: EmailVMav
   - name: RegistrierungsdatumMarktakteur
@@ -131,23 +131,23 @@ fields:
     references: Katalogwerte(Id)
   - name: Direktvermarktungsunternehmen
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: BelieferungVonLetztverbrauchernStrom
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: BelieferungHaushaltskundenStrom
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: Gasgrosshaendler
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: Stromgrosshaendler
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: BelieferungVonLetztverbrauchernGas
     xsd: boolean
-    sqlite: text
+    sqlite: integer
   - name: BelieferungHaushaltskundenGas
     xsd: boolean
-    sqlite: text
+    sqlite: integer
 ---

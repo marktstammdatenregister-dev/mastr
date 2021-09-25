@@ -19,10 +19,12 @@ fields:
     mandatory: true
   - name: InanspruchnahmeZahlungNachEeg
     xsd: boolean
+    sqlite: integer
   - name: AnlagenschluesselEeg
   - name: AnlagenkennzifferAnlagenregister
   - name: AnlagenkennzifferAnlagenregister_nv
     xsd: boolean
+    sqlite: integer
     mandatory: true
   - name: InstallierteLeistung
     xsd: decimal
@@ -30,9 +32,11 @@ fields:
   - name: RegistrierungsnummerPvMeldeportal
   - name: RegistrierungsnummerPvMeldeportal_nv
     xsd: boolean
+    sqlite: integer
     mandatory: true
   - name: MieterstromZugeordnet
     xsd: boolean
+    sqlite: integer
   - name: MieterstromRegistrierungsdatum
     xsd: date
   - name: MieterstromMeldedatum # Not mentioned in the documentation
@@ -41,6 +45,7 @@ fields:
     xsd: date
   - name: AusschreibungZuschlag
     xsd: boolean
+    sqlite: integer
   - name: ZugeordneteGebotsmenge
     xsd: decimal
     sqlite: real
