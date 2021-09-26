@@ -7,7 +7,7 @@ buildings.db: input.osm.pbf buildings.ini multipolygons-area.sql
 		--config OSM_CONFIG_FILE buildings.ini \
 		-dsco SPATIALITE=YES \
 		-gt 65536
-	spatialite "$@" <multipolygons-area.sql
+	sqlite3 "$@" <multipolygons-area.sql
 
 boundaries.db: input.osm.pbf boundaries.ini
 	rm -f "$@"

@@ -15,4 +15,5 @@ CREATE INDEX idx_multipolygons_operator ON multipolygons(operator);
 CREATE UNIQUE INDEX idx_multipolygons_osm_id ON multipolygons(osm_id);
 
 -- Cleanup.
+ANALYZE;
 VACUUM;
