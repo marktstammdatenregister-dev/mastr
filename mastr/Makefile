@@ -85,37 +85,37 @@ EinheitenSolar-csv.sql: EinheitenSolar.sql $(EinheitenSolar_csv)
 	cp EinheitenSolar.sql $@
 	echo '.mode csv' >>$@
 	printf "%s\0" $(EinheitenSolar_csv) | \
-		xargs -0 --no-run-if-empty --max-args=1 -I'{}' sh -c 'echo ".import {} EinheitenSolar --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenSolar --skip 1" >>$@'
 
 AnlagenEegSolar-csv.sql: AnlagenEegSolar.sql $(AnlagenEegSolar_csv)
 	cp AnlagenEegSolar.sql $@
 	echo '.mode csv' >>$@
 	printf "%s\0" $(AnlagenEegSolar_csv) | \
-		xargs -0 --no-run-if-empty --max-args=1 -I'{}' sh -c 'echo ".import {} AnlagenEegSolar --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenEegSolar --skip 1" >>$@'
 
 Lokationen-csv.sql: Lokationen.sql $(Lokationen_csv)
 	cp Lokationen.sql $@
 	echo '.mode csv' >>$@
 	printf "%s\0" $(Lokationen_csv) | \
-		xargs -0 --no-run-if-empty --max-args=1 -I'{}' sh -c 'echo ".import {} Lokationen --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Lokationen --skip 1" >>$@'
 
 Marktakteure-csv.sql: Marktakteure.sql $(Marktakteure_csv)
 	cp Marktakteure.sql $@
 	echo '.mode csv' >>$@
 	printf "%s\0" $(Marktakteure_csv) | \
-		xargs -0 --no-run-if-empty --max-args=1 -I'{}' sh -c 'echo ".import {} Marktakteure --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Marktakteure --skip 1" >>$@'
 
 Katalogkategorien-csv.sql: Katalogkategorien.sql $(Katalogkategorien_csv)
 	cp Katalogkategorien.sql $@
 	echo '.mode csv' >>$@
 	printf "%s\0" $(Katalogkategorien_csv) | \
-		xargs -0 --no-run-if-empty --max-args=1 -I'{}' sh -c 'echo ".import {} Katalogkategorien --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Katalogkategorien --skip 1" >>$@'
 
 Katalogwerte-csv.sql: Katalogwerte.sql $(Katalogwerte_csv)
 	cp Katalogwerte.sql $@
 	echo '.mode csv' >>$@
 	printf "%s\0" $(Katalogwerte_csv) | \
-		xargs -0 --no-run-if-empty --max-args=1 -I'{}' sh -c 'echo ".import {} Katalogwerte --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Katalogwerte --skip 1" >>$@'
 
 Marktstammdatenregister.db: $(Marktstammdatenregister_sql)
 	rm -f $@
