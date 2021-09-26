@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? (import (import ./nix/sources.nix).nixpkgs {})}:
 pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     axel
@@ -9,6 +9,7 @@ pkgs.mkShell {
     go
     libxml2
     mustache-go
+    niv
     pup
     rlwrap
     spatialite_tools
