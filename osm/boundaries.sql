@@ -5,6 +5,14 @@ create table boundaries_import (
 );
 .mode tabs
 .import 'boundaries.pg' 'boundaries_import'
+
+-- Delete invalid entries
+select 'Total: ' || count(*) from boundaries_import;
+
+select 'Invalid JSON: ' || count(*) from boundaries_import where json_valid(tags) = 0;
+delete from boundaries_import where json_valid(tags) = 0;
+
+select 'Missing "name" field: ' || count(*) from boundaries_import where json_extract(tags, '$.name') is null;
 delete from boundaries_import where json_extract(tags, '$.name') is null;
 
 -- Cast EWKB-encoded GEOMETRYCOLLECTION to Multipolygon
