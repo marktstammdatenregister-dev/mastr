@@ -7,6 +7,6 @@
 
 #!/osm/Makefile
 #!/osm/boundaries.ini
-#!/osm/buildings.ini
+!/osm/boundaries.db
 #!/osm/multipolygons-area.sql
 #!/osm/points.ini

@@ -9,13 +9,11 @@ buildings.db: input.osm.pbf buildings.ini multipolygons-area.sql
 		-gt 65536
 	sqlite3 "$@" <multipolygons-area.sql
 
-boundaries.db: input.osm.pbf boundaries.ini
-	rm -f "$@"
-	ogr2ogr -f SQLite "$@" input.osm.pbf multipolygons \
-		-where "boundary = 'administrative'" \
-		--config OSM_CONFIG_FILE boundaries.ini \
-		-dsco SPATIALITE=YES \
-		-gt 65536
+boundaries.db: input.osm.pbf boundaries.cfg boundaries.sql
+	osmium tags-filter input.osm.pbf a/boundary=administrative --output boundaries.osm.opl --remove-tags --overwrite
+	osmium export boundaries.osm.opl --config boundaries.cfg --output-format pg \
+		| ./fix_ewkb.py >boundaries.pg
+	spatialite $@ <boundaries.sql
 
 %.br: %
 	brotli -4 --keep --output="$@" "$<"

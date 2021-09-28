@@ -45,10 +45,33 @@
 #COPY ./mastr/ ./
 #RUN make download && make -j8 Marktstammdatenregister.db.br
 
+# https://github.com/simonw/datasette/blob/63886178a649586b403966a27a45881709d2b868/Dockerfile
+# But with bullseye instead of buster so we get a newer sqlite and spatialite version
+# https://packages.debian.org/search?suite=bullseye&searchon=names&keywords=spatialite
+FROM python:3.9-slim-bullseye as datasette
+
+# Version of Datasette to install, e.g. 0.55
+#   docker build . -t datasette --build-arg VERSION=0.55
+ARG VERSION=0.58.1
+
+# software-properties-common provides add-apt-repository
+# which we need in order to install a more recent release
+# of libsqlite3-mod-spatialite from the sid distribution
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends libsqlite3-mod-spatialite
+
+RUN pip install https://github.com/simonw/datasette/archive/refs/tags/${VERSION}.zip && \
+    find /usr/local/lib -name '__pycache__' | xargs rm -r && \
+    rm -rf /root/.cache/pip
+
+EXPOSE 8001
+CMD ["datasette"]
+
 #
 # Run datasette.
 #
-FROM docker.io/datasetteproject/datasette:0.58.1@sha256:e8749dd66c79c1808c37746469ecf73b816df515283745b4a5d53ce7f8f9c873 AS datasette
+#FROM docker.io/datasetteproject/datasette:0.58.1@sha256:e8749dd66c79c1808c37746469ecf73b816df515283745b4a5d53ce7f8f9c873 AS datasette
+FROM datasette
 RUN apt-get -qq update \
  && apt-get -qq install \
       brotli \
@@ -69,6 +92,7 @@ USER datasette:datasette
 #COPY --from=builder-osm /work/buildings.db.br .
 #COPY --from=builder-mastr /work/Marktstammdatenregister.db.br .
 COPY ./mastr/Marktstammdatenregister.db.br .
+COPY ./osm/boundaries.db .
 COPY ./metadata.yaml .
 COPY ./settings.json .
 

@@ -10,6 +10,7 @@ pkgs.mkShell {
     libxml2
     mustache-go
     niv
+    osmium-tool
     pup
     python3Packages.shapely
     rlwrap

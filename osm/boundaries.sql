@@ -1,29 +1,38 @@
--- Create VirtualGeoJSON table
-create virtual table boundaries_import using VirtualGeoJSON('boundaries.geojson');
+-- Import PostgreSQL COPY format
+create table boundaries_import (
+    ewkb_hex text not null,
+    tags text not null
+);
+.mode tabs
+.import 'boundaries.pg' 'boundaries_import'
+delete from boundaries_import where json_extract(tags, '$.name') is null;
 
--- Cast GEOMETRYCOLLECTION to Multipolygon
+-- Cast EWKB-encoded GEOMETRYCOLLECTION to Multipolygon
 create table boundaries (
-    name text not null,
-    geometry MULTIPOLYGON not null
+    geometry MULTIPOLYGON not null,
+    tags text not null,
+    name text generated always as (json_extract(tags, '$.name')) virtual not null,
+    admin_level integer generated always as (json_extract(tags, '$.admin_level')) virtual
 );
 
 insert into boundaries
 select
-    name,
-    CastToMultipolygon(geometry)
+    CastToMultipolygon(GeomFromEWKB(ewkb_hex)),
+    tags
 from
     boundaries_import
 where
-    CastToMultipolygon(geometry) is not null;
+    CastToMultipolygon(GeomFromEWKB(ewkb_hex)) is not null;
 
 insert into boundaries
 select
-    name,
-    CastToMultipolygon(BuildArea(CastToMultilinestring(geometry)))
+    CastToMultipolygon(BuildArea(CastToMultilinestring(GeomFromEWKB(ewkb_hex)))),
+    tags
 from
     boundaries_import
 where
-    CastToMultipolygon(geometry) is null;
+    CastToMultipolygon(GeomFromEWKB(ewkb_hex)) is null;
 
--- Drop VirtualGeoJSON table
-select DropVirtualGeometry('boundaries_import');
+-- Drop import table
+drop table boundaries_import;
+vacuum;
