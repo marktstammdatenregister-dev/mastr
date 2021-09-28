@@ -1,42 +1,38 @@
 -- Import PostgreSQL COPY format
-create table buildings_import (
-    ewkb_hex text not null,
-    tags text not null
+create virtual table buildings_import using VirtualText(
+    'boundaries.pg',
+    'UTF-8',
+    0,
+    POINT,
+    DOUBLEQUOTE,
+    TAB
 );
-.mode tabs
-.import 'buildings.pg' 'buildings_import'
-
--- Delete invalid entries
-select 'Total: ' || count(*) from buildings_import;
-
-select 'Invalid JSON: ' || count(*) from buildings_import where json_valid(tags) = 0;
-delete from buildings_import where json_valid(tags) = 0;
 
 -- Cast EWKB-encoded GEOMETRYCOLLECTION to Multipolygon
 create table buildings (
     geometry MULTIPOLYGON not null,
-    tags text not null
+    tags text --not null
     --name text generated always as (json_extract(tags, '$.name')) virtual not null,
     --admin_level integer generated always as (json_extract(tags, '$.admin_level')) virtual
 );
 
 insert into buildings
 select
-    CastToMultipolygon(GeomFromEWKB(ewkb_hex)),
-    tags
+    CastToMultipolygon(GeomFromEWKB(COL001)),
+    COL002
 from
     buildings_import
 where
-    CastToMultipolygon(GeomFromEWKB(ewkb_hex)) is not null;
+    CastToMultipolygon(GeomFromEWKB(COL001)) is not null;
 
 insert into buildings
 select
-    CastToMultipolygon(BuildArea(CastToMultilinestring(GeomFromEWKB(ewkb_hex)))),
-    tags
+    CastToMultipolygon(BuildArea(CastToMultilinestring(GeomFromEWKB(COL001)))),
+    COL002
 from
     buildings_import
 where
-    CastToMultipolygon(GeomFromEWKB(ewkb_hex)) is null;
+    CastToMultipolygon(GeomFromEWKB(COL001)) is null;
 
 -- Drop import table
 drop table buildings_import;
