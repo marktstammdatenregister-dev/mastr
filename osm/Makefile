@@ -9,19 +9,6 @@ buildings.db: input.osm.pbf buildings.ini multipolygons-area.sql
 		-gt 65536
 	sqlite3 "$@" <multipolygons-area.sql
 
-# Tags in boundaries.cfg were determined as follows:
-#
-# select
-#   json_each.key,
-#   count (*) as cnt
-# from
-#   boundaries,
-#   json_each(boundaries.tags)
-# group by
-#   json_each.key
-# order by
-#   cnt desc
-
 boundaries.db: germany-latest.osm.pbf boundaries.cfg boundaries.sql
 	osmium tags-filter germany-latest.osm.pbf a/boundary=administrative --output boundaries.osm.opl --remove-tags --overwrite
 	osmium export boundaries.osm.opl --config boundaries.cfg --output-format pg \
