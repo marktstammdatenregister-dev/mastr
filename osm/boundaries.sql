@@ -33,6 +33,12 @@ from
 where
     CastToMultipolygon(GeomFromEWKB(ewkb_hex)) is null;
 
+-- Create index for queries of the form 'select geometry from boundaries where name = ?'
+create index idx_boundaries_name on boundaries (name);
+
 -- Drop import table
 drop table boundaries_import;
+
+-- Optimize
+analyze;
 vacuum;
