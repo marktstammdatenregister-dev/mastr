@@ -11,6 +11,7 @@ pkgs.mkShell {
     mustache-go
     niv
     pup
+    python3Packages.shapely
     rlwrap
     spatialite_tools
     sqlite
