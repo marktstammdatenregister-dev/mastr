@@ -1,13 +1,10 @@
 # Download input.osm.pbf from https://download.geofabrik.de/ before running 'make'.
 
-buildings.db: input.osm.pbf buildings.ini multipolygons-area.sql
-	rm -f "$@"
-	ogr2ogr -f SQLite "$@" input.osm.pbf multipolygons \
-		-where "building is not null" \
-		--config OSM_CONFIG_FILE buildings.ini \
-		-dsco SPATIALITE=YES \
-		-gt 65536
-	sqlite3 "$@" <multipolygons-area.sql
+buildings.db: germany-latest.osm.pbf buildings.cfg buildings.sql
+	osmium tags-filter germany-latest.osm.pbf a/building --output buildings.osm.opl --remove-tags --overwrite
+	osmium export buildings.osm.opl --config buildings.cfg --output buildings-broken-ewkb.pg --overwrite
+	pv buildings-broken-ewkb.pg | ./fix_ewkb.py >buildings.pg
+	spatialite $@ <buildings.sql
 
 boundaries.db: germany-latest.osm.pbf boundaries.cfg boundaries.sql
 	osmium tags-filter germany-latest.osm.pbf a/boundary=administrative --output boundaries.osm.opl --remove-tags --overwrite

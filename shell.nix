@@ -12,6 +12,7 @@ pkgs.mkShell {
     niv
     osmium-tool
     pup
+    pv
     python3Packages.shapely
     rlwrap
     spatialite_tools
