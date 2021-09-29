@@ -12,7 +12,7 @@ import (
 	"os"
 )
 
-func convert(r *csv.Reader, w *bufio.Writer) error {
+func convert(r *csv.Reader, w *csv.Writer) error {
 	for {
 		record, err := r.Read()
 		if err == io.EOF {
@@ -42,7 +42,8 @@ func convert(r *csv.Reader, w *bufio.Writer) error {
 		if err != nil {
 			return err
 		}
-		_, err = w.WriteString(h + "\n")
+		record[0] = h
+		err = w.Write(record)
 		if err != nil {
 			return err
 		}
@@ -57,12 +58,16 @@ func checkErr(err error) {
 }
 
 func main() {
-	r := csv.NewReader(os.Stdin)
+	r := csv.NewReader(bufio.NewReader(os.Stdin))
 	r.Comma = '\t'
 	r.LazyQuotes = true
 	r.ReuseRecord = true
 
-	w := bufio.NewWriter(os.Stdout)
+	bw := bufio.NewWriter(os.Stdout)
+	defer bw.Flush()
+	w := csv.NewWriter(bw)
 	defer w.Flush()
+	w.Comma = '\t'
+
 	checkErr(convert(r, w))
 }
