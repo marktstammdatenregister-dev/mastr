@@ -1,6 +1,6 @@
 -- Import PostgreSQL COPY format
 create virtual table imported using VirtualText(
-    'boundaries.txt',
+    'boundaries.tsv',
     'UTF-8',
     0,
     POINT,
