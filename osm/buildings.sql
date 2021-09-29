@@ -29,4 +29,3 @@ select UpdateLayerStatistics('buildings', 'geometry');
 
 -- Optimize
 analyze;
-vacuum;

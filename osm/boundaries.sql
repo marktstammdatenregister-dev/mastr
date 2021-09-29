@@ -44,4 +44,3 @@ select UpdateLayerStatistics('boundaries', 'geometry');
 
 -- Optimize
 analyze;
-vacuum;
