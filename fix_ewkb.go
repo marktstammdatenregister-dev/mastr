@@ -15,7 +15,7 @@ import (
 	"io"
 	"log"
 	"os"
-	"strings"
+	//"strings"
 )
 
 func convert(r *csv.Reader, stmt *sql.Stmt) error {
@@ -49,8 +49,9 @@ func convert(r *csv.Reader, stmt *sql.Stmt) error {
 		if err != nil {
 			return err
 		}
-		tags := strings.ReplaceAll(record[1], `\\`, `\`)
-		_, err = stmt.Exec(h, tags)
+		//tags := strings.ReplaceAll(record[1], `\\`, `\`)
+		//_, err = stmt.Exec(h, tags)
+		_, err = stmt.Exec(h)
 		if err != nil {
 			return err
 		}
@@ -70,12 +71,14 @@ type entrypoint struct {
 }
 
 var LibNames = []entrypoint{
-	{"mod_spatialite", "sqlite3_modspatialite_init"},
-	{"mod_spatialite.dylib", "sqlite3_modspatialite_init"},
-	{"libspatialite.so", "sqlite3_modspatialite_init"},
-	{"libspatialite.so.7", "spatialite_init_ex"},
-	{"libspatialite.so", "spatialite_init_ex"},
-	{"/nix/store/0497qxf4msd68yxpfzfkgnficxr84vns-libspatialite-5.0.1/lib/libspatialite.so.7", "spatialite_init_ex"},
+	//{"mod_spatialite", "sqlite3_modspatialite_init"},
+	//{"mod_spatialite.dylib", "sqlite3_modspatialite_init"},
+	//{"libspatialite.so", "sqlite3_modspatialite_init"},
+	//{"libspatialite.so.7", "spatialite_init_ex"},
+	//{"libspatialite.so", "spatialite_init_ex"},
+	//{"/nix/store/0497qxf4msd68yxpfzfkgnficxr84vns-libspatialite-5.0.1/lib/mod_spatialite", "sqlite3_modspatialite_init"},
+	{"/nix/store/0497qxf4msd68yxpfzfkgnficxr84vns-libspatialite-5.0.1/lib/libspatialite", "spatialite_init_ex"},
+	//{"./libspatialite", "spatialite_init_ex"},
 }
 
 var ErrSpatialiteNotFound = errors.New("shaxbee/go-spatialite: spatialite extension not found.")
@@ -84,9 +87,11 @@ func register() error {
 	sql.Register("spatialite", &sqlite3.SQLiteDriver{
 		ConnectHook: func(conn *sqlite3.SQLiteConn) error {
 			for _, v := range LibNames {
-				if err := conn.LoadExtension(v.lib, v.proc); err == nil {
+				err := conn.LoadExtension(v.lib, v.proc)
+				if err == nil {
 					return nil
 				}
+				fmt.Printf("%v", err)
 			}
 			return ErrSpatialiteNotFound
 		},
@@ -98,14 +103,14 @@ func main() {
 	outputDbFileName := flag.String("output", "<undefined>", "file name of the SQLite database to write to")
 	flag.Parse()
 
-	checkErr(register())
+	//checkErr(register())
 
 	r := csv.NewReader(os.Stdin)
 	r.Comma = '\t'
 	r.LazyQuotes = true
 	r.ReuseRecord = true
 
-	db, err := sql.Open("spatialite", fmt.Sprintf("%s?_synchronous=OFF&_txlock=exclusive&_cache_size=-%d", *outputDbFileName, 2*1024*1024))
+	db, err := sql.Open("sqlite3", fmt.Sprintf("%s?_synchronous=OFF", *outputDbFileName))
 	checkErr(err)
 	defer db.Close()
 
@@ -118,17 +123,23 @@ func main() {
 	checkErr(err)
 	defer tx.Commit()
 
-	stmt, err := tx.Prepare(`
-create table buildings (
-	geometry MULTIPOLYGON not null,
-	tags text not null check (json_valid(tags))
-)`)
+	for _, s := range []string{
+		`create table buildings (geometry_wkt text not null)`,
+		//`select AddGeometryColumn('buildings', 'geometry', 4326, 'GEOMETRY', 'XY', 1)`,
+		//`alter table buildings drop column dummy`,
+	} {
+		stmt, err := tx.Prepare(s)
+		checkErr(err)
+		_, err = stmt.Exec()
+		checkErr(err)
+	}
+	//stmt, err := tx.Prepare(`insert into buildings (geometry, tags) values (MultiPolygonFromText(?), ?)`)
+	stmt, err := tx.Prepare(`insert into buildings (geometry_wkt) values (?)`)
 	checkErr(err)
-	_, err = stmt.Exec()
-	checkErr(err)
-	stmt, err = tx.Prepare(`insert into buildings (geometry, tags) values (MultiPolygonFromText(?), ?)`)
-	checkErr(err)
-
 	err = convert(r, stmt)
 	checkErr(err)
+	//stmt, err = tx.Prepare(`select CreateSpatialIndex('buildings', 'geometry')`)
+	//checkErr(err)
+	//_, err = stmt.Exec()
+	//checkErr(err)
 }
