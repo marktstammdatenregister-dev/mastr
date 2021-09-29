@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"encoding/csv"
+	"flag"
 	"fmt"
 	"github.com/twpayne/go-geom"
 	"github.com/twpayne/go-geom/encoding/ewkbhex"
@@ -12,8 +13,11 @@ import (
 	"os"
 )
 
-func convert(r *csv.Reader, w *csv.Writer) error {
+const squareMeterPerSquareDegree = float64(8500000000)
+
+func convert(r *csv.Reader, w *csv.Writer, minArea float64) error {
 	for {
+		// Read CSV record.
 		record, err := r.Read()
 		if err == io.EOF {
 			break
@@ -21,28 +25,46 @@ func convert(r *csv.Reader, w *csv.Writer) error {
 		if err != nil {
 			return err
 		}
+
+		// Decode EWKB string.
 		g, err := ewkbhex.Decode(record[0])
 		if err != nil {
 			return err
 		}
+
+		// Extract coordinates.
+		var coords [][][]geom.Coord
 		switch t := g.(type) {
 		case *geom.LineString:
 			g2 := geom.LineString(*t)
-			coords := [][][]geom.Coord{[][]geom.Coord{g2.Coords()}}
-			g = geom.NewMultiPolygon(geom.XY).MustSetCoords(coords)
+			coords = [][][]geom.Coord{[][]geom.Coord{g2.Coords()}}
 		case *geom.Polygon:
 			g2 := geom.Polygon(*t)
-			coords := [][][]geom.Coord{g2.Coords()}
-			g = geom.NewMultiPolygon(geom.XY).MustSetCoords(coords)
-		case *geom.MultiPolygon: // ignore
+			coords = [][][]geom.Coord{g2.Coords()}
+		case *geom.MultiPolygon:
+			g2 := geom.MultiPolygon(*t)
+			coords = g2.Coords()
 		default:
 			return fmt.Errorf("cannot handle geometry %v", t)
 		}
-		h, err := wkt.Marshal(g)
+		g = nil
+
+		// Construct MultiPolygon.
+		mpg := geom.NewMultiPolygon(geom.XY).MustSetCoords(coords)
+
+		// Skip if area is too small.
+		if minArea != 0 && mpg.Area() < minArea {
+			continue
+		}
+
+		// Encode coordinates as WKT.
+		h, err := wkt.Marshal(mpg)
 		if err != nil {
 			return err
 		}
 		record[0] = h
+
+		// Write CSV record.
 		err = w.Write(record)
 		if err != nil {
 			return err
@@ -58,16 +80,27 @@ func checkErr(err error) {
 }
 
 func main() {
+	minAreaSquareMeters := flag.Float64("min-area", 0, "[square meters] buildings smaller than this are dropped")
+	flag.Parse()
+
+	if *minAreaSquareMeters < 0 {
+		log.Fatal("min-area must not be negative")
+	}
+
+	minAreaSquareDegrees := *minAreaSquareMeters / squareMeterPerSquareDegree
+
+	// Construct CSV reader.
 	r := csv.NewReader(bufio.NewReader(os.Stdin))
 	r.Comma = '\t'
 	r.LazyQuotes = true
 	r.ReuseRecord = true
 
+	// Construct CSV writer.
 	bw := bufio.NewWriter(os.Stdout)
 	defer bw.Flush()
 	w := csv.NewWriter(bw)
 	defer w.Flush()
 	w.Comma = '\t'
 
-	checkErr(convert(r, w))
+	checkErr(convert(r, w, minAreaSquareDegrees))
 }
