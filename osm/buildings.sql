@@ -1,6 +1,6 @@
 -- Import PostgreSQL COPY format
-create virtual table buildings_import using VirtualText(
-    'boundaries.pg',
+create virtual table imported using VirtualText(
+    'buildings.txt',
     'UTF-8',
     0,
     POINT,
@@ -8,34 +8,24 @@ create virtual table buildings_import using VirtualText(
     TAB
 );
 
--- Cast EWKB-encoded GEOMETRYCOLLECTION to Multipolygon
-create table buildings (
-    geometry MULTIPOLYGON not null,
-    tags text --not null
-    --name text generated always as (json_extract(tags, '$.name')) virtual not null,
-    --admin_level integer generated always as (json_extract(tags, '$.admin_level')) virtual
-);
-
+-- Convert and copy into 'buildings'
+create table buildings (geometry MULTIPOLYGON not null);
 insert into buildings
-select
-    CastToMultipolygon(GeomFromEWKB(COL001)),
-    COL002
-from
-    buildings_import
-where
-    CastToMultipolygon(GeomFromEWKB(COL001)) is not null;
-
-insert into buildings
-select
-    CastToMultipolygon(BuildArea(CastToMultilinestring(GeomFromEWKB(COL001)))),
-    COL002
-from
-    buildings_import
-where
-    CastToMultipolygon(GeomFromEWKB(COL001)) is null;
+    select SetSRID(MultiPolygonFromText(COL001), 4326)
+    from imported;
 
 -- Drop import table
-drop table buildings_import;
+drop table imported;
+
+-- Create spatial index
+select RecoverGeometryColumn(
+    'buildings',
+    'geometry',
+    4326,
+    'MULTIPOLYGON'
+);
+select CreateSpatialIndex('buildings', 'geometry');
+select UpdateLayerStatistics('buildings', 'geometry');
 
 -- Optimize
 analyze;
