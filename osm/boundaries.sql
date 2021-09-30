@@ -8,7 +8,7 @@ create virtual table imported using VirtualText(
     TAB
 );
 
-select 'Total:                ' || count(*) from imported;
+select 'Number of boundaries: ' || count(*) from imported;
 select 'Invalid JSON:         ' || count(*) from imported where json_valid(COL002) = 0;
 select 'Missing "name" field: ' || count(*) from imported where json_valid(COL002) and json_extract(COL002, '$.name') is null;
 
@@ -42,6 +42,3 @@ select RecoverGeometryColumn(
 
 -- Index on name
 create index idx_boundaries_name on boundaries (name);
-
--- Optimize
-analyze;
