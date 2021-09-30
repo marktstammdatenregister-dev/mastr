@@ -120,57 +120,60 @@ databases:
                     order by
                       Leistung desc
 
-    #osm:
-    #    queries:
-    #        by_administrative_boundary:
-    #            title: Search by administrative boundary
-    #            description_html: |-
-    #                <p>The results are sorted by building area. Places of worship like chapels are excluded from the results.
-    #
-    #                <table>
-    #                <caption>Parameters</caption>
-    #                <tr>
-    #                <td><code>boundary_name</code></td>
-    #                <td>The name of the administrative boundary, e.g. the name of a town.</td>
-    #                </tr>
-    #                <tr>
-    #                <td><code>limit</code></td>
-    #                <td>The number of results to show.</td>
-    #                </tr>
-    #                </table>
-    #            sql: |-
-    #                select
-    #                  AsGeoJSON(GEOMETRY) as geojson,
-    #                  CAST(area as INTEGER) as area_sqm,
-    #                  operator,
-    #                  name,
-    #                  amenity,
-    #                  building,
-    #                  other_tags,
-    #                  ogc_fid,
-    #                  Y(Centroid(GEOMETRY)) as latitude,
-    #                  X(Centroid(GEOMETRY)) as longitude
-    #                from
-    #                  multipolygons,
-    #                  (
-    #                    select
-    #                      GEOMETRY as query_boundary
-    #                    from
-    #                      multipolygons
-    #                    where
-    #                      name == :boundary_name
-    #                      AND boundary == "administrative"
-    #                    limit
-    #                      1
-    #                  )
-    #                where
-    #                  building is not null
-    #                  and building != "church"
-    #                  and building != "chapel"
-    #                  and building != "mosque"
-    #                  and building != "synagogue"
-    #                  and building != "temple"
-    #                  and within(GEOMETRY, query_boundary)
-    #                order by
-    #                  area desc
-    #                limit cast(:limit as INT)
+    OpenStreetMap:
+        tables:
+            ISO_metadata: {hidden: true}
+            ISO_metadata_reference: {hidden: true}
+            KNN: {hidden: true}
+            SE_external_graphics: {hidden: true}
+            SE_fonts: {hidden: true}
+            SE_raster_styled_layers: {hidden: true}
+            SE_raster_styles: {hidden: true}
+            SE_vector_styled_layers: {hidden: true}
+            SE_vector_styles: {hidden: true}
+            data_licenses: {hidden: true}
+            networks: {hidden: true}
+            raster_coverages: {hidden: true}
+            raster_coverages_keyword: {hidden: true}
+            raster_coverages_srid: {hidden: true}
+            rl2map_configurations: {hidden: true}
+            sqlite_stat1: {hidden: true}
+            stored_procedures: {hidden: true}
+            stored_variables: {hidden: true}
+            topologies: {hidden: true}
+            vector_coverages: {hidden: true}
+            vector_coverages_keyword: {hidden: true}
+            vector_coverages_srid: {hidden: true}
+            wms_getcapabilities: {hidden: true}
+            wms_getmap: {hidden: true}
+            wms_ref_sys: {hidden: true}
+            wms_settings: {hidden: true}
+        queries:
+            GroessteGebaeude:
+                title: Größte Gebäude
+                sql: |-
+                    select
+                      AsGeoJSON(buildings.geometry) as geojson,
+                      cast(
+                        Area(Transform(buildings.geometry, 25832)) as integer
+                      ) as area_sqm,
+                      X(Centroid(buildings.geometry)) as longitude,
+                      Y(Centroid(buildings.geometry)) as latitude
+                    from
+                      buildings,
+                      boundaries
+                    where
+                      boundaries.name = :Ort
+                      and buildings.rowid in (
+                        select
+                          rowid
+                        from
+                          SpatialIndex
+                        where
+                          f_table_name = 'buildings'
+                          and search_frame = boundaries.geometry
+                      )
+                    order by
+                      Area(Transform(buildings.geometry, 25832)) desc
+                    limit
+                      20
