@@ -32,15 +32,16 @@ where
 -- Drop import table
 drop table imported;
 
--- Create spatial index
+-- Set geometry
 select RecoverGeometryColumn(
     'boundaries',
     'geometry',
     4326,
     'MULTIPOLYGON'
 );
-select CreateSpatialIndex('boundaries', 'geometry');
-select UpdateLayerStatistics('boundaries', 'geometry');
+
+-- Index on name
+create index idx_boundaries_name on boundaries (name);
 
 -- Optimize
 analyze;
