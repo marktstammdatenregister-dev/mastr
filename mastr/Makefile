@@ -31,12 +31,12 @@ Katalogkategorien_csv := $(Katalogkategorien_xml:%.xml=%.csv)
 Katalogwerte_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'Katalogwerte')
 Katalogwerte_csv := $(Katalogwerte_xml:%.xml=%.csv)
 
-Marktstammdatenregister_sql := EinheitenSolar-csv.sql AnlagenEegSolar-csv.sql Lokationen-csv.sql Marktakteure-csv.sql Katalogkategorien-csv.sql Katalogwerte-csv.sql
+Marktstammdatenregister_sql := EinheitenSolar-csv.gen.sql AnlagenEegSolar-csv.gen.sql Lokationen-csv.gen.sql Marktakteure-csv.gen.sql Katalogkategorien-csv.gen.sql Katalogwerte-csv.gen.sql
 
-%.xsd: %.yml XSD.mustache
+%.gen.xsd: %.yml XSD.mustache
 	mustache $< XSD.mustache >$@
 
-%.sql: %.yml SQLite.mustache
+%.gen.sql: %.yml SQLite.mustache
 	mustache $< SQLite.mustache >$@
 
 %.json: %.yml
@@ -51,68 +51,68 @@ xml2csv: xml2csv.go
 # We perform all of this in a single rule so we can delete the XML and JSON
 # files immediately. They are large and only necessary to create the (much
 # smaller) CSV files.
-EinheitenSolar_%.csv: Gesamtdatenexport.zip EinheitenSolar.xsd EinheitenSolar.json xml2csv
+EinheitenSolar_%.csv: Gesamtdatenexport.zip EinheitenSolar.gen.xsd EinheitenSolar.json xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
-	xmllint --schema EinheitenSolar.xsd --noout $(@:%.csv=%.xml)
+	xmllint --schema EinheitenSolar.gen.xsd --noout $(@:%.csv=%.xml)
 	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor EinheitenSolar.json >$@
 
-AnlagenEegSolar_%.csv: Gesamtdatenexport.zip AnlagenEegSolar.xsd AnlagenEegSolar.json xml2csv
+AnlagenEegSolar_%.csv: Gesamtdatenexport.zip AnlagenEegSolar.gen.xsd AnlagenEegSolar.json xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
-	xmllint --schema AnlagenEegSolar.xsd --noout $(@:%.csv=%.xml)
+	xmllint --schema AnlagenEegSolar.gen.xsd --noout $(@:%.csv=%.xml)
 	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor AnlagenEegSolar.json >$@
 
-Lokationen_%.csv: Gesamtdatenexport.zip Lokationen.xsd Lokationen.json xml2csv
+Lokationen_%.csv: Gesamtdatenexport.zip Lokationen.gen.xsd Lokationen.json xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
-	xmllint --schema Lokationen.xsd --noout $(@:%.csv=%.xml)
+	xmllint --schema Lokationen.gen.xsd --noout $(@:%.csv=%.xml)
 	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor Lokationen.json >$@
 
-Marktakteure_%.csv: Gesamtdatenexport.zip Marktakteure.xsd Marktakteure.json xml2csv
+Marktakteure_%.csv: Gesamtdatenexport.zip Marktakteure.gen.xsd Marktakteure.json xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
-	xmllint --schema Marktakteure.xsd --noout $(@:%.csv=%.xml)
+	xmllint --schema Marktakteure.gen.xsd --noout $(@:%.csv=%.xml)
 	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor Marktakteure.json >$@
 
-Katalogkategorien.csv: Gesamtdatenexport.zip Katalogkategorien.xsd Katalogkategorien.json xml2csv
+Katalogkategorien.csv: Gesamtdatenexport.zip Katalogkategorien.gen.xsd Katalogkategorien.json xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
-	xmllint --schema Katalogkategorien.xsd --noout $(@:%.csv=%.xml)
+	xmllint --schema Katalogkategorien.gen.xsd --noout $(@:%.csv=%.xml)
 	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor Katalogkategorien.json >$@
 
-Katalogwerte.csv: Gesamtdatenexport.zip Katalogwerte.xsd Katalogwerte.json xml2csv
+Katalogwerte.csv: Gesamtdatenexport.zip Katalogwerte.gen.xsd Katalogwerte.json xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
-	xmllint --schema Katalogwerte.xsd --noout $(@:%.csv=%.xml)
+	xmllint --schema Katalogwerte.gen.xsd --noout $(@:%.csv=%.xml)
 	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor Katalogwerte.json >$@
 
-EinheitenSolar-csv.sql: EinheitenSolar.sql $(EinheitenSolar_csv)
-	cp EinheitenSolar.sql $@
+EinheitenSolar-csv.gen.sql: EinheitenSolar.gen.sql $(EinheitenSolar_csv)
+	cp EinheitenSolar.gen.sql $@
 	echo '.mode csv' >>$@
 	printf "%s\0" $(EinheitenSolar_csv) | \
 		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenSolar --skip 1" >>$@'
 
-AnlagenEegSolar-csv.sql: AnlagenEegSolar.sql $(AnlagenEegSolar_csv)
-	cp AnlagenEegSolar.sql $@
+AnlagenEegSolar-csv.gen.sql: AnlagenEegSolar.gen.sql $(AnlagenEegSolar_csv)
+	cp AnlagenEegSolar.gen.sql $@
 	echo '.mode csv' >>$@
 	printf "%s\0" $(AnlagenEegSolar_csv) | \
 		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenEegSolar --skip 1" >>$@'
 
-Lokationen-csv.sql: Lokationen.sql $(Lokationen_csv)
-	cp Lokationen.sql $@
+Lokationen-csv.gen.sql: Lokationen.gen.sql $(Lokationen_csv)
+	cp Lokationen.gen.sql $@
 	echo '.mode csv' >>$@
 	printf "%s\0" $(Lokationen_csv) | \
 		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Lokationen --skip 1" >>$@'
 
-Marktakteure-csv.sql: Marktakteure.sql $(Marktakteure_csv)
-	cp Marktakteure.sql $@
+Marktakteure-csv.gen.sql: Marktakteure.gen.sql $(Marktakteure_csv)
+	cp Marktakteure.gen.sql $@
 	echo '.mode csv' >>$@
 	printf "%s\0" $(Marktakteure_csv) | \
 		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Marktakteure --skip 1" >>$@'
 
-Katalogkategorien-csv.sql: Katalogkategorien.sql $(Katalogkategorien_csv)
-	cp Katalogkategorien.sql $@
+Katalogkategorien-csv.gen.sql: Katalogkategorien.gen.sql $(Katalogkategorien_csv)
+	cp Katalogkategorien.gen.sql $@
 	echo '.mode csv' >>$@
 	printf "%s\0" $(Katalogkategorien_csv) | \
 		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Katalogkategorien --skip 1" >>$@'
 
-Katalogwerte-csv.sql: Katalogwerte.sql $(Katalogwerte_csv)
-	cp Katalogwerte.sql $@
+Katalogwerte-csv.gen.sql: Katalogwerte.gen.sql $(Katalogwerte_csv)
+	cp Katalogwerte.gen.sql $@
 	echo '.mode csv' >>$@
 	printf "%s\0" $(Katalogwerte_csv) | \
 		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Katalogwerte --skip 1" >>$@'
@@ -135,8 +135,7 @@ Marktstammdatenregister.db.br: Marktstammdatenregister.db
 
 .PHONY: clean
 clean:
-	rm -f EinheitenSolar.{xsd,sql,jq}
-	rm -f Marktakteure.{xsd,sql,jq}
+	rm -f *.gen.*
 	rm -f $(EinheitenSolar_xml) $(EinheitenSolar_csv)
 	rm -f $(Marktakteure_xml) $(Marktakteure_csv)
 	rm -f $(Marktstammdatenregister_sql)
