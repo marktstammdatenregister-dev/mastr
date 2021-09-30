@@ -8,6 +8,7 @@ import (
 	"github.com/twpayne/go-geom"
 	"github.com/twpayne/go-geom/encoding/ewkbhex"
 	"github.com/twpayne/go-geom/encoding/wkt"
+	"github.com/twpayne/go-geom/xy"
 	"io"
 	"log"
 	"os"
@@ -32,33 +33,41 @@ func convert(r *csv.Reader, w *csv.Writer, minArea float64) error {
 			return err
 		}
 
-		// Extract coordinates.
-		var coords [][][]geom.Coord
+		// Convert to MultiPolygon.
+		mpoly := geom.NewMultiPolygon(geom.XY)
 		switch t := g.(type) {
 		case *geom.LineString:
-			g2 := geom.LineString(*t)
-			coords = [][][]geom.Coord{[][]geom.Coord{g2.Coords()}}
+			lstr := geom.LineString(*t)
+			lrng := geom.NewLinearRingFlat(lstr.Layout(), lstr.FlatCoords())
+			if !xy.IsRingCounterClockwise(lrng.Layout(), lrng.FlatCoords()) {
+				lrng.Reverse()
+			}
+			poly := geom.NewPolygon(geom.XY)
+			poly.Push(lrng)
+			mpoly.Push(poly)
 		case *geom.Polygon:
-			g2 := geom.Polygon(*t)
-			coords = [][][]geom.Coord{g2.Coords()}
+			poly := geom.Polygon(*t)
+			mpoly.Push(&poly)
 		case *geom.MultiPolygon:
-			g2 := geom.MultiPolygon(*t)
-			coords = g2.Coords()
+			mpoly2 := geom.MultiPolygon(*t)
+			mpoly = &mpoly2
 		default:
 			return fmt.Errorf("cannot handle geometry %v", t)
 		}
 		g = nil
 
-		// Construct MultiPolygon.
-		mpg := geom.NewMultiPolygon(geom.XY).MustSetCoords(coords)
+		area := mpoly.Area()
+		if area < 0 {
+			return fmt.Errorf("negative area")
+		}
 
 		// Skip if area is too small.
-		if minArea != 0 && mpg.Area() < minArea {
+		if minArea != 0 && area < minArea {
 			continue
 		}
 
 		// Encode coordinates as WKT.
-		h, err := wkt.Marshal(mpg)
+		h, err := wkt.Marshal(mpoly)
 		if err != nil {
 			return err
 		}
