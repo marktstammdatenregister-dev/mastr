@@ -8,7 +8,6 @@ import (
 	"github.com/twpayne/go-geom"
 	"github.com/twpayne/go-geom/encoding/ewkbhex"
 	"github.com/twpayne/go-geom/encoding/wkt"
-	//"github.com/twpayne/go-geom/xy"
 	"io"
 	"log"
 	"os"
@@ -17,6 +16,8 @@ import (
 const squareMeterPerSquareDegree = float64(8500000000)
 
 func convert(r *csv.Reader, w *csv.Writer, minArea float64) error {
+	mps := 0
+	other := 0
 	for {
 		// Read CSV record.
 		record, err := r.Read()
@@ -33,42 +34,28 @@ func convert(r *csv.Reader, w *csv.Writer, minArea float64) error {
 			return err
 		}
 
-		// Convert to MultiPolygon.
-		mpoly := geom.NewMultiPolygon(geom.XY)
-		switch t := g.(type) {
-		case *geom.LineString:
+		// Assert that we're dealing with a multipolygon.
+		mp, ok := g.(*geom.MultiPolygon)
+		if !ok {
+			other += 1
 			continue
-			//lstr := geom.LineString(*t)
-			//lrng := geom.NewLinearRingFlat(lstr.Layout(), lstr.FlatCoords())
-			//if !xy.IsRingCounterClockwise(lrng.Layout(), lrng.FlatCoords()) {
-			//	lrng.Reverse()
-			//}
-			//poly := geom.NewPolygon(geom.XY)
-			//poly.Push(lrng)
-			//mpoly.Push(poly)
-		//case *geom.Polygon:
-		//	poly := geom.Polygon(*t)
-		//	mpoly.Push(&poly)
-		case *geom.MultiPolygon:
-			mpoly2 := geom.MultiPolygon(*t)
-			mpoly = &mpoly2
-		default:
-			return fmt.Errorf("cannot handle geometry %v", t)
 		}
-		g = nil
+		mps += 1
 
-		area := mpoly.Area()
-		if area < 0 {
-			return fmt.Errorf("negative area")
-		}
+		if minArea != 0 {
+			area := mp.Area()
+			if area < 0 {
+				return fmt.Errorf("negative area")
+			}
 
-		// Skip if area is too small.
-		if minArea != 0 && area < minArea {
-			continue
+			// Skip if area is too small.
+			if area < minArea {
+				continue
+			}
 		}
 
 		// Encode coordinates as WKT.
-		h, err := wkt.Marshal(mpoly)
+		h, err := wkt.Marshal(mp)
 		if err != nil {
 			return err
 		}
@@ -80,6 +67,7 @@ func convert(r *csv.Reader, w *csv.Writer, minArea float64) error {
 			return err
 		}
 	}
+	fmt.Fprintf(os.Stderr, "ewkb2wkt: %d multipolygons, %d other (skipped)", mps, other)
 	return nil
 }
 
