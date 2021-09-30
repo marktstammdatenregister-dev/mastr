@@ -5,7 +5,7 @@ ewkb2wkt: ewkb2wkt.go
 
 buildings.tsv: germany-latest.osm.pbf ewkb2wkt
 	osmium tags-filter germany-latest.osm.pbf a/building --output buildings.osm.pbf --remove-tags --overwrite
-	osmium export buildings.osm.pbf --output-format pg | pv | cut -f1 | ./ewkb2wkt --min-area=1000 >"$@"
+	osmium export buildings.osm.pbf --output-format pg | cut -f1 | ./ewkb2wkt --min-area=1000 | pv >"$@"
 	rm buildings.osm.pbf
 
 boundaries.tsv: germany-latest.osm.pbf ewkb2wkt
