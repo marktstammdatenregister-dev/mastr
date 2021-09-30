@@ -8,7 +8,7 @@ import (
 	"github.com/twpayne/go-geom"
 	"github.com/twpayne/go-geom/encoding/ewkbhex"
 	"github.com/twpayne/go-geom/encoding/wkt"
-	"github.com/twpayne/go-geom/xy"
+	//"github.com/twpayne/go-geom/xy"
 	"io"
 	"log"
 	"os"
@@ -37,17 +37,18 @@ func convert(r *csv.Reader, w *csv.Writer, minArea float64) error {
 		mpoly := geom.NewMultiPolygon(geom.XY)
 		switch t := g.(type) {
 		case *geom.LineString:
-			lstr := geom.LineString(*t)
-			lrng := geom.NewLinearRingFlat(lstr.Layout(), lstr.FlatCoords())
-			if !xy.IsRingCounterClockwise(lrng.Layout(), lrng.FlatCoords()) {
-				lrng.Reverse()
-			}
-			poly := geom.NewPolygon(geom.XY)
-			poly.Push(lrng)
-			mpoly.Push(poly)
-		case *geom.Polygon:
-			poly := geom.Polygon(*t)
-			mpoly.Push(&poly)
+			continue
+			//lstr := geom.LineString(*t)
+			//lrng := geom.NewLinearRingFlat(lstr.Layout(), lstr.FlatCoords())
+			//if !xy.IsRingCounterClockwise(lrng.Layout(), lrng.FlatCoords()) {
+			//	lrng.Reverse()
+			//}
+			//poly := geom.NewPolygon(geom.XY)
+			//poly.Push(lrng)
+			//mpoly.Push(poly)
+		//case *geom.Polygon:
+		//	poly := geom.Polygon(*t)
+		//	mpoly.Push(&poly)
 		case *geom.MultiPolygon:
 			mpoly2 := geom.MultiPolygon(*t)
 			mpoly = &mpoly2
