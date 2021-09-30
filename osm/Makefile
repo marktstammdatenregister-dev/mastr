@@ -3,15 +3,17 @@
 ewkb2wkt: ewkb2wkt.go
 	go build -o "$@" "$<"
 
-buildings.tsv: germany-latest.osm.pbf ewkb2wkt
-	osmium tags-filter germany-latest.osm.pbf a/building type=multipolygon --output buildings.osm.pbf --remove-tags --overwrite
-	osmium export buildings.osm.pbf --output-format pg | cut -f1 | ./ewkb2wkt --min-area=1000 | pv >"$@"
-	rm buildings.osm.pbf
+buildings.osm.pbf: germany-latest.osm.pbf
+	osmium tags-filter "$<" a/building type=multipolygon --output "$@" --remove-tags --overwrite
 
-boundaries.tsv: germany-latest.osm.pbf ewkb2wkt
-	osmium tags-filter germany-latest.osm.pbf a/boundary=administrative type=boundary --output boundaries.osm.pbf --remove-tags --overwrite
-	osmium export boundaries.osm.pbf --output-format pg | ./ewkb2wkt | pv >"$@"
-	rm boundaries.osm.pbf
+buildings.tsv: buildings.osm.pbf ewkb2wkt
+	osmium export "$<" --output-format pg | cut -f1 | ./ewkb2wkt --min-area=1000 | pv >"$@"
+
+boundaries.osm.pbf: germany-latest.osm.pbf
+	osmium tags-filter "$<" a/boundary=administrative type=boundary --output "$@" --remove-tags --overwrite
+
+boundaries.tsv: boundaries.osm.pbf ewkb2wkt
+	osmium export "$<" --output-format pg | ./ewkb2wkt | pv >"$@"
 
 OpenStreetMap.db: buildings.tsv buildings.sql boundaries.tsv boundaries.sql
 	rm -f "$@"
@@ -26,4 +28,4 @@ all: OpenStreetMap.db.br
 
 .PHONY: clean-intermediate
 clean-intermediate:
-	rm -f *.tsv *.osm.pbf
+	rm -f *.tsv {boundaries,buildings}.osm.pbf
