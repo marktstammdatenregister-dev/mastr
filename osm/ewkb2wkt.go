@@ -67,7 +67,7 @@ func convert(r *csv.Reader, w *csv.Writer, minArea float64) error {
 			return err
 		}
 	}
-	fmt.Fprintf(os.Stderr, "ewkb2wkt: %d multipolygons, %d other (skipped)", mps, other)
+	fmt.Fprintf(os.Stderr, "ewkb2wkt: %d multipolygons, %d other (skipped)\n", mps, other)
 	return nil
 }
 
@@ -84,7 +84,6 @@ func main() {
 	if *minAreaSquareMeters < 0 {
 		log.Fatal("min-area must not be negative")
 	}
-
 	minAreaSquareDegrees := *minAreaSquareMeters / squareMeterPerSquareDegree
 
 	// Construct CSV reader.
