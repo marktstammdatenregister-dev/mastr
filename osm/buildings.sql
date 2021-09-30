@@ -8,7 +8,7 @@ create virtual table imported using VirtualText(
     TAB
 );
 
-select 'Number of buildings:          ' || count(*) from imported;
+select 'Number of buildings:           ' || count(*) from imported;
 
 -- Copy into 'buildings' table and drop virtual table.
 create table buildings (geometry MULTIPOLYGON not null);
@@ -17,8 +17,10 @@ drop table imported;
 
 -- Index on area.
 create index idx_buildings_area on buildings (Area(Transform(geometry, 25832)));
-select 'Minimum area [square meters]: ' || min(Area(Transform(geometry, 25832))) from buildings;
-select 'Maximum area [square meters]: ' || max(Area(Transform(geometry, 25832))) from buildings;
+select 'Number of buildings <1000 sqm: ' || count(*) from buildings where Area(Transform(geometry, 25832)) < 1000;
+delete from buildings where Area(Transform(geometry, 25832)) < 1000;
+select 'Minimum area [square meters]:  ' || min(Area(Transform(geometry, 25832))) from buildings;
+select 'Maximum area [square meters]:  ' || max(Area(Transform(geometry, 25832))) from buildings;
 
 -- Create spatial index.
 select RecoverGeometryColumn(
