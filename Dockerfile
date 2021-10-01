@@ -50,13 +50,8 @@
 # https://packages.debian.org/search?suite=bullseye&searchon=names&keywords=spatialite
 FROM python:3.9-slim-bullseye as datasette
 
-# Version of Datasette to install, e.g. 0.55
-#   docker build . -t datasette --build-arg VERSION=0.55
 ARG VERSION=0.58.1
 
-# software-properties-common provides add-apt-repository
-# which we need in order to install a more recent release
-# of libsqlite3-mod-spatialite from the sid distribution
 RUN apt-get update && \
     apt-get install -y --no-install-recommends libsqlite3-mod-spatialite
 
@@ -71,7 +66,7 @@ CMD ["datasette"]
 # Run datasette.
 #
 #FROM docker.io/datasetteproject/datasette:0.58.1@sha256:e8749dd66c79c1808c37746469ecf73b816df515283745b4a5d53ce7f8f9c873 AS datasette
-FROM datasette
+FROM datasette as runner
 RUN apt-get -qq update \
  && apt-get -qq install \
       brotli \
@@ -88,11 +83,10 @@ RUN groupadd -r datasette && useradd --no-log-init -r -g datasette datasette
 RUN chown datasette:datasette .
 USER datasette:datasette
 
-#COPY --from=builder-osm /work/boundaries.db.br .
-#COPY --from=builder-osm /work/buildings.db.br .
-#COPY --from=builder-mastr /work/Marktstammdatenregister.db.br .
+FROM runner as copied
+
 COPY ./mastr/Marktstammdatenregister.db.br .
-COPY ./osm/boundaries.db .
+COPY ./osm/OpenStreetMap.db.br .
 COPY ./metadata.yaml .
 COPY ./settings.json .
 

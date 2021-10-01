@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+rm -f mastr/Gesamtdatenexport.zip
+make -C mastr/ Gesamtdatenexport.zip
+make -C mastr/ -j Marktstammdatenregister.db.br
+
+rm -f osm/germany-latest.osm.pbf
+make -C osm/ -j OpenStreetMap.db.br
+
+docker build . -t pvdb

@@ -4,9 +4,4 @@
 !/settings.json
 
 !/mastr/Marktstammdatenregister.db.br
-
-#!/osm/Makefile
-#!/osm/boundaries.ini
-!/osm/boundaries.db
-#!/osm/multipolygons-area.sql
-#!/osm/points.ini
+!/osm/OpenStreetMap.db.br

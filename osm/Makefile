@@ -1,5 +1,8 @@
 # Download input.osm.pbf from https://download.geofabrik.de/ before running 'make'.
 
+germany-latest.osm.pbf:
+	wget http://download.geofabrik.de/europe/germany-latest.osm.pbf
+
 ewkb2wkt: ewkb2wkt.go
 	go build -o "$@" "$<"
 
