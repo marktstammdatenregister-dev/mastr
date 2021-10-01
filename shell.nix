@@ -3,9 +3,7 @@ pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     axel
     brotli
-    docker-compose
     flyctl
-    gdal_2
     go
     libxml2
     mustache-go
@@ -13,7 +11,6 @@ pkgs.mkShell {
     osmium-tool
     pup
     pv
-    python3Packages.shapely
     rlwrap
     spatialite_tools
     sqlite
