@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/csv"
 	"encoding/json"
 	"encoding/xml"
@@ -179,7 +180,14 @@ func main() {
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
-	err = convertXml(td, xml.NewDecoder(os.Stdin), csv.NewWriter(os.Stdout))
+
+	// Construct buffered reader and writer.
+	const bufSize = 4096 * 1024
+	br := bufio.NewReaderSize(os.Stdin, bufSize)
+	bw := bufio.NewWriterSize(os.Stdout, bufSize)
+	defer bw.Flush()
+
+	err = convertXml(td, xml.NewDecoder(br), csv.NewWriter(bw))
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
