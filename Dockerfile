@@ -85,8 +85,26 @@ USER datasette:datasette
 
 FROM runner as copied
 
-COPY ./mastr/Marktstammdatenregister.db.br .
-COPY ./osm/OpenStreetMap.db.br .
+# The database files are renamed to .sqlite3 on purpose.
+#
+# The only way I can find in the documentation to load settings from a file is to use "Configuration
+# directory mode", i.e. passing a directory to `datasette`.
+#
+# https://docs.datasette.io/en/0.58.1/settings.html#id2
+#
+# However, we also want users to be able to download the SQLite files. This requires us to pass
+# `--immutable <dbfile>` to `datasette`.
+#
+# If we use `--immutable <dbfile>` in combination with "Configuration directory mode", Datasette
+# will pick up any *.db files in the given directory and show them. If any of those SQLite files
+# were passed in with `--immutable`, they will be shown twice: once as an immutable database, once
+# as a mutable database.
+#
+# To avoid Datasette listing the databases twice, we give the SQLite files a file ending other than
+# "db" so they are not picked up and listed as databases as a result of using "Configuration
+# directory mode".
+COPY ./mastr/Marktstammdatenregister.db.br ./Marktstammdatenregister.sqlite3.br
+COPY ./osm/OpenStreetMap.db.br ./OpenStreetMap.sqlite3.br
 COPY ./metadata.yaml .
 COPY ./settings.json .
 
@@ -94,4 +112,4 @@ ENTRYPOINT ["dumb-init", "--"]
 
 # Use "." as the configuration directory. This loads *.db, metadata.yaml, settings.json, etc.
 # https://docs.datasette.io/en/stable/settings.html#configuration-directory-mode
-CMD ["sh", "-c", "brotli --rm --decompress --no-copy-stat *.db.br && datasette --port=8080 --host=0.0.0.0 --load-extension=spatialite --cors ."]
+CMD ["sh", "-c", "brotli --rm --decompress --no-copy-stat *.br && datasette --port=8080 --host=0.0.0.0 --load-extension=spatialite --cors --immutable Marktstammdatenregister.sqlite3 --immutable OpenStreetMap.sqlite3 ."]
