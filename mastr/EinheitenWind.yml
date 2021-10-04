@@ -1,6 +1,6 @@
 ---
-root: EinheitenSolar
-element: EinheitSolar
+root: EinheitenWind
+element: EinheitWind
 primary: EinheitMastrNummer
 fields:
   # defaults:
@@ -36,7 +36,7 @@ fields:
   - name: Gemeinde
   - name: Gemeindeschluessel
   - name: Postleitzahl
-    mandatory: true
+    #mandatory: true
   - name: Gemarkung
   - name: FlurFlurstuecknummern
   - name: Strasse
@@ -134,52 +134,76 @@ fields:
     xsd: boolean
     sqlite: integer
   - name: GenMastrNummer
-  - name: ZugeordneteWirkleistungWechselrichter
-  - name: GemeinsamerWechselrichterMitSpeicher
-    xsd: nonNegativeInteger
-    sqlite: integer
-    references: Katalogwerte(Id)
-  - name: AnzahlModule
-    xsd: nonNegativeInteger
-    sqlite: integer
+  - name: NameWindpark
+    #mandatory: true
   - name: Lage
+    mandatory: true
     xsd: nonNegativeInteger
     sqlite: integer
     references: Katalogwerte(Id)
-  - name: Leistungsbegrenzung
+  - name: Seelage
     xsd: nonNegativeInteger
     sqlite: integer
     references: Katalogwerte(Id)
-  - name: EinheitlicheAusrichtungUndNeigungswinkel
+  - name: ClusterOstsee
+    xsd: nonNegativeInteger
+    sqlite: integer
+    references: Katalogwerte(Id)
+  - name: ClusterNordsee
+    xsd: nonNegativeInteger
+    sqlite: integer
+    references: Katalogwerte(Id)
+  - name: Hersteller
+    xsd: nonNegativeInteger
+    sqlite: integer
+    references: Katalogwerte(Id)
+  - name: Technologie
+    xsd: nonNegativeInteger
+    sqlite: integer
+    references: Katalogwerte(Id)
+  - name: Typenbezeichnung
+    #mandatory: true
+  - name: Nabenhoehe
+    #mandatory: true
+    xsd: decimal
+    sqlite: real
+  - name: Rotordurchmesser
+    #mandatory: true
+    xsd: decimal
+    sqlite: real
+  - name: Rotorblattenteisungssystem
     xsd: boolean
     sqlite: integer
-  - name: Hauptausrichtung
-    xsd: nonNegativeInteger
+  - name: AuflageAbschaltungLeistungsbegrenzung
+    #mandatory: true
+    xsd: boolean
     sqlite: integer
-    references: Katalogwerte(Id)
-  - name: HauptausrichtungNeigungswinkel
-    xsd: nonNegativeInteger
+  - name: AuflagenAbschaltungSchallimmissionsschutzNachts
+    xsd: boolean
     sqlite: integer
-    references: Katalogwerte(Id)
-  - name: Nebenausrichtung
-    xsd: nonNegativeInteger
+  - name: AuflagenAbschaltungSchallimmissionsschutzTagsueber
+    xsd: boolean
     sqlite: integer
-    references: Katalogwerte(Id)
-  - name: NebenausrichtungNeigungswinkel
-    xsd: nonNegativeInteger
+  - name: AuflagenAbschaltungSchattenwurf
+    xsd: boolean
     sqlite: integer
-    references: Katalogwerte(Id)
-  - name: InAnspruchGenommeneFlaeche
+  - name: AuflagenAbschaltungTierschutz
+    xsd: boolean
+    sqlite: integer
+  - name: AuflagenAbschaltungEiswurf
+    xsd: boolean
+    sqlite: integer
+  - name: AuflagenAbschaltungSonstige
+    xsd: boolean
+    sqlite: integer
+  - name: Wassertiefe
+    #mandatory: true
     xsd: decimal
     sqlite: real
-  - name: ArtDerFlaecheIds
-  - name: InAnspruchGenommeneAckerflaeche
+  - name: Kuestenentfernung
+    #mandatory: true
     xsd: decimal
     sqlite: real
-  - name: Nutzungsbereich
-    xsd: nonNegativeInteger
-    sqlite: integer
-    references: Katalogwerte(Id)
   - name: EegMaStRNummer
     references: AnlagenEegSolar(EegMaStRNummer)
 ---
