@@ -1,0 +1,81 @@
+---
+root: AnlagenEegWind
+element: AnlageEegWind
+primary: EegMaStRNummer
+fields:
+  # defaults:
+  #   xsd: string
+  #   sqlite: text
+  #   mandatory: false
+  - name: Registrierungsdatum
+    xsd: date
+    mandatory: true
+  - name: DatumLetzteAktualisierung
+    xsd: dateTime
+    mandatory: true
+  - name: EegInbetriebnahmedatum
+    xsd: date
+  - name: EegMaStRNummer
+    mandatory: true
+  - name: AnlagenkennzifferAnlagenregister
+    #mandatory: true
+  - name: AnlagenkennzifferAnlagenregister_nv
+    xsd: boolean
+    sqlite: integer
+    mandatory: true
+  - name: AnlagenschluesselEeg
+  - name: PrototypAnlage
+    #mandatory: true
+    xsd: boolean
+    sqlite: integer
+  - name: PilotAnlage
+    #mandatory: true
+    xsd: boolean
+    sqlite: integer
+  - name: InstallierteLeistung
+    xsd: decimal
+    sqlite: real
+  - name: VerhaeltnisErtragsschaetzungReferenzertrag
+    #mandatory: true
+    xsd: decimal
+    sqlite: real
+  - name: VerhaeltnisErtragsschaetzungReferenzertrag_nv
+    mandatory: true
+    xsd: boolean
+    sqlite: integer
+  - name: VerhaeltnisReferenzertragErtrag5Jahre
+    #mandatory: true
+    xsd: decimal
+    sqlite: real
+  - name: VerhaeltnisReferenzertragErtrag5Jahre_nv
+    mandatory: true
+    xsd: boolean
+    sqlite: integer
+  - name: VerhaeltnisReferenzertragErtrag10Jahre
+    #mandatory: true
+    xsd: decimal
+    sqlite: real
+  - name: VerhaeltnisReferenzertragErtrag10Jahre_nv
+    mandatory: true
+    xsd: boolean
+    sqlite: integer
+  - name: VerhaeltnisReferenzertragErtrag15Jahre
+    #mandatory: true
+    xsd: decimal
+    sqlite: real
+  - name: VerhaeltnisReferenzertragErtrag15Jahre_nv
+    mandatory: true
+    xsd: boolean
+    sqlite: integer
+  - name: AusschreibungZuschlag
+    #mandatory: true
+    xsd: boolean
+    sqlite: integer
+  - name: Zuschlagsnummer
+  - name: AnlageBetriebsstatus
+    xsd: nonNegativeInteger
+    sqlite: integer
+    mandatory: true
+    references: Katalogwerte(Id)
+  - name: VerknuepfteEinheitenMaStRNummern
+---

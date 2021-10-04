@@ -22,6 +22,9 @@ EinheitenWind_csv := $(EinheitenWind_xml:%.xml=%.csv)
 AnlagenEegSolar_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'AnlagenEegSolar_')
 AnlagenEegSolar_csv := $(AnlagenEegSolar_xml:%.xml=%.csv)
 
+AnlagenEegWind_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'AnlagenEegWind')
+AnlagenEegWind_csv := $(AnlagenEegWind_xml:%.xml=%.csv)
+
 Lokationen_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'Lokationen_')
 Lokationen_csv := $(Lokationen_xml:%.xml=%.csv)
 
@@ -34,7 +37,7 @@ Katalogkategorien_csv := $(Katalogkategorien_xml:%.xml=%.csv)
 Katalogwerte_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'Katalogwerte')
 Katalogwerte_csv := $(Katalogwerte_xml:%.xml=%.csv)
 
-Marktstammdatenregister_sql := EinheitenSolar-csv.gen.sql EinheitenWind-csv.gen.sql AnlagenEegSolar-csv.gen.sql Lokationen-csv.gen.sql Marktakteure-csv.gen.sql Katalogkategorien-csv.gen.sql Katalogwerte-csv.gen.sql
+Marktstammdatenregister_sql := EinheitenSolar-csv.gen.sql EinheitenWind-csv.gen.sql AnlagenEegSolar-csv.gen.sql AnlagenEegWind-csv.gen.sql Lokationen-csv.gen.sql Marktakteure-csv.gen.sql Katalogkategorien-csv.gen.sql Katalogwerte-csv.gen.sql
 
 %.gen.xsd: %.yml XSD.mustache
 	mustache $< XSD.mustache >$@
@@ -68,6 +71,11 @@ AnlagenEegSolar_%.csv: Gesamtdatenexport.zip AnlagenEegSolar.gen.xsd AnlagenEegS
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema AnlagenEegSolar.gen.xsd --noout $(@:%.csv=%.xml)
 	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor AnlagenEegSolar.json >$@
+
+AnlagenEegWind.csv: Gesamtdatenexport.zip AnlagenEegWind.gen.xsd AnlagenEegWind.json xml2csv
+	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
+	xmllint --schema AnlagenEegWind.gen.xsd --noout $(@:%.csv=%.xml)
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor AnlagenEegWind.json >$@
 
 Lokationen_%.csv: Gesamtdatenexport.zip Lokationen.gen.xsd Lokationen.json xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
@@ -106,6 +114,12 @@ AnlagenEegSolar-csv.gen.sql: AnlagenEegSolar.gen.sql $(AnlagenEegSolar_csv)
 	echo '.mode csv' >>$@
 	printf "%s\0" $(AnlagenEegSolar_csv) | \
 		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenEegSolar --skip 1" >>$@'
+
+AnlagenEegWind-csv.gen.sql: AnlagenEegWind.gen.sql $(AnlagenEegWind_csv)
+	cp AnlagenEegWind.gen.sql $@
+	echo '.mode csv' >>$@
+	printf "%s\0" $(AnlagenEegWind_csv) | \
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenEegWind --skip 1" >>$@'
 
 Lokationen-csv.gen.sql: Lokationen.gen.sql $(Lokationen_csv)
 	cp Lokationen.gen.sql $@

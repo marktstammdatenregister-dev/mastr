@@ -205,5 +205,5 @@ fields:
     xsd: decimal
     sqlite: real
   - name: EegMaStRNummer
-    references: AnlagenEegSolar(EegMaStRNummer)
+    references: AnlagenEegWind(EegMaStRNummer)
 ---
