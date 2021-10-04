@@ -87,13 +87,14 @@ func main() {
 	minAreaSquareDegrees := *minAreaSquareMeters / squareMeterPerSquareDegree
 
 	// Construct CSV reader.
-	r := csv.NewReader(bufio.NewReader(os.Stdin))
+	const bufSize = 4096 * 1024
+	r := csv.NewReader(bufio.NewReaderSize(os.Stdin, bufSize))
 	r.Comma = '\t'
 	r.LazyQuotes = true
 	r.ReuseRecord = true
 
 	// Construct CSV writer.
-	bw := bufio.NewWriter(os.Stdout)
+	bw := bufio.NewWriterSize(os.Stdout, bufSize)
 	defer bw.Flush()
 	w := csv.NewWriter(bw)
 	defer w.Flush()
