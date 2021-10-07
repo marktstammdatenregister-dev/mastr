@@ -1,0 +1,37 @@
+---
+root: AnlagenEegWasser
+element: AnlageEegWasser
+primary: EegMaStRNummer
+fields:
+  # defaults:
+  #   xsd: string
+  #   sqlite: text
+  #   mandatory: false
+  - name: Registrierungsdatum
+    xsd: date
+    #mandatory: true
+  - name: DatumLetzteAktualisierung
+    xsd: dateTime
+    mandatory: true
+  - name: EegInbetriebnahmedatum
+    xsd: date
+  - name: EegMaStRNummer
+    mandatory: true
+  - name: AnlagenschluesselEeg
+  - name: AnlagenkennzifferAnlagenregister
+    #mandatory: true
+  - name: AnlagenkennzifferAnlagenregister_nv
+    xsd: boolean
+    sqlite: integer
+    mandatory: true
+  - name: InstallierteLeistung
+    xsd: decimal
+    sqlite: real
+  - name: AnlageBetriebsstatus
+    xsd: nonNegativeInteger
+    sqlite: integer
+    mandatory: true
+    references: Katalogwerte(Id)
+  - name: ErtuechtigungIds
+  - name: VerknuepfteEinheitenMaStRNummern
+---

@@ -6,6 +6,11 @@ databases:
                     datasette-cluster-map:
                         latitude_column: Breitengrad
                         longitude_column: Laengengrad
+            EinheitenWasser:
+                plugins:
+                    datasette-cluster-map:
+                        latitude_column: Breitengrad
+                        longitude_column: Laengengrad
             EinheitenWind:
                 plugins:
                     datasette-cluster-map:

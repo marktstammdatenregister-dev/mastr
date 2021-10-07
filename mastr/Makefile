@@ -19,11 +19,17 @@ EinheitenSolar_csv := $(EinheitenSolar_xml:%.xml=%.csv)
 EinheitenWind_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'EinheitenWind')
 EinheitenWind_csv := $(EinheitenWind_xml:%.xml=%.csv)
 
+EinheitenWasser_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'EinheitenWasser')
+EinheitenWasser_csv := $(EinheitenWasser_xml:%.xml=%.csv)
+
 AnlagenEegSolar_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'AnlagenEegSolar_')
 AnlagenEegSolar_csv := $(AnlagenEegSolar_xml:%.xml=%.csv)
 
 AnlagenEegWind_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'AnlagenEegWind')
 AnlagenEegWind_csv := $(AnlagenEegWind_xml:%.xml=%.csv)
+
+AnlagenEegWasser_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'AnlagenEegWasser')
+AnlagenEegWasser_csv := $(AnlagenEegWasser_xml:%.xml=%.csv)
 
 Lokationen_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'Lokationen_')
 Lokationen_csv := $(Lokationen_xml:%.xml=%.csv)
@@ -37,7 +43,7 @@ Katalogkategorien_csv := $(Katalogkategorien_xml:%.xml=%.csv)
 Katalogwerte_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'Katalogwerte')
 Katalogwerte_csv := $(Katalogwerte_xml:%.xml=%.csv)
 
-Marktstammdatenregister_sql := EinheitenSolar-csv.gen.sql EinheitenWind-csv.gen.sql AnlagenEegSolar-csv.gen.sql AnlagenEegWind-csv.gen.sql Lokationen-csv.gen.sql Marktakteure-csv.gen.sql Katalogkategorien-csv.gen.sql Katalogwerte-csv.gen.sql
+Marktstammdatenregister_sql := EinheitenSolar-csv.gen.sql EinheitenWind-csv.gen.sql EinheitenWasser-csv.gen.sql AnlagenEegSolar-csv.gen.sql AnlagenEegWind-csv.gen.sql AnlagenEegWasser-csv.gen.sql Lokationen-csv.gen.sql Marktakteure-csv.gen.sql Katalogkategorien-csv.gen.sql Katalogwerte-csv.gen.sql
 
 %.gen.xsd: %.yml XSD.mustache
 	mustache $< XSD.mustache >$@
@@ -67,6 +73,11 @@ EinheitenWind.csv: Gesamtdatenexport.zip EinheitenWind.gen.xsd EinheitenWind.jso
 	xmllint --schema EinheitenWind.gen.xsd --noout $(@:%.csv=%.xml)
 	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor EinheitenWind.json >$@
 
+EinheitenWasser.csv: Gesamtdatenexport.zip EinheitenWasser.gen.xsd EinheitenWasser.json xml2csv
+	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
+	xmllint --schema EinheitenWasser.gen.xsd --noout $(@:%.csv=%.xml)
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor EinheitenWasser.json >$@
+
 AnlagenEegSolar_%.csv: Gesamtdatenexport.zip AnlagenEegSolar.gen.xsd AnlagenEegSolar.json xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema AnlagenEegSolar.gen.xsd --noout $(@:%.csv=%.xml)
@@ -76,6 +87,11 @@ AnlagenEegWind.csv: Gesamtdatenexport.zip AnlagenEegWind.gen.xsd AnlagenEegWind.
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema AnlagenEegWind.gen.xsd --noout $(@:%.csv=%.xml)
 	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor AnlagenEegWind.json >$@
+
+AnlagenEegWasser.csv: Gesamtdatenexport.zip AnlagenEegWasser.gen.xsd AnlagenEegWasser.json xml2csv
+	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
+	xmllint --schema AnlagenEegWasser.gen.xsd --noout $(@:%.csv=%.xml)
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor AnlagenEegWasser.json >$@
 
 Lokationen_%.csv: Gesamtdatenexport.zip Lokationen.gen.xsd Lokationen.json xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
@@ -109,6 +125,12 @@ EinheitenWind-csv.gen.sql: EinheitenWind.gen.sql $(EinheitenWind_csv)
 	printf "%s\0" $(EinheitenWind_csv) | \
 		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenWind --skip 1" >>$@'
 
+EinheitenWasser-csv.gen.sql: EinheitenWasser.gen.sql $(EinheitenWasser_csv)
+	cp EinheitenWasser.gen.sql $@
+	echo '.mode csv' >>$@
+	printf "%s\0" $(EinheitenWasser_csv) | \
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenWasser --skip 1" >>$@'
+
 AnlagenEegSolar-csv.gen.sql: AnlagenEegSolar.gen.sql $(AnlagenEegSolar_csv)
 	cp AnlagenEegSolar.gen.sql $@
 	echo '.mode csv' >>$@
@@ -120,6 +142,12 @@ AnlagenEegWind-csv.gen.sql: AnlagenEegWind.gen.sql $(AnlagenEegWind_csv)
 	echo '.mode csv' >>$@
 	printf "%s\0" $(AnlagenEegWind_csv) | \
 		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenEegWind --skip 1" >>$@'
+
+AnlagenEegWasser-csv.gen.sql: AnlagenEegWasser.gen.sql $(AnlagenEegWasser_csv)
+	cp AnlagenEegWasser.gen.sql $@
+	echo '.mode csv' >>$@
+	printf "%s\0" $(AnlagenEegWasser_csv) | \
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenEegWasser --skip 1" >>$@'
 
 Lokationen-csv.gen.sql: Lokationen.gen.sql $(Lokationen_csv)
 	cp Lokationen.gen.sql $@
@@ -166,6 +194,7 @@ clean:
 	rm -f *.gen.*
 	rm -f $(EinheitenSolar_xml) $(EinheitenSolar_csv)
 	rm -f $(EinheitenWind_xml) $(EinheitenWind_csv)
+	rm -f $(EinheitenWasser_xml) $(EinheitenWasser_csv)
 	rm -f $(Marktakteure_xml) $(Marktakteure_csv)
 	rm -f $(Marktstammdatenregister_sql)
 	rm -f Marktstammdatenregister.db{,.br}
