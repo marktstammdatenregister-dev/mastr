@@ -1,0 +1,27 @@
+---
+root: AnlagenStromSpeicher
+element: AnlageStromSpeicher
+primary: MaStRNummer
+fields:
+  # defaults:
+  #   xsd: string
+  #   sqlite: text
+  #   mandatory: false
+  - name: MaStRNummer
+    mandatory: true
+  - name: DatumLetzteAktualisierung
+    xsd: dateTime
+    mandatory: true
+  - name: Registrierungsdatum
+    xsd: date
+    mandatory: true
+  - name: NutzbareSpeicherkapazitaet
+    xsd: decimal
+    sqlite: real
+  - name: VerknuepfteEinheitenMaStRNummern
+  - name: AnlageBetriebsstatus
+    xsd: nonNegativeInteger
+    sqlite: integer
+    mandatory: true
+    references: Katalogwerte(Id)
+---
