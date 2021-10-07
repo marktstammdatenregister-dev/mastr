@@ -1,7 +1,6 @@
 *.br
 *.csv
-*.gen.sql
-*.gen.xsd
+*.gen.*
 *.xml
 *.xsd
 *.zip

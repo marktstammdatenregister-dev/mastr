@@ -189,6 +189,12 @@ clean:
 	rm -f $(EinheitenSolar_xml) $(EinheitenSolar_csv)
 	rm -f $(EinheitenWind_xml) $(EinheitenWind_csv)
 	rm -f $(EinheitenWasser_xml) $(EinheitenWasser_csv)
+	rm -f $(AnlagenEegSolar_xml) $(AnlagenEegSolar_csv)
+	rm -f $(AnlagenEegWind_xml) $(AnlagenEegWind_csv)
+	rm -f $(AnlagenEegWasser_xml) $(AnlagenEegWasser_csv)
+	rm -f $(Lokationen_xml) $(Lokationen_csv)
+	rm -f $(Katalogwerte_xml) $(Katalogwerte_csv)
+	rm -f $(Katalogkategorien_xml) $(Katalogkategorien_csv)
 	rm -f $(Marktakteure_xml) $(Marktakteure_csv)
 	rm -f $(Marktstammdatenregister_sql)
 	rm -f Marktstammdatenregister.db{,.br}
