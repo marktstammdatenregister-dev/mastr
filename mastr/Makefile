@@ -7,7 +7,7 @@
 Gesamtdatenexport.zip:
 	curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload | \
 		pup 'a[href^="https://download.marktstammdatenregister.de/Gesamtdatenexport"][href$$=".zip"] attr{href}' | \
-		xargs axel --output=$@
+		xargs axel --quiet --output=$@
 
 .PHONY: download
 download: Gesamtdatenexport.zip
