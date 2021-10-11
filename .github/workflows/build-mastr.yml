@@ -23,14 +23,14 @@ jobs:
         run: >
           DEBIAN_FRONTEND=noninteractive
           sudo apt-get install -y
-            axel
-            brotli 
-            libxml2
-            ruby-mustache
-            osmium-tool
-            pv
-            spatialite-bin
-            sqlite
+          axel
+          brotli
+          libxml2
+          osmium-tool
+          pv
+          ruby-mustache
+          spatialite-bin
+          sqlite
       - name: Download raw data
         run: make -C mastr download
       - name: Build database
