@@ -1,0 +1,37 @@
+name: build-mastr
+on: [push]
+jobs:
+  build-mastr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+      - name: Set up Go
+        uses: actions/setup-go@v2
+      - name: Install pup
+        run: |
+          wget https://github.com/ericchiang/pup/releases/download/v0.4.0/pup_v0.4.0_linux_amd64.zip
+          unzip pup_*.zip
+          chmod +x pup
+          sudo mv pup /usr/bin/pup
+      - name: Install yj
+        run: |
+          wget https://github.com/sclevine/yj/releases/download/v5.0.0/yj-linux
+          chmod +x yj-linux
+          sudo mv yj-linux /usr/bin/yj
+      - name: Install packages
+        run: >
+          DEBIAN_FRONTEND=noninteractive
+          sudo apt-get install -y
+            axel
+            brotli 
+            libxml2
+            ruby-mustache
+            osmium-tool
+            pv
+            spatialite-bin
+            sqlite
+      - name: Download raw data
+        run: make -C mastr download
+      - name: Build database
+        run: make -j -C mastr Marktstammdatenregister.db.br
