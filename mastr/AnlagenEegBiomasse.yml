@@ -1,0 +1,75 @@
+---
+root: AnlagenEegBiomasse
+element: AnlageEegBiomasse
+primary: EegMaStRNummer
+fields:
+  # defaults:
+  #   xsd: string
+  #   sqlite: text
+  #   mandatory: false
+  - name: Registrierungsdatum
+    xsd: date
+    #mandatory: true
+  - name: DatumLetzteAktualisierung
+    xsd: dateTime
+    mandatory: true
+  - name: EegInbetriebnahmedatum
+    xsd: date
+  - name: EegMaStRNummer
+    mandatory: true
+  - name: AnlagenschluesselEeg
+  - name: AnlagenkennzifferAnlagenregister
+  - name: AnlagenkennzifferAnlagenregister_nv
+    xsd: boolean
+    sqlite: integer
+    mandatory: true
+  - name: InstallierteLeistung
+    xsd: decimal
+    sqlite: real
+  - name: AusschliesslicheVerwendungBiomasse
+    xsd: boolean
+    sqlite: integer
+  - name: AusschreibungZuschlag
+    xsd: boolean
+    sqlite: integer
+  - name: ZugeordneteGebotsmenge
+    xsd: decimal
+    sqlite: real
+  - name: Zuschlagsnummer
+  - name: BiogasInanspruchnahmeFlexiPraemie
+    xsd: boolean
+    sqlite: integer
+  - name: BiogasDatumInanspruchnahmeFlexiPraemie
+    xsd: date
+  - name: BiogasLeistungserhoehung
+    xsd: boolean
+    sqlite: integer
+  - name: BiogasDatumLeistungserhoehung
+    xsd: date
+  - name: BiogasUmfangLeistungserhoehung
+    xsd: decimal
+    sqlite: real
+  - name: BiogasGaserzeugungskapazitaet
+    xsd: decimal
+    sqlite: real
+    #mandatory: true
+  - name: BiogasGaserzeugungskapazitaet_nv
+    xsd: boolean
+    sqlite: integer
+    mandatory: true
+  - name: BiogasHoechstbemessungsleistung
+    xsd: decimal
+    sqlite: real
+  - name: BiomethanErstmaligerEinsatz
+    xsd: date
+  - name: BiomethanErstmaligerEinsatz_nv
+    xsd: boolean
+    sqlite: integer
+    mandatory: true
+  - name: AnlageBetriebsstatus
+    xsd: nonNegativeInteger
+    sqlite: integer
+    mandatory: true
+    references: Katalogwerte(Id)
+  - name: VerknuepfteEinheitenMaStRNummern
+---

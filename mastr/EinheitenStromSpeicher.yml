@@ -1,0 +1,181 @@
+---
+root: EinheitenStromSpeicher
+element: EinheitStromSpeicher
+primary: EinheitMastrNummer
+fields:
+  # defaults:
+  #   xsd: string
+  #   sqlite: text
+  #   mandatory: false
+  - name: EinheitMastrNummer
+    mandatory: true
+  - name: DatumLetzteAktualisierung
+    xsd: dateTime
+    sqlite: text
+    mandatory: true
+  - name: LokationMaStRNummer
+    references: Lokationen(MastrNummer)
+  - name: NetzbetreiberpruefungStatus
+    xsd: nonNegativeInteger
+    sqlite: integer
+    mandatory: true
+  - name: NetzbetreiberpruefungDatum
+    xsd: date
+  - name: AnlagenbetreiberMastrNummer
+    references: Marktakteure(MastrNummer)
+  - name: Land
+    xsd: nonNegativeInteger
+    sqlite: integer
+    mandatory: true
+    references: Katalogwerte(Id)
+  - name: Bundesland
+    xsd: nonNegativeInteger
+    sqlite: integer
+    references: Katalogwerte(Id)
+  - name: Landkreis
+  - name: Gemeinde
+  - name: Gemeindeschluessel
+  - name: Postleitzahl
+    mandatory: true
+  - name: Gemarkung
+  - name: FlurFlurstuecknummern
+  - name: Strasse
+  - name: StrasseNichtGefunden
+    xsd: boolean
+    sqlite: integer
+  - name: Hausnummer
+  - name: Hausnummer_nv
+    xsd: boolean
+    sqlite: integer
+  - name: HausnummerNichtGefunden
+    xsd: boolean
+    sqlite: integer
+  - name: Adresszusatz
+  - name: Ort
+  - name: Laengengrad
+    xsd: decimal
+    sqlite: real
+  - name: Breitengrad
+    xsd: decimal
+    sqlite: real
+  - name: Registrierungsdatum
+  - name: GeplantesInbetriebnahmedatum
+  - name: Inbetriebnahmedatum
+  - name: DatumEndgueltigeStilllegung
+  - name: DatumBeginnVoruebergehendeStilllegung
+  - name: DatumWiederaufnahmeBetrieb
+  - name: EinheitSystemstatus
+    xsd: nonNegativeInteger
+    sqlite: integer
+    references: Katalogwerte(Id)
+  - name: EinheitBetriebsstatus
+    xsd: nonNegativeInteger
+    sqlite: integer
+    references: Katalogwerte(Id)
+  - name: BestandsanlageMastrNummer
+  - name: NichtVorhandenInMigriertenEinheiten
+    xsd: boolean
+    sqlite: integer
+  - name: AltAnlagenbentreiberMastrNummer
+  - name: DatumDesBetreiberwechsels
+    xsd: date
+  - name: DatumRegistrierungDesBetreiberwechsels
+    xsd: date
+  - name: NameStromerzeugungseinheit
+    mandatory: true
+  - name: Weic
+  - name: Weic_nv
+    xsd: boolean
+    sqlite: integer
+    mandatory: true
+  - name: WeicDisplayName
+  - name: Kraftwerksnummer
+  - name: Kraftwerksnummer_nv
+    mandatory: true
+    xsd: boolean
+    sqlite: integer
+  - name: Energietraeger
+    xsd: nonNegativeInteger
+    sqlite: integer
+    mandatory: true
+    references: Katalogwerte(Id)
+  - name: Bruttoleistung
+    xsd: decimal
+    sqlite: real
+    mandatory: true
+  - name: Nettonennleistung
+    xsd: decimal
+    sqlite: real
+    #mandatory: true
+  - name: AnschlussAnHoechstOderHochSpannung
+    xsd: boolean
+    sqlite: integer
+  - name: Schwarzstartfaehigkeit
+    xsd: boolean
+    sqlite: integer
+  - name: Inselbetriebsfaehigkeit
+    xsd: boolean
+    sqlite: integer
+  - name: Einsatzverantwortlicher
+  - name: FernsteuerbarkeitNb
+    xsd: boolean
+    sqlite: integer
+  - name: FernsteuerbarkeitDv
+    xsd: boolean
+    sqlite: integer
+  - name: FernsteuerbarkeitDr
+    xsd: boolean
+    sqlite: integer
+  - name: Einspeisungsart
+    xsd: nonNegativeInteger
+    sqlite: integer
+    references: Katalogwerte(Id)
+  - name: PraequalifiziertFuerRegelenergie
+    xsd: boolean
+    sqlite: integer
+  - name: GenMastrNummer
+  - name: Einsatzort
+    xsd: nonNegativeInteger
+    sqlite: integer
+    references: Katalogwerte(Id)
+  - name: AcDcKoppelung
+    xsd: nonNegativeInteger
+    sqlite: integer
+    references: Katalogwerte(Id)
+  - name: Batterietechnologie
+    xsd: nonNegativeInteger
+    sqlite: integer
+    references: Katalogwerte(Id)
+  - name: PumpbetriebLeistungsaufnahme
+    xsd: decimal
+    sqlite: real
+  - name: PumpbetriebKontinuierlichRegelbar
+    xsd: boolean
+    sqlite: integer
+  - name: Pumpspeichertechnologie
+    xsd: nonNegativeInteger
+    sqlite: integer
+    references: Katalogwerte(Id)
+  - name: Notstromaggregat
+    xsd: boolean
+    sqlite: integer
+  - name: BestandteilGrenzkraftwerk
+    xsd: boolean
+    sqlite: integer
+  - name: NettonennleistungDeutschland
+    xsd: decimal
+    sqlite: real
+  - name: ZugeordnenteWirkleistungWechselrichter
+  - name: SpeMastrNummer
+    references: AnlagenStromSpeicher(EegMaStRNummer)
+  - name: EegMaStRNummer
+    #mandatory: true
+  - name: EegAnlagentyp
+    xsd: nonNegativeInteger
+    sqlite: integer
+    #references: Katalogwerte(Id) # seems to be 8 (Kernenergie) a lot of the time?
+  - name: Technologie
+    xsd: nonNegativeInteger
+    sqlite: integer
+    references: Katalogwerte(Id)
+---
