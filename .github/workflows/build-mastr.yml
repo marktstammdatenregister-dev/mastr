@@ -18,16 +18,6 @@ jobs:
         run: |
           sudo wget --output-document /usr/bin/yj --no-verbose https://github.com/sclevine/yj/releases/download/v5.0.0/yj-linux
           chmod +x /usr/bin/yj
-        # Install a version of sqlite3 that support ".import --skip".
-        # https://sqlite.org/forum/forumpost/6ce1a0ae2ade74c1?t=h
-        # https://www.sqlite.org/releaselog/3_32_0.html
-      - name: Install sqlite3
-        run: |
-          wget --output-document fossil.tar.gz --no-verbose https://fossil-scm.org/home/uv/fossil-linux-x64-2.17.tar.gz
-          tar xvzf fossil.tar.gz
-          echo '#!/usr/bin/env bash
-          fossil sql --no-repository "$@"' >/usr/bin/sqlite3
-          chmod +x /usr/bin/sqlite3
       - name: Install packages
         run: >
           DEBIAN_FRONTEND=noninteractive
