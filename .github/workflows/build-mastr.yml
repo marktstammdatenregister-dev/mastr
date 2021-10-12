@@ -34,4 +34,4 @@ jobs:
       - name: Download raw data
         run: make -C mastr download
       - name: Build database
-        run: make -j4 -C mastr Marktstammdatenregister.db.br
+        run: make -j2 -C mastr Marktstammdatenregister.db.br
