@@ -22,7 +22,7 @@ jobs:
       - name: Install packages
         run: >
           DEBIAN_FRONTEND=noninteractive
-          sudo apt-get install -y
+          sudo apt-get install -y --no-install-recommends
           axel
           brotli
           libxml2-utils
@@ -30,7 +30,7 @@ jobs:
           pv
           ruby-mustache
           spatialite-bin
-          sqlite
+          sqlite3
       - name: Download raw data
         run: make -C mastr download
       - name: Build database
