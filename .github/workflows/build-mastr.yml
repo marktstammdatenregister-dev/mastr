@@ -26,10 +26,7 @@ jobs:
           axel
           brotli
           libxml2-utils
-          osmium-tool
-          pv
           ruby-mustache
-          spatialite-bin
           sqlite3
       - name: Download raw data
         run: make -C mastr download
