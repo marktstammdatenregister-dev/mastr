@@ -10,15 +10,14 @@ jobs:
         uses: actions/setup-go@v2
       - name: Install pup
         run: |
-          wget https://github.com/ericchiang/pup/releases/download/v0.4.0/pup_v0.4.0_linux_amd64.zip
+          wget --no-verbose https://github.com/ericchiang/pup/releases/download/v0.4.0/pup_v0.4.0_linux_amd64.zip
           unzip pup_*.zip
           chmod +x pup
           sudo mv pup /usr/bin/pup
       - name: Install yj
         run: |
-          wget https://github.com/sclevine/yj/releases/download/v5.0.0/yj-linux
-          chmod +x yj-linux
-          sudo mv yj-linux /usr/bin/yj
+          sudo wget --output-document /usr/bin/yj --no-verbose https://github.com/sclevine/yj/releases/download/v5.0.0/yj-linux
+          chmod +x /usr/bin/yj
       - name: Install packages
         run: >
           DEBIAN_FRONTEND=noninteractive
