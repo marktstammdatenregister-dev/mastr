@@ -1,5 +1,9 @@
 name: build-mastr
-on: [push]
+on:
+  workflow_dispatch:
+  schedule:
+      # Trigger Mondays at 07:04 UTC.
+    - cron: '7 4 * * MON'
 jobs:
   build-mastr:
     runs-on: ubuntu-latest
