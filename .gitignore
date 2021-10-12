@@ -3,3 +3,6 @@
 
 # OSM exports
 *.osm.pbf
+
+# direnv "use nix" cache
+.direnv/
