@@ -90,7 +90,12 @@ func convertXml(td *tableDescriptor, d *xml.Decoder, w *csv.Writer) error {
 	var fieldName string
 	var fieldValue []byte
 
-	w.Write(fields.header())
+	// NOTE(csv-header): It would be nicer to include the header to make the CSV files
+	// self-contained. However, if we include the header here, we must skip it during the
+	// import to SQLite. SQLite 3.32.0 added the --skip option to the .import command, but the
+	// "ubuntu-latest" GitHub Actions runner uses Ubuntu 20.04, which ships with SQLite 3.31.
+	// So overall it's just easier to not write the header here.
+	//w.Write(fields.header())
 
 	for {
 		tok, err := d.Token()

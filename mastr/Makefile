@@ -3,6 +3,8 @@
 #     make download
 #     make Marktstammdatenregister.db.br
 
+SHELL := bash
+
 # Download the latest export.
 Gesamtdatenexport.zip:
 	curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload | \
@@ -141,91 +143,81 @@ Katalogwerte.csv: Gesamtdatenexport.zip Katalogwerte.gen.xsd Katalogwerte.gen.js
 
 EinheitenSolar-csv.gen.sql: EinheitenSolar.gen.sql $(EinheitenSolar_csv)
 	cp EinheitenSolar.gen.sql $@
-	echo '.mode csv' >>$@
 	printf "%s\0" $(EinheitenSolar_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenSolar --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenSolar" >>$@'
 
 EinheitenWind-csv.gen.sql: EinheitenWind.gen.sql $(EinheitenWind_csv)
 	cp EinheitenWind.gen.sql $@
-	echo '.mode csv' >>$@
 	printf "%s\0" $(EinheitenWind_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenWind --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenWind" >>$@'
 
 EinheitenWasser-csv.gen.sql: EinheitenWasser.gen.sql $(EinheitenWasser_csv)
 	cp EinheitenWasser.gen.sql $@
-	echo '.mode csv' >>$@
 	printf "%s\0" $(EinheitenWasser_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenWasser --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenWasser" >>$@'
 
 EinheitenStromSpeicher-csv.gen.sql: EinheitenStromSpeicher.gen.sql $(EinheitenStromSpeicher_csv)
 	cp EinheitenStromSpeicher.gen.sql $@
-	echo '.mode csv' >>$@
 	printf "%s\0" $(EinheitenStromSpeicher_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenStromSpeicher --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenStromSpeicher" >>$@'
 
 EinheitenBiomasse-csv.gen.sql: EinheitenBiomasse.gen.sql $(EinheitenBiomasse_csv)
 	cp EinheitenBiomasse.gen.sql $@
-	echo '.mode csv' >>$@
 	printf "%s\0" $(EinheitenBiomasse_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenBiomasse --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenBiomasse" >>$@'
 
 AnlagenEegSolar-csv.gen.sql: AnlagenEegSolar.gen.sql $(AnlagenEegSolar_csv)
 	cp AnlagenEegSolar.gen.sql $@
-	echo '.mode csv' >>$@
 	printf "%s\0" $(AnlagenEegSolar_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenEegSolar --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenEegSolar" >>$@'
 
 AnlagenEegWind-csv.gen.sql: AnlagenEegWind.gen.sql $(AnlagenEegWind_csv)
 	cp AnlagenEegWind.gen.sql $@
-	echo '.mode csv' >>$@
 	printf "%s\0" $(AnlagenEegWind_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenEegWind --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenEegWind" >>$@'
 
 AnlagenEegWasser-csv.gen.sql: AnlagenEegWasser.gen.sql $(AnlagenEegWasser_csv)
 	cp AnlagenEegWasser.gen.sql $@
-	echo '.mode csv' >>$@
 	printf "%s\0" $(AnlagenEegWasser_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenEegWasser --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenEegWasser" >>$@'
 
 AnlagenStromSpeicher-csv.gen.sql: AnlagenStromSpeicher.gen.sql $(AnlagenStromSpeicher_csv)
 	cp AnlagenStromSpeicher.gen.sql $@
-	echo '.mode csv' >>$@
 	printf "%s\0" $(AnlagenStromSpeicher_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenStromSpeicher --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenStromSpeicher" >>$@'
 
 AnlagenEegBiomasse-csv.gen.sql: AnlagenEegBiomasse.gen.sql $(AnlagenEegBiomasse_csv)
 	cp AnlagenEegBiomasse.gen.sql $@
-	echo '.mode csv' >>$@
 	printf "%s\0" $(AnlagenEegBiomasse_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenEegBiomasse --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenEegBiomasse" >>$@'
 
 Lokationen-csv.gen.sql: Lokationen.gen.sql $(Lokationen_csv)
 	cp Lokationen.gen.sql $@
-	echo '.mode csv' >>$@
 	printf "%s\0" $(Lokationen_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Lokationen --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Lokationen" >>$@'
 
 Marktakteure-csv.gen.sql: Marktakteure.gen.sql $(Marktakteure_csv)
 	cp Marktakteure.gen.sql $@
-	echo '.mode csv' >>$@
 	printf "%s\0" $(Marktakteure_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Marktakteure --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Marktakteure" >>$@'
 
 Katalogkategorien-csv.gen.sql: Katalogkategorien.gen.sql $(Katalogkategorien_csv)
 	cp Katalogkategorien.gen.sql $@
-	echo '.mode csv' >>$@
 	printf "%s\0" $(Katalogkategorien_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Katalogkategorien --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Katalogkategorien" >>$@'
 
 Katalogwerte-csv.gen.sql: Katalogwerte.gen.sql $(Katalogwerte_csv)
 	cp Katalogwerte.gen.sql $@
-	echo '.mode csv' >>$@
 	printf "%s\0" $(Katalogwerte_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Katalogwerte --skip 1" >>$@'
+		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Katalogwerte" >>$@'
 
-Marktstammdatenregister.db: $(Marktstammdatenregister_sql)
+Marktstammdatenregister.gen.sql: $(Marktstammdatenregister_sql)
+	echo '.mode csv' >"$@"
+	cat $(Marktstammdatenregister_sql) >>"$@"
+
+Marktstammdatenregister.db: Marktstammdatenregister.gen.sql
 	rm -f $@
-	cat $(Marktstammdatenregister_sql) | sqlite3 $@
+	sqlite3 $@ <$<
 	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_Ort_Nettonennleistung on EinheitenSolar(Ort, Nettonennleistung);'
 	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_Inbetriebnahmedatum_Nettonennleistung on EinheitenSolar(Inbetriebnahmedatum, Nettonennleistung);'
 	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_DatumEndgueltigeStilllegung_Nettonennleistung on EinheitenSolar(DatumEndgueltigeStilllegung, Nettonennleistung);'
