@@ -19,10 +19,6 @@ jobs:
           chmod +x pup
           sudo mv pup /usr/bin/pup
           rm pup.zip
-      - name: Install yj
-        run: |
-          sudo wget --output-document /usr/bin/yj --no-verbose https://github.com/sclevine/yj/releases/download/v5.0.0/yj-linux
-          sudo chmod +x /usr/bin/yj
       - name: Install packages
         run: >
           DEBIAN_FRONTEND=noninteractive

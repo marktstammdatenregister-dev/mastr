@@ -3,28 +3,28 @@ package main
 import (
 	"bufio"
 	"encoding/csv"
-	"encoding/json"
 	"encoding/xml"
 	"flag"
 	"fmt"
+	"gopkg.in/yaml.v3"
 	"io"
 	"log"
 	"os"
 )
 
 type fieldDescriptor struct {
-	Name       string `json:"name"`
-	Mandatory  bool   `json:"mandatory"`
-	Xsd        string `json:"xsd"`
-	Sqlite     string `json:"sqlite"`
-	References string `json:"references"`
+	Name       string `yaml:"name"`
+	Mandatory  bool   `yaml:"mandatory"`
+	Xsd        string `yaml:"xsd"`
+	Sqlite     string `yaml:"sqlite"`
+	References string `yaml:"references"`
 }
 
 type tableDescriptor struct {
-	Root    string            `json:"root"`
-	Element string            `json:"element"`
-	Primary string            `json:"primary"`
-	Fields  []fieldDescriptor `json:"fields"`
+	Root    string            `yaml:"root"`
+	Element string            `yaml:"element"`
+	Primary string            `yaml:"primary"`
+	Fields  []fieldDescriptor `yaml:"fields"`
 }
 
 type fields struct {
@@ -46,7 +46,7 @@ func decodeDescriptor(descriptorFileName string) (*tableDescriptor, error) {
 		return nil, err
 	}
 	defer f.Close()
-	d := json.NewDecoder(f)
+	d := yaml.NewDecoder(f)
 	err = d.Decode(&tableDescriptor)
 	if err != nil {
 		return nil, err

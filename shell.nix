@@ -15,6 +15,5 @@ pkgs.mkShell {
     spatialite_tools
     sqlite
     unzip
-    yj
   ];
 }

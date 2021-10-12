@@ -59,87 +59,84 @@ Katalogwerte_csv := $(Katalogwerte_xml:%.xml=%.csv)
 
 Marktstammdatenregister_sql := EinheitenSolar-csv.gen.sql EinheitenWind-csv.gen.sql EinheitenWasser-csv.gen.sql EinheitenStromSpeicher-csv.gen.sql EinheitenBiomasse-csv.gen.sql AnlagenEegSolar-csv.gen.sql AnlagenEegWind-csv.gen.sql AnlagenEegWasser-csv.gen.sql AnlagenStromSpeicher-csv.gen.sql AnlagenEegBiomasse-csv.gen.sql Lokationen-csv.gen.sql Marktakteure-csv.gen.sql Katalogkategorien-csv.gen.sql Katalogwerte-csv.gen.sql
 
-%.gen.xsd: %.yml XSD.mustache
+%.gen.xsd: %.yaml XSD.mustache
 	mustache $< XSD.mustache >$@
 
-%.gen.sql: %.yml SQLite.mustache
+%.gen.sql: %.yaml SQLite.mustache
 	mustache $< SQLite.mustache >$@
-
-%.gen.json: %.yml
-	yj <$< >$@
 
 xml2csv: xml2csv.go
 	go build -o $@ $<
 
-EinheitenSolar_%.csv: Gesamtdatenexport.zip EinheitenSolar.gen.xsd EinheitenSolar.gen.json xml2csv
+EinheitenSolar_%.csv: Gesamtdatenexport.zip EinheitenSolar.gen.xsd EinheitenSolar.yaml xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema EinheitenSolar.gen.xsd --noout $(@:%.csv=%.xml)
-	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor EinheitenSolar.gen.json >$@
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor EinheitenSolar.yaml >$@
 
-EinheitenWind.csv: Gesamtdatenexport.zip EinheitenWind.gen.xsd EinheitenWind.gen.json xml2csv
+EinheitenWind.csv: Gesamtdatenexport.zip EinheitenWind.gen.xsd EinheitenWind.yaml xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema EinheitenWind.gen.xsd --noout $(@:%.csv=%.xml)
-	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor EinheitenWind.gen.json >$@
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor EinheitenWind.yaml >$@
 
-EinheitenWasser.csv: Gesamtdatenexport.zip EinheitenWasser.gen.xsd EinheitenWasser.gen.json xml2csv
+EinheitenWasser.csv: Gesamtdatenexport.zip EinheitenWasser.gen.xsd EinheitenWasser.yaml xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema EinheitenWasser.gen.xsd --noout $(@:%.csv=%.xml)
-	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor EinheitenWasser.gen.json >$@
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor EinheitenWasser.yaml >$@
 
-EinheitenStromSpeicher_%.csv: Gesamtdatenexport.zip EinheitenStromSpeicher.gen.xsd EinheitenStromSpeicher.gen.json xml2csv
+EinheitenStromSpeicher_%.csv: Gesamtdatenexport.zip EinheitenStromSpeicher.gen.xsd EinheitenStromSpeicher.yaml xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema EinheitenStromSpeicher.gen.xsd --noout $(@:%.csv=%.xml)
-	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor EinheitenStromSpeicher.gen.json >$@
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor EinheitenStromSpeicher.yaml >$@
 
-EinheitenBiomasse.csv: Gesamtdatenexport.zip EinheitenBiomasse.gen.xsd EinheitenBiomasse.gen.json xml2csv
+EinheitenBiomasse.csv: Gesamtdatenexport.zip EinheitenBiomasse.gen.xsd EinheitenBiomasse.yaml xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema EinheitenBiomasse.gen.xsd --noout $(@:%.csv=%.xml)
-	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor EinheitenBiomasse.gen.json >$@
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor EinheitenBiomasse.yaml >$@
 
-AnlagenEegSolar_%.csv: Gesamtdatenexport.zip AnlagenEegSolar.gen.xsd AnlagenEegSolar.gen.json xml2csv
+AnlagenEegSolar_%.csv: Gesamtdatenexport.zip AnlagenEegSolar.gen.xsd AnlagenEegSolar.yaml xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema AnlagenEegSolar.gen.xsd --noout $(@:%.csv=%.xml)
-	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor AnlagenEegSolar.gen.json >$@
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor AnlagenEegSolar.yaml >$@
 
-AnlagenEegWind.csv: Gesamtdatenexport.zip AnlagenEegWind.gen.xsd AnlagenEegWind.gen.json xml2csv
+AnlagenEegWind.csv: Gesamtdatenexport.zip AnlagenEegWind.gen.xsd AnlagenEegWind.yaml xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema AnlagenEegWind.gen.xsd --noout $(@:%.csv=%.xml)
-	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor AnlagenEegWind.gen.json >$@
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor AnlagenEegWind.yaml >$@
 
-AnlagenEegWasser.csv: Gesamtdatenexport.zip AnlagenEegWasser.gen.xsd AnlagenEegWasser.gen.json xml2csv
+AnlagenEegWasser.csv: Gesamtdatenexport.zip AnlagenEegWasser.gen.xsd AnlagenEegWasser.yaml xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema AnlagenEegWasser.gen.xsd --noout $(@:%.csv=%.xml)
-	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor AnlagenEegWasser.gen.json >$@
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor AnlagenEegWasser.yaml >$@
 
-AnlagenStromSpeicher_%.csv: Gesamtdatenexport.zip AnlagenStromSpeicher.gen.xsd AnlagenStromSpeicher.gen.json xml2csv
+AnlagenStromSpeicher_%.csv: Gesamtdatenexport.zip AnlagenStromSpeicher.gen.xsd AnlagenStromSpeicher.yaml xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema AnlagenStromSpeicher.gen.xsd --noout $(@:%.csv=%.xml)
-	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor AnlagenStromSpeicher.gen.json >$@
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor AnlagenStromSpeicher.yaml >$@
 
-AnlagenEegBiomasse.csv: Gesamtdatenexport.zip AnlagenEegBiomasse.gen.xsd AnlagenEegBiomasse.gen.json xml2csv
+AnlagenEegBiomasse.csv: Gesamtdatenexport.zip AnlagenEegBiomasse.gen.xsd AnlagenEegBiomasse.yaml xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema AnlagenEegBiomasse.gen.xsd --noout $(@:%.csv=%.xml)
-	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor AnlagenEegBiomasse.gen.json >$@
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor AnlagenEegBiomasse.yaml >$@
 
-Lokationen_%.csv: Gesamtdatenexport.zip Lokationen.gen.xsd Lokationen.gen.json xml2csv
+Lokationen_%.csv: Gesamtdatenexport.zip Lokationen.gen.xsd Lokationen.yaml xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema Lokationen.gen.xsd --noout $(@:%.csv=%.xml)
-	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor Lokationen.gen.json >$@
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor Lokationen.yaml >$@
 
-Marktakteure_%.csv: Gesamtdatenexport.zip Marktakteure.gen.xsd Marktakteure.gen.json xml2csv
+Marktakteure_%.csv: Gesamtdatenexport.zip Marktakteure.gen.xsd Marktakteure.yaml xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema Marktakteure.gen.xsd --noout $(@:%.csv=%.xml)
-	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor Marktakteure.gen.json >$@
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor Marktakteure.yaml >$@
 
-Katalogkategorien.csv: Gesamtdatenexport.zip Katalogkategorien.gen.xsd Katalogkategorien.gen.json xml2csv
+Katalogkategorien.csv: Gesamtdatenexport.zip Katalogkategorien.gen.xsd Katalogkategorien.yaml xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema Katalogkategorien.gen.xsd --noout $(@:%.csv=%.xml)
-	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor Katalogkategorien.gen.json >$@
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor Katalogkategorien.yaml >$@
 
-Katalogwerte.csv: Gesamtdatenexport.zip Katalogwerte.gen.xsd Katalogwerte.gen.json xml2csv
+Katalogwerte.csv: Gesamtdatenexport.zip Katalogwerte.gen.xsd Katalogwerte.yaml xml2csv
 	unzip -qo $< $(subst ,,$(@:%.csv=%.xml))
 	xmllint --schema Katalogwerte.gen.xsd --noout $(@:%.csv=%.xml)
-	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor Katalogwerte.gen.json >$@
+	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor Katalogwerte.yaml >$@
 
 EinheitenSolar-csv.gen.sql: EinheitenSolar.gen.sql $(EinheitenSolar_csv)
 	cp EinheitenSolar.gen.sql $@
