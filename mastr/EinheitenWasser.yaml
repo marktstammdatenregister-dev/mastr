@@ -14,7 +14,9 @@ fields:
     sqlite: text
     mandatory: true
   - name: LokationMaStRNummer
-    references: Lokationen(MastrNummer)
+    references:
+      table: Lokationen
+      column: MastrNummer
   - name: NetzbetreiberpruefungStatus
     xsd: nonNegativeInteger
     sqlite: integer
@@ -22,16 +24,22 @@ fields:
   - name: NetzbetreiberpruefungDatum
     xsd: date
   - name: AnlagenbetreiberMastrNummer
-    references: Marktakteure(MastrNummer)
+    references:
+      table: Marktakteure
+      column: MastrNummer
   - name: Land
     xsd: nonNegativeInteger
     sqlite: integer
     mandatory: true
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: Bundesland
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: Landkreis
   - name: Gemeinde
   - name: Gemeindeschluessel
@@ -67,11 +75,15 @@ fields:
   - name: EinheitSystemstatus
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: EinheitBetriebsstatus
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: BestandsanlageMastrNummer
   - name: NichtVorhandenInMigriertenEinheiten
     xsd: boolean
@@ -98,7 +110,9 @@ fields:
     xsd: nonNegativeInteger
     sqlite: integer
     mandatory: true
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: Bruttoleistung
     xsd: decimal
     sqlite: real
@@ -129,7 +143,9 @@ fields:
   - name: Einspeisungsart
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: PraequalifiziertFuerRegelenergie
     xsd: boolean
     sqlite: integer
@@ -139,7 +155,9 @@ fields:
   - name: ArtDerWasserkraftanlage
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: AnzeigeEinerStilllegung
     xsd: boolean
     sqlite: integer
@@ -147,7 +165,9 @@ fields:
   - name: ArtDerStilllegung
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: DatumBeginnVorlaeufigenOderEndgueltigenStilllegung
     xsd: dateTime
     sqlite: text
@@ -165,7 +185,11 @@ fields:
   - name: ArtDesZuflusses
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: EegMaStRNummer
-    references: AnlagenEegWasser(EegMaStRNummer)
+    references:
+      table: AnlagenEegWasser
+      column: EegMaStRNummer
 ---

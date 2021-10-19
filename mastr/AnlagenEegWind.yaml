@@ -76,6 +76,8 @@ fields:
     xsd: nonNegativeInteger
     sqlite: integer
     mandatory: true
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: VerknuepfteEinheitenMaStRNummern
 ---

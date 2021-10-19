@@ -18,5 +18,7 @@ fields:
     xsd: nonNegativeInteger
     sqlite: integer
     mandatory: true
-    references: Katalogkategorien(Id)
+    references:
+      table: Katalogkategorien
+      column: Id
 ---

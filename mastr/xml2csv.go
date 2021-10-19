@@ -12,12 +12,17 @@ import (
 	"os"
 )
 
+type reference struct {
+	Table  string `yaml:"table"`
+	Column string `yaml:"column"`
+}
+
 type fieldDescriptor struct {
-	Name       string `yaml:"name"`
-	Mandatory  bool   `yaml:"mandatory"`
-	Xsd        string `yaml:"xsd"`
-	Sqlite     string `yaml:"sqlite"`
-	References string `yaml:"references"`
+	Name       string    `yaml:"name"`
+	Mandatory  bool      `yaml:"mandatory"`
+	Xsd        string    `yaml:"xsd"`
+	Sqlite     string    `yaml:"sqlite"`
+	References reference `yaml:"references"`
 }
 
 type tableDescriptor struct {

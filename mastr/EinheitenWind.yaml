@@ -14,7 +14,9 @@ fields:
     sqlite: text
     mandatory: true
   - name: LokationMaStRNummer
-    references: Lokationen(MastrNummer)
+    references:
+      table: Lokationen
+      column: MastrNummer
   - name: NetzbetreiberpruefungStatus
     xsd: nonNegativeInteger
     sqlite: integer
@@ -22,16 +24,22 @@ fields:
   - name: NetzbetreiberpruefungDatum
     xsd: date
   - name: AnlagenbetreiberMastrNummer
-    references: Marktakteure(MastrNummer)
+    references:
+      table: Marktakteure
+      column: MastrNummer
   - name: Land
     xsd: nonNegativeInteger
     sqlite: integer
     mandatory: true
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: Bundesland
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: Landkreis
   - name: Gemeinde
   - name: Gemeindeschluessel
@@ -67,11 +75,15 @@ fields:
   - name: EinheitSystemstatus
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: EinheitBetriebsstatus
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: BestandsanlageMastrNummer
   - name: NichtVorhandenInMigriertenEinheiten
     xsd: boolean
@@ -98,7 +110,9 @@ fields:
     xsd: nonNegativeInteger
     sqlite: integer
     mandatory: true
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: Bruttoleistung
     xsd: decimal
     sqlite: real
@@ -129,7 +143,9 @@ fields:
   - name: Einspeisungsart
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: PraequalifiziertFuerRegelenergie
     xsd: boolean
     sqlite: integer
@@ -140,27 +156,39 @@ fields:
     mandatory: true
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: Seelage
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: ClusterOstsee
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: ClusterNordsee
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: Hersteller
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: Technologie
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: Typenbezeichnung
     #mandatory: true
   - name: Nabenhoehe
@@ -205,5 +233,7 @@ fields:
     xsd: decimal
     sqlite: real
   - name: EegMaStRNummer
-    references: AnlagenEegWind(EegMaStRNummer)
+    references:
+      table: AnlagenEegWind
+      column: EegMaStRNummer
 ---

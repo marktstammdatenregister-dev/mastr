@@ -14,7 +14,9 @@ fields:
     sqlite: text
     mandatory: true
   - name: LokationMaStRNummer
-    references: Lokationen(MastrNummer)
+    references:
+      table: Lokationen
+      column: MastrNummer
   - name: NetzbetreiberpruefungStatus
     xsd: nonNegativeInteger
     sqlite: integer
@@ -22,16 +24,22 @@ fields:
   - name: NetzbetreiberpruefungDatum
     xsd: date
   - name: AnlagenbetreiberMastrNummer
-    references: Marktakteure(MastrNummer)
+    references:
+      table: Marktakteure
+      column: MastrNummer
   - name: Land
     xsd: nonNegativeInteger
     sqlite: integer
     mandatory: true
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: Bundesland
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: Landkreis
   - name: Gemeinde
   - name: Gemeindeschluessel
@@ -67,11 +75,15 @@ fields:
   - name: EinheitSystemstatus
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: EinheitBetriebsstatus
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: BestandsanlageMastrNummer
   - name: NichtVorhandenInMigriertenEinheiten
     xsd: boolean
@@ -98,7 +110,9 @@ fields:
     xsd: nonNegativeInteger
     sqlite: integer
     mandatory: true
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: Bruttoleistung
     xsd: decimal
     sqlite: real
@@ -129,7 +143,9 @@ fields:
   - name: Einspeisungsart
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: PraequalifiziertFuerRegelenergie
     xsd: boolean
     sqlite: integer
@@ -137,15 +153,21 @@ fields:
   - name: Einsatzort
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: AcDcKoppelung
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: Batterietechnologie
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: PumpbetriebLeistungsaufnahme
     xsd: decimal
     sqlite: real
@@ -155,7 +177,9 @@ fields:
   - name: Pumpspeichertechnologie
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
   - name: Notstromaggregat
     xsd: boolean
     sqlite: integer
@@ -167,7 +191,9 @@ fields:
     sqlite: real
   - name: ZugeordnenteWirkleistungWechselrichter
   - name: SpeMastrNummer
-    references: AnlagenStromSpeicher(MaStRNummer)
+    references:
+      table: AnlagenStromSpeicher
+      column: MaStRNummer
   - name: EegMaStRNummer
     #mandatory: true
   - name: EegAnlagentyp
@@ -177,5 +203,7 @@ fields:
   - name: Technologie
     xsd: nonNegativeInteger
     sqlite: integer
-    references: Katalogwerte(Id)
+    references:
+      table: Katalogwerte
+      column: Id
 ---
