@@ -167,7 +167,7 @@ fields:
     sqlite: real
   - name: ZugeordnenteWirkleistungWechselrichter
   - name: SpeMastrNummer
-    references: AnlagenStromSpeicher(EegMaStRNummer)
+    references: AnlagenStromSpeicher(MaStRNummer)
   - name: EegMaStRNummer
     #mandatory: true
   - name: EegAnlagentyp
