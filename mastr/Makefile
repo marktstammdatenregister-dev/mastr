@@ -57,7 +57,21 @@ Katalogkategorien_csv := $(Katalogkategorien_xml:%.xml=%.csv)
 Katalogwerte_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'Katalogwerte')
 Katalogwerte_csv := $(Katalogwerte_xml:%.xml=%.csv)
 
-Marktstammdatenregister_sql := EinheitenSolar-csv.gen.sql EinheitenWind-csv.gen.sql EinheitenWasser-csv.gen.sql EinheitenStromSpeicher-csv.gen.sql EinheitenBiomasse-csv.gen.sql AnlagenEegSolar-csv.gen.sql AnlagenEegWind-csv.gen.sql AnlagenEegWasser-csv.gen.sql AnlagenStromSpeicher-csv.gen.sql AnlagenEegBiomasse-csv.gen.sql Lokationen-csv.gen.sql Marktakteure-csv.gen.sql Katalogkategorien-csv.gen.sql Katalogwerte-csv.gen.sql
+Marktstammdatenregister_sql := \
+Lokationen-csv.gen.sql \
+Katalogkategorien-csv.gen.sql \
+Katalogwerte-csv.gen.sql \
+Marktakteure-csv.gen.sql \
+AnlagenEegBiomasse-csv.gen.sql \
+AnlagenEegSolar-csv.gen.sql \
+AnlagenEegWasser-csv.gen.sql \
+AnlagenEegWind-csv.gen.sql \
+AnlagenStromSpeicher-csv.gen.sql \
+EinheitenBiomasse-csv.gen.sql \
+EinheitenSolar-csv.gen.sql \
+EinheitenStromSpeicher-csv.gen.sql \
+EinheitenWasser-csv.gen.sql \
+EinheitenWind-csv.gen.sql
 
 %.gen.xsd: %.yaml XSD.mustache
 	mustache $< XSD.mustache >$@
@@ -139,92 +153,123 @@ Katalogwerte.csv: Gesamtdatenexport.zip Katalogwerte.gen.xsd Katalogwerte.yaml x
 	iconv -f utf-16 -t utf-8 <$(@:%.csv=%.xml) | ./xml2csv -descriptor Katalogwerte.yaml >$@
 
 EinheitenSolar-csv.gen.sql: EinheitenSolar.gen.sql $(EinheitenSolar_csv)
-	cp EinheitenSolar.gen.sql $@
-	for f in $(EinheitenWind_csv); do \
-		printf '\COPY "EinheitenSolar" FROM %s CSV;' "'$$f'" >>"$@"; \
+	echo 'BEGIN;' >$@
+	cat EinheitenSolar.gen.sql >>$@
+	for f in $(EinheitenSolar_csv); do \
+		printf '\COPY "EinheitenSolar" FROM %s CSV;\n' "'$$f'" >>"$@"; \
 	done
+	echo 'COMMIT;' >>$@
 
 EinheitenWind-csv.gen.sql: EinheitenWind.gen.sql $(EinheitenWind_csv)
-	cp EinheitenWind.gen.sql $@
+	echo 'BEGIN;' >$@
+	cat EinheitenWind.gen.sql >>$@
 	for f in $(EinheitenWind_csv); do \
-		printf '\COPY "EinheitenWind" FROM %s CSV;' "'$$f'" >>"$@"; \
+		printf '\COPY "EinheitenWind" FROM %s CSV;\n' "'$$f'" >>"$@"; \
 	done
+	echo 'COMMIT;' >>$@
 
 EinheitenWasser-csv.gen.sql: EinheitenWasser.gen.sql $(EinheitenWasser_csv)
-	cp EinheitenWasser.gen.sql $@
+	echo 'BEGIN;' >$@
+	cat EinheitenWasser.gen.sql >>$@
 	for f in $(EinheitenWasser_csv); do \
-		printf '\COPY "EinheitenWasser" FROM %s CSV;' "'$$f'" >>"$@"; \
+		printf '\COPY "EinheitenWasser" FROM %s CSV;\n' "'$$f'" >>"$@"; \
 	done
+	echo 'COMMIT;' >>$@
 
 EinheitenStromSpeicher-csv.gen.sql: EinheitenStromSpeicher.gen.sql $(EinheitenStromSpeicher_csv)
-	cp EinheitenStromSpeicher.gen.sql $@
+	echo 'BEGIN;' >$@
+	cat EinheitenStromSpeicher.gen.sql >>$@
 	for f in $(EinheitenStromSpeicher_csv); do \
-		printf '\COPY "EinheitenStromSpeicher" FROM %s CSV;' "'$$f'" >>"$@"; \
+		printf '\COPY "EinheitenStromSpeicher" FROM %s CSV;\n' "'$$f'" >>"$@"; \
 	done
+	echo 'COMMIT;' >>$@
 
 EinheitenBiomasse-csv.gen.sql: EinheitenBiomasse.gen.sql $(EinheitenBiomasse_csv)
-	cp EinheitenBiomasse.gen.sql $@
+	echo 'BEGIN;' >$@
+	cat EinheitenBiomasse.gen.sql >>$@
 	for f in $(EinheitenBiomasse_csv); do \
-		printf '\COPY "EinheitenBiomasse" FROM %s CSV;' "'$$f'" >>"$@"; \
+		printf '\COPY "EinheitenBiomasse" FROM %s CSV;\n' "'$$f'" >>"$@"; \
 	done
+	echo 'COMMIT;' >>$@
 
 AnlagenEegSolar-csv.gen.sql: AnlagenEegSolar.gen.sql $(AnlagenEegSolar_csv)
-	cp AnlagenEegSolar.gen.sql $@
+	echo 'BEGIN;' >$@
+	cat AnlagenEegSolar.gen.sql >>$@
 	for f in $(AnlagenEegSolar_csv); do \
-		printf '\COPY "AnlagenEegSolar" FROM %s CSV;' "'$$f'" >>"$@"; \
+		printf '\COPY "AnlagenEegSolar" FROM %s CSV;\n' "'$$f'" >>"$@"; \
 	done
+	echo 'COMMIT;' >>$@
 
 AnlagenEegWind-csv.gen.sql: AnlagenEegWind.gen.sql $(AnlagenEegWind_csv)
-	cp AnlagenEegWind.gen.sql $@
+	echo 'BEGIN;' >$@
+	cat AnlagenEegWind.gen.sql >>$@
 	for f in $(AnlagenEegWind_csv); do \
-		printf '\COPY "AnlagenEegWind" FROM %s CSV;' "'$$f'" >>"$@"; \
+		printf '\COPY "AnlagenEegWind" FROM %s CSV;\n' "'$$f'" >>"$@"; \
 	done
+	echo 'COMMIT;' >>$@
 
 AnlagenEegWasser-csv.gen.sql: AnlagenEegWasser.gen.sql $(AnlagenEegWasser_csv)
-	cp AnlagenEegWasser.gen.sql $@
+	echo 'BEGIN;' >$@
+	cat AnlagenEegWasser.gen.sql >>$@
 	for f in $(AnlagenEegWasser_csv); do \
-		printf '\COPY "AnlagenEegWasser" FROM %s CSV;' "'$$f'" >>"$@"; \
+		printf '\COPY "AnlagenEegWasser" FROM %s CSV;\n' "'$$f'" >>"$@"; \
 	done
+	echo 'COMMIT;' >>$@
 
 AnlagenStromSpeicher-csv.gen.sql: AnlagenStromSpeicher.gen.sql $(AnlagenStromSpeicher_csv)
-	cp AnlagenStromSpeicher.gen.sql $@
+	echo 'BEGIN;' >$@
+	cat AnlagenStromSpeicher.gen.sql >>$@
 	for f in $(AnlagenStromSpeicher_csv); do \
-		printf '\COPY "AnlagenStromSpeicher" FROM %s CSV;' "'$$f'" >>"$@"; \
+		printf '\COPY "AnlagenStromSpeicher" FROM %s CSV;\n' "'$$f'" >>"$@"; \
 	done
+	echo 'COMMIT;' >>$@
 
 AnlagenEegBiomasse-csv.gen.sql: AnlagenEegBiomasse.gen.sql $(AnlagenEegBiomasse_csv)
-	cp AnlagenEegBiomasse.gen.sql $@
+	echo 'BEGIN;' >$@
+	cat AnlagenEegBiomasse.gen.sql >>$@
 	for f in $(AnlagenEegBiomasse_csv); do \
-		printf '\COPY "AnlagenEegBiomasse" FROM %s CSV;' "'$$f'" >>"$@"; \
+		printf '\COPY "AnlagenEegBiomasse" FROM %s CSV;\n' "'$$f'" >>"$@"; \
 	done
+	echo 'COMMIT;' >>$@
 
 Lokationen-csv.gen.sql: Lokationen.gen.sql $(Lokationen_csv)
-	cp Lokationen.gen.sql $@
+	echo 'BEGIN;' >$@
+	cat Lokationen.gen.sql >>$@
 	for f in $(Lokationen_csv); do \
-		printf '\COPY "Lokationen" FROM %s CSV;' "'$$f'" >>"$@"; \
+		printf '\COPY "Lokationen" FROM %s CSV;\n' "'$$f'" >>"$@"; \
 	done
+	echo 'COMMIT;' >>$@
 
 Marktakteure-csv.gen.sql: Marktakteure.gen.sql $(Marktakteure_csv)
-	cp Marktakteure.gen.sql $@
+	echo 'BEGIN;' >$@
+	cat Marktakteure.gen.sql >>$@
 	for f in $(Marktakteure_csv); do \
-		printf '\COPY "Marktakteure" FROM %s CSV;' "'$$f'" >>"$@"; \
+		printf '\COPY "Marktakteure" FROM %s CSV;\n' "'$$f'" >>"$@"; \
 	done
+	echo 'COMMIT;' >>$@
 
 Katalogkategorien-csv.gen.sql: Katalogkategorien.gen.sql $(Katalogkategorien_csv)
-	cp Katalogkategorien.gen.sql $@
+	echo 'BEGIN;' >$@
+	cat Katalogkategorien.gen.sql >>$@
 	for f in $(Katalogkategorien_csv); do \
-		printf '\COPY "Katalogkategorien" FROM %s CSV;' "'$$f'" >>"$@"; \
+		printf '\COPY "Katalogkategorien" FROM %s CSV;\n' "'$$f'" >>"$@"; \
 	done
+	echo 'COMMIT;' >>$@
 
 Katalogwerte-csv.gen.sql: Katalogwerte.gen.sql $(Katalogwerte_csv)
-	cp Katalogwerte.gen.sql $@
+	echo 'BEGIN;' >$@
+	cat Katalogwerte.gen.sql >>$@
 	for f in $(Katalogwerte_csv); do \
-		printf '\COPY "Katalogwerte" FROM %s CSV;' "'$$f'" >>"$@"; \
+		printf '\COPY "Katalogwerte" FROM %s CSV;\n' "'$$f'" >>"$@"; \
 	done
+	echo 'COMMIT;' >>$@
 
 Marktstammdatenregister.gen.sql: $(Marktstammdatenregister_sql)
-	echo '.mode csv' >"$@"
-	cat $(Marktstammdatenregister_sql) >>"$@"
+	cat $(Marktstammdatenregister_sql) >"$@"
+
+.PHONY: pg-insert
+pg-insert: Marktstammdatenregister.gen.sql
+	psql -h localhost -U user db <$<
 
 Marktstammdatenregister.db: Marktstammdatenregister.gen.sql
 	rm -f $@
