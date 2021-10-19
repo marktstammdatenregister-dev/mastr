@@ -62,8 +62,8 @@ Marktstammdatenregister_sql := EinheitenSolar-csv.gen.sql EinheitenWind-csv.gen.
 %.gen.xsd: %.yaml XSD.mustache
 	mustache $< XSD.mustache >$@
 
-%.gen.sql: %.yaml SQLite.mustache
-	mustache $< SQLite.mustache >$@
+%.gen.sql: %.yaml PostgreSQL.mustache
+	mustache $< PostgreSQL.mustache >$@
 
 xml2csv: xml2csv.go
 	go build -o $@ $<
@@ -140,73 +140,87 @@ Katalogwerte.csv: Gesamtdatenexport.zip Katalogwerte.gen.xsd Katalogwerte.yaml x
 
 EinheitenSolar-csv.gen.sql: EinheitenSolar.gen.sql $(EinheitenSolar_csv)
 	cp EinheitenSolar.gen.sql $@
-	printf "%s\0" $(EinheitenSolar_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenSolar" >>$@'
+	for f in $(EinheitenWind_csv); do \
+		printf '\COPY "EinheitenSolar" FROM %s CSV;' "'$$f'" >>"$@"; \
+	done
 
 EinheitenWind-csv.gen.sql: EinheitenWind.gen.sql $(EinheitenWind_csv)
 	cp EinheitenWind.gen.sql $@
-	printf "%s\0" $(EinheitenWind_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenWind" >>$@'
+	for f in $(EinheitenWind_csv); do \
+		printf '\COPY "EinheitenWind" FROM %s CSV;' "'$$f'" >>"$@"; \
+	done
 
 EinheitenWasser-csv.gen.sql: EinheitenWasser.gen.sql $(EinheitenWasser_csv)
 	cp EinheitenWasser.gen.sql $@
-	printf "%s\0" $(EinheitenWasser_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenWasser" >>$@'
+	for f in $(EinheitenWasser_csv); do \
+		printf '\COPY "EinheitenWasser" FROM %s CSV;' "'$$f'" >>"$@"; \
+	done
 
 EinheitenStromSpeicher-csv.gen.sql: EinheitenStromSpeicher.gen.sql $(EinheitenStromSpeicher_csv)
 	cp EinheitenStromSpeicher.gen.sql $@
-	printf "%s\0" $(EinheitenStromSpeicher_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenStromSpeicher" >>$@'
+	for f in $(EinheitenStromSpeicher_csv); do \
+		printf '\COPY "EinheitenStromSpeicher" FROM %s CSV;' "'$$f'" >>"$@"; \
+	done
 
 EinheitenBiomasse-csv.gen.sql: EinheitenBiomasse.gen.sql $(EinheitenBiomasse_csv)
 	cp EinheitenBiomasse.gen.sql $@
-	printf "%s\0" $(EinheitenBiomasse_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} EinheitenBiomasse" >>$@'
+	for f in $(EinheitenBiomasse_csv); do \
+		printf '\COPY "EinheitenBiomasse" FROM %s CSV;' "'$$f'" >>"$@"; \
+	done
 
 AnlagenEegSolar-csv.gen.sql: AnlagenEegSolar.gen.sql $(AnlagenEegSolar_csv)
 	cp AnlagenEegSolar.gen.sql $@
-	printf "%s\0" $(AnlagenEegSolar_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenEegSolar" >>$@'
+	for f in $(AnlagenEegSolar_csv); do \
+		printf '\COPY "AnlagenEegSolar" FROM %s CSV;' "'$$f'" >>"$@"; \
+	done
 
 AnlagenEegWind-csv.gen.sql: AnlagenEegWind.gen.sql $(AnlagenEegWind_csv)
 	cp AnlagenEegWind.gen.sql $@
-	printf "%s\0" $(AnlagenEegWind_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenEegWind" >>$@'
+	for f in $(AnlagenEegWind_csv); do \
+		printf '\COPY "AnlagenEegWind" FROM %s CSV;' "'$$f'" >>"$@"; \
+	done
 
 AnlagenEegWasser-csv.gen.sql: AnlagenEegWasser.gen.sql $(AnlagenEegWasser_csv)
 	cp AnlagenEegWasser.gen.sql $@
-	printf "%s\0" $(AnlagenEegWasser_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenEegWasser" >>$@'
+	for f in $(AnlagenEegWasser_csv); do \
+		printf '\COPY "AnlagenEegWasser" FROM %s CSV;' "'$$f'" >>"$@"; \
+	done
 
 AnlagenStromSpeicher-csv.gen.sql: AnlagenStromSpeicher.gen.sql $(AnlagenStromSpeicher_csv)
 	cp AnlagenStromSpeicher.gen.sql $@
-	printf "%s\0" $(AnlagenStromSpeicher_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenStromSpeicher" >>$@'
+	for f in $(AnlagenStromSpeicher_csv); do \
+		printf '\COPY "AnlagenStromSpeicher" FROM %s CSV;' "'$$f'" >>"$@"; \
+	done
 
 AnlagenEegBiomasse-csv.gen.sql: AnlagenEegBiomasse.gen.sql $(AnlagenEegBiomasse_csv)
 	cp AnlagenEegBiomasse.gen.sql $@
-	printf "%s\0" $(AnlagenEegBiomasse_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} AnlagenEegBiomasse" >>$@'
+	for f in $(AnlagenEegBiomasse_csv); do \
+		printf '\COPY "AnlagenEegBiomasse" FROM %s CSV;' "'$$f'" >>"$@"; \
+	done
 
 Lokationen-csv.gen.sql: Lokationen.gen.sql $(Lokationen_csv)
 	cp Lokationen.gen.sql $@
-	printf "%s\0" $(Lokationen_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Lokationen" >>$@'
+	for f in $(Lokationen_csv); do \
+		printf '\COPY "Lokationen" FROM %s CSV;' "'$$f'" >>"$@"; \
+	done
 
 Marktakteure-csv.gen.sql: Marktakteure.gen.sql $(Marktakteure_csv)
 	cp Marktakteure.gen.sql $@
-	printf "%s\0" $(Marktakteure_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Marktakteure" >>$@'
+	for f in $(Marktakteure_csv); do \
+		printf '\COPY "Marktakteure" FROM %s CSV;' "'$$f'" >>"$@"; \
+	done
 
 Katalogkategorien-csv.gen.sql: Katalogkategorien.gen.sql $(Katalogkategorien_csv)
 	cp Katalogkategorien.gen.sql $@
-	printf "%s\0" $(Katalogkategorien_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Katalogkategorien" >>$@'
+	for f in $(Katalogkategorien_csv); do \
+		printf '\COPY "Katalogkategorien" FROM %s CSV;' "'$$f'" >>"$@"; \
+	done
 
 Katalogwerte-csv.gen.sql: Katalogwerte.gen.sql $(Katalogwerte_csv)
 	cp Katalogwerte.gen.sql $@
-	printf "%s\0" $(Katalogwerte_csv) | \
-		xargs -0 --no-run-if-empty -I'{}' sh -c 'echo ".import {} Katalogwerte" >>$@'
+	for f in $(Katalogwerte_csv); do \
+		printf '\COPY "Katalogwerte" FROM %s CSV;' "'$$f'" >>"$@"; \
+	done
 
 Marktstammdatenregister.gen.sql: $(Marktstammdatenregister_sql)
 	echo '.mode csv' >"$@"
