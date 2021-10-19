@@ -1,4 +1,4 @@
-create table '{{element}}' (
+create table '{{root}}' (
   {{#fields}}
   '{{name}}' {{#sqlite}}{{sqlite}}{{/sqlite}}{{^sqlite}}text{{/sqlite}}{{#mandatory}} not null{{/mandatory}}{{#references}} references {{table}}({{column}}) deferrable initially deferred{{/references}},
   {{/fields}}
