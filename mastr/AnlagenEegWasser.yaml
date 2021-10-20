@@ -9,12 +9,15 @@ fields:
   #   mandatory: false
   - name: Registrierungsdatum
     xsd: date
+    psql: date
     #mandatory: true
   - name: DatumLetzteAktualisierung
     xsd: dateTime
+    psql: timestamp
     mandatory: true
   - name: EegInbetriebnahmedatum
     xsd: date
+    psql: date
   - name: EegMaStRNummer
     mandatory: true
   - name: AnlagenschluesselEeg
@@ -22,13 +25,16 @@ fields:
     #mandatory: true
   - name: AnlagenkennzifferAnlagenregister_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
     mandatory: true
   - name: InstallierteLeistung
     xsd: decimal
+    psql: real
     sqlite: real
   - name: AnlageBetriebsstatus
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     mandatory: true
     references:

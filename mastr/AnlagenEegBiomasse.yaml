@@ -9,65 +9,84 @@ fields:
   #   mandatory: false
   - name: Registrierungsdatum
     xsd: date
+    psql: date
     #mandatory: true
   - name: DatumLetzteAktualisierung
     xsd: dateTime
+    psql: timestamp
     mandatory: true
   - name: EegInbetriebnahmedatum
     xsd: date
+    psql: date
   - name: EegMaStRNummer
     mandatory: true
   - name: AnlagenschluesselEeg
   - name: AnlagenkennzifferAnlagenregister
   - name: AnlagenkennzifferAnlagenregister_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
     mandatory: true
   - name: InstallierteLeistung
     xsd: decimal
+    psql: real
     sqlite: real
   - name: AusschliesslicheVerwendungBiomasse
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: AusschreibungZuschlag
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: ZugeordneteGebotsmenge
     xsd: decimal
+    psql: real
     sqlite: real
   - name: Zuschlagsnummer
   - name: BiogasInanspruchnahmeFlexiPraemie
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: BiogasDatumInanspruchnahmeFlexiPraemie
     xsd: date
+    psql: date
   - name: BiogasLeistungserhoehung
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: BiogasDatumLeistungserhoehung
     xsd: date
+    psql: date
   - name: BiogasUmfangLeistungserhoehung
     xsd: decimal
+    psql: real
     sqlite: real
   - name: BiogasGaserzeugungskapazitaet
     xsd: decimal
+    psql: real
     sqlite: real
     #mandatory: true
   - name: BiogasGaserzeugungskapazitaet_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
     mandatory: true
   - name: BiogasHoechstbemessungsleistung
     xsd: decimal
+    psql: real
     sqlite: real
   - name: BiomethanErstmaligerEinsatz
     xsd: date
+    psql: date
   - name: BiomethanErstmaligerEinsatz_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
     mandatory: true
   - name: AnlageBetriebsstatus
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     mandatory: true
     references:

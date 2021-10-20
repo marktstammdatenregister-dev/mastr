@@ -9,49 +9,63 @@ fields:
   #   mandatory: false
   - name: Registrierungsdatum
     xsd: date
+    psql: date
     mandatory: true
   - name: DatumLetzteAktualisierung
     xsd: dateTime
+    psql: timestamp
     mandatory: true
   - name: EegInbetriebnahmedatum
     xsd: date
+    psql: date
   - name: EegMaStRNummer
     mandatory: true
   - name: InanspruchnahmeZahlungNachEeg
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: AnlagenschluesselEeg
   - name: AnlagenkennzifferAnlagenregister
   - name: AnlagenkennzifferAnlagenregister_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
     mandatory: true
   - name: InstallierteLeistung
     xsd: decimal
+    psql: real
     sqlite: real
   - name: RegistrierungsnummerPvMeldeportal
   - name: RegistrierungsnummerPvMeldeportal_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
     mandatory: true
   - name: MieterstromZugeordnet
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: MieterstromRegistrierungsdatum
     xsd: date
+    psql: date
   - name: MieterstromMeldedatum # Not mentioned in the documentation
     xsd: date
+    psql: date
   - name: MieterstromErsteZuordnungZuschlag
     xsd: date
+    psql: date
   - name: AusschreibungZuschlag
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: ZugeordneteGebotsmenge
     xsd: decimal
+    psql: real
     sqlite: real
   - name: Zuschlagsnummer
   - name: AnlageBetriebsstatus
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     mandatory: true
     references:
