@@ -1,4 +1,10 @@
 ```
+docker run --rm -e 'POSTGRES_USER=user' -e 'POSTGRES_PASSWORD=pass' -e 'POSTGRES_DB=db' -p '5432:5432' postgres:13
+find . -name 'EinheitenSolar_*.xml' |
+  xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2csv -descriptor EinheitenSolar.yaml -database postgres://user:pass@localhost:5432/db'
+```
+
+```
 ogr2ogr -f SQLite out.sqlite karlsruhe-regbez-latest.osm.pbf -progress -dsco SPATIALITE=YES -gt 65536
 ogr2ogr -f SQLite out-shape.sqlite ~/Downloads/karlsruhe-regbez-latest-free.shp/gis_osm_buildings_a_free_1.shp -progress -dsco SPATIALITE=YES -gt 65536 -a_srs "EPSG:4326" -nlt PROMOTE_TO_MULTI
 datasette --load-extension=/nix/store/xvwp2hapx8ihfsdx02nnjpv8aa8pgk74-libspatialite-4.3.0a/lib/mod_spatialite.so out.sqlite  --setting sql_time_limit_ms 5000
