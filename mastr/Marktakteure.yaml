@@ -14,6 +14,7 @@ fields:
     sqlite: text
   - name: Personenart
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     mandatory: true
     references:
@@ -25,9 +26,11 @@ fields:
   - name: Marktfunktion
     mandatory: true
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
   - name: Rechtsform
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
@@ -36,6 +39,7 @@ fields:
   - name: Marktrollen
   - name: Land
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
@@ -51,6 +55,7 @@ fields:
   - name: Ort
   - name: Bundesland
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
@@ -69,6 +74,7 @@ fields:
     sqlite: integer
   - name: Registergericht
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
   - name: Registergericht_nv
     xsd: boolean
@@ -108,6 +114,7 @@ fields:
     sqlite: integer
   - name: LandAnZustelladresse
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
   - name: PostleitzahlAnZustelladresse
   - name: OrtAnZustelladresse
@@ -127,18 +134,21 @@ fields:
     sqlite: text
   - name: HauptwirtdschaftszweigAbteilung
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
       column: Id
   - name: HauptwirtdschaftszweigGruppe
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
       column: Id
   - name: HauptwirtdschaftszweigAbschnitt
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte

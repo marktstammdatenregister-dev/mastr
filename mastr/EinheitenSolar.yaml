@@ -19,6 +19,7 @@ fields:
       column: MastrNummer
   - name: NetzbetreiberpruefungStatus
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     mandatory: true
   - name: NetzbetreiberpruefungDatum
@@ -29,6 +30,7 @@ fields:
       column: MastrNummer
   - name: Land
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     mandatory: true
     references:
@@ -36,6 +38,7 @@ fields:
       column: Id
   - name: Bundesland
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
@@ -74,12 +77,14 @@ fields:
   - name: DatumWiederaufnahmeBetrieb
   - name: EinheitSystemstatus
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
       column: Id
   - name: EinheitBetriebsstatus
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
@@ -108,6 +113,7 @@ fields:
     sqlite: integer
   - name: Energietraeger
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     mandatory: true
     references:
@@ -142,6 +148,7 @@ fields:
     sqlite: integer
   - name: Einspeisungsart
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
@@ -153,21 +160,25 @@ fields:
   - name: ZugeordneteWirkleistungWechselrichter
   - name: GemeinsamerWechselrichterMitSpeicher
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
       column: Id
   - name: AnzahlModule
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
   - name: Lage
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
       column: Id
   - name: Leistungsbegrenzung
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
@@ -177,24 +188,28 @@ fields:
     sqlite: integer
   - name: Hauptausrichtung
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
       column: Id
   - name: HauptausrichtungNeigungswinkel
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
       column: Id
   - name: Nebenausrichtung
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
       column: Id
   - name: NebenausrichtungNeigungswinkel
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
@@ -208,6 +223,7 @@ fields:
     sqlite: real
   - name: Nutzungsbereich
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte

@@ -74,6 +74,7 @@ fields:
   - name: Zuschlagsnummer
   - name: AnlageBetriebsstatus
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     mandatory: true
     references:

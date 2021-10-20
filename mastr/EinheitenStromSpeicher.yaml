@@ -19,6 +19,7 @@ fields:
       column: MastrNummer
   - name: NetzbetreiberpruefungStatus
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     mandatory: true
   - name: NetzbetreiberpruefungDatum
@@ -29,6 +30,7 @@ fields:
       column: MastrNummer
   - name: Land
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     mandatory: true
     references:
@@ -36,6 +38,7 @@ fields:
       column: Id
   - name: Bundesland
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
@@ -74,12 +77,14 @@ fields:
   - name: DatumWiederaufnahmeBetrieb
   - name: EinheitSystemstatus
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
       column: Id
   - name: EinheitBetriebsstatus
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
@@ -108,6 +113,7 @@ fields:
     sqlite: integer
   - name: Energietraeger
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     mandatory: true
     references:
@@ -142,6 +148,7 @@ fields:
     sqlite: integer
   - name: Einspeisungsart
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
@@ -152,18 +159,21 @@ fields:
   - name: GenMastrNummer
   - name: Einsatzort
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
       column: Id
   - name: AcDcKoppelung
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
       column: Id
   - name: Batterietechnologie
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
@@ -176,6 +186,7 @@ fields:
     sqlite: integer
   - name: Pumpspeichertechnologie
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte
@@ -198,10 +209,12 @@ fields:
     #mandatory: true
   - name: EegAnlagentyp
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     #references: Katalogwerte(Id) # seems to be 8 (Kernenergie) a lot of the time?
   - name: Technologie
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     references:
       table: Katalogwerte

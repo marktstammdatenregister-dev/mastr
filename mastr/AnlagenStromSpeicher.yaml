@@ -21,6 +21,7 @@ fields:
   - name: VerknuepfteEinheitenMaStRNummern
   - name: AnlageBetriebsstatus
     xsd: nonNegativeInteger
+    psql: integer
     sqlite: integer
     mandatory: true
     references:
