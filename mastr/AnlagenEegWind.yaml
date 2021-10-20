@@ -9,67 +9,83 @@ fields:
   #   mandatory: false
   - name: Registrierungsdatum
     xsd: date
+    psql: date
     mandatory: true
   - name: DatumLetzteAktualisierung
     xsd: dateTime
+    psql: timestamp
     mandatory: true
   - name: EegInbetriebnahmedatum
     xsd: date
+    psql: date
   - name: EegMaStRNummer
     mandatory: true
   - name: AnlagenkennzifferAnlagenregister
     #mandatory: true
   - name: AnlagenkennzifferAnlagenregister_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
     mandatory: true
   - name: AnlagenschluesselEeg
   - name: PrototypAnlage
     #mandatory: true
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: PilotAnlage
     #mandatory: true
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: InstallierteLeistung
     xsd: decimal
+    psql: real
     sqlite: real
   - name: VerhaeltnisErtragsschaetzungReferenzertrag
     #mandatory: true
     xsd: decimal
+    psql: real
     sqlite: real
   - name: VerhaeltnisErtragsschaetzungReferenzertrag_nv
     mandatory: true
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: VerhaeltnisReferenzertragErtrag5Jahre
     #mandatory: true
     xsd: decimal
+    psql: real
     sqlite: real
   - name: VerhaeltnisReferenzertragErtrag5Jahre_nv
     mandatory: true
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: VerhaeltnisReferenzertragErtrag10Jahre
     #mandatory: true
     xsd: decimal
+    psql: real
     sqlite: real
   - name: VerhaeltnisReferenzertragErtrag10Jahre_nv
     mandatory: true
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: VerhaeltnisReferenzertragErtrag15Jahre
     #mandatory: true
     xsd: decimal
+    psql: real
     sqlite: real
   - name: VerhaeltnisReferenzertragErtrag15Jahre_nv
     mandatory: true
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: AusschreibungZuschlag
     #mandatory: true
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: Zuschlagsnummer
   - name: AnlageBetriebsstatus

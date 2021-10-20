@@ -11,6 +11,7 @@ fields:
     mandatory: true
   - name: DatumLetzeAktualisierung
     xsd: dateTime
+    psql: timestamp
     sqlite: text
   - name: Personenart
     xsd: nonNegativeInteger
@@ -49,6 +50,7 @@ fields:
   - name: Hausnummer
   - name: Hausnummer_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: Adresszusatz
   - name: Postleitzahl
@@ -67,10 +69,12 @@ fields:
   - name: Fax
   - name: Fax_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: Webseite
   - name: Webseite_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: Registergericht
     xsd: nonNegativeInteger
@@ -78,39 +82,49 @@ fields:
     sqlite: integer
   - name: Registergericht_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: RegistergerichtAusland
   - name: RegistergerichtAusland_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: Registernummer
   - name: Registernummer_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: RegisternummerAusland
   - name: RegisternummerAusland_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: Taetigkeitsbeginn
     xsd: date
+    psql: date
     sqlite: text
   - name: AcerCode
   - name: AcerCode_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: Umsatzsteueridentifikationsnummer
   - name: Umsatzsteueridentifikationsnummer_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: Taetigkeitsende
     xsd: date
+    psql: date
     sqlite: text
   - name: Taetigkeitsende_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: BundesnetzagenturBetriebsnummer
   - name: BundesnetzagenturBetriebsnummer_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: LandAnZustelladresse
     xsd: nonNegativeInteger
@@ -122,15 +136,18 @@ fields:
   - name: HausnummerAnZustelladresse
   - name: HausnummerAnZustelladresse_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: AdresszusatzAnZustelladresse
   - name: Kmu
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: TelefonnummerVMav
   - name: EmailVMav
   - name: RegistrierungsdatumMarktakteur
     xsd: dateTime
+    psql: timestamp
     sqlite: text
   - name: HauptwirtdschaftszweigAbteilung
     xsd: nonNegativeInteger
@@ -155,23 +172,30 @@ fields:
       column: Id
   - name: Direktvermarktungsunternehmen
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: BelieferungVonLetztverbrauchernStrom
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: BelieferungHaushaltskundenStrom
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: Gasgrosshaendler
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: Stromgrosshaendler
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: BelieferungVonLetztverbrauchernGas
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: BelieferungHaushaltskundenGas
     xsd: boolean
+    psql: boolean
     sqlite: integer
 ---

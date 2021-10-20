@@ -11,12 +11,15 @@ fields:
     mandatory: true
   - name: DatumLetzteAktualisierung
     xsd: dateTime
+    psql: timestamp
     mandatory: true
   - name: Registrierungsdatum
     xsd: date
+    psql: date
     mandatory: true
   - name: NutzbareSpeicherkapazitaet
     xsd: decimal
+    psql: real
     sqlite: real
   - name: VerknuepfteEinheitenMaStRNummern
   - name: AnlageBetriebsstatus

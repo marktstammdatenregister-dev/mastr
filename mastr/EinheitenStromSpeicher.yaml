@@ -11,6 +11,7 @@ fields:
     mandatory: true
   - name: DatumLetzteAktualisierung
     xsd: dateTime
+    psql: timestamp
     sqlite: text
     mandatory: true
   - name: LokationMaStRNummer
@@ -24,6 +25,7 @@ fields:
     mandatory: true
   - name: NetzbetreiberpruefungDatum
     xsd: date
+    psql: date
   - name: AnlagenbetreiberMastrNummer
     references:
       table: Marktakteure
@@ -53,21 +55,26 @@ fields:
   - name: Strasse
   - name: StrasseNichtGefunden
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: Hausnummer
   - name: Hausnummer_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: HausnummerNichtGefunden
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: Adresszusatz
   - name: Ort
   - name: Laengengrad
     xsd: decimal
+    psql: real
     sqlite: real
   - name: Breitengrad
     xsd: decimal
+    psql: real
     sqlite: real
   - name: Registrierungsdatum
   - name: GeplantesInbetriebnahmedatum
@@ -92,17 +99,21 @@ fields:
   - name: BestandsanlageMastrNummer
   - name: NichtVorhandenInMigriertenEinheiten
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: AltAnlagenbentreiberMastrNummer
   - name: DatumDesBetreiberwechsels
     xsd: date
+    psql: date
   - name: DatumRegistrierungDesBetreiberwechsels
     xsd: date
+    psql: date
   - name: NameStromerzeugungseinheit
     mandatory: true
   - name: Weic
   - name: Weic_nv
     xsd: boolean
+    psql: boolean
     sqlite: integer
     mandatory: true
   - name: WeicDisplayName
@@ -110,6 +121,7 @@ fields:
   - name: Kraftwerksnummer_nv
     mandatory: true
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: Energietraeger
     xsd: nonNegativeInteger
@@ -121,30 +133,38 @@ fields:
       column: Id
   - name: Bruttoleistung
     xsd: decimal
+    psql: real
     sqlite: real
     mandatory: true
   - name: Nettonennleistung
     xsd: decimal
+    psql: real
     sqlite: real
     #mandatory: true
   - name: AnschlussAnHoechstOderHochSpannung
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: Schwarzstartfaehigkeit
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: Inselbetriebsfaehigkeit
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: Einsatzverantwortlicher
   - name: FernsteuerbarkeitNb
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: FernsteuerbarkeitDv
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: FernsteuerbarkeitDr
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: Einspeisungsart
     xsd: nonNegativeInteger
@@ -155,6 +175,7 @@ fields:
       column: Id
   - name: PraequalifiziertFuerRegelenergie
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: GenMastrNummer
   - name: Einsatzort
@@ -180,9 +201,11 @@ fields:
       column: Id
   - name: PumpbetriebLeistungsaufnahme
     xsd: decimal
+    psql: real
     sqlite: real
   - name: PumpbetriebKontinuierlichRegelbar
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: Pumpspeichertechnologie
     xsd: nonNegativeInteger
@@ -193,12 +216,15 @@ fields:
       column: Id
   - name: Notstromaggregat
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: BestandteilGrenzkraftwerk
     xsd: boolean
+    psql: boolean
     sqlite: integer
   - name: NettonennleistungDeutschland
     xsd: decimal
+    psql: real
     sqlite: real
   - name: ZugeordnenteWirkleistungWechselrichter
   - name: SpeMastrNummer
