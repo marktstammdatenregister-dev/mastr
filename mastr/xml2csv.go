@@ -53,7 +53,11 @@ func decodeDescriptor(descriptorFileName string) (*tableDescriptor, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer f.Close()
+	defer func() {
+		if err := f.Close(); err != nil {
+			log.Fatalf("%v", err)
+		}
+	}()
 	d := yaml.NewDecoder(f)
 	err = d.Decode(&tableDescriptor)
 	if err != nil {
@@ -230,7 +234,7 @@ func (s *xmlSource) Values() ([]interface{}, error) {
 	//	values[i] = v
 	//}
 
-	// TODO: Convert to the right type dynamically (with pgtype.Record?).
+	// TODO: Convert to the right type dynamically with a switch on fieldDescriptor.Sqlite
 	values[0], _ = strconv.Atoi(s.values[0])
 	values[1] = s.values[1]
 	log.Printf("Values %v %v %v", s.values, values, s.err)
@@ -336,7 +340,11 @@ func main() {
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
-	defer conn.Close(ctx)
+	defer func() {
+		if err := conn.Close(ctx); err != nil {
+			log.Fatalf("%v", err)
+		}
+	}()
 
 	td, err := decodeDescriptor(*descriptorFileName)
 	if err != nil {
@@ -347,7 +355,11 @@ func main() {
 	const bufSize = 4096 * 1024
 	br := bufio.NewReaderSize(os.Stdin, bufSize)
 	bw := bufio.NewWriterSize(os.Stdout, bufSize)
-	defer bw.Flush()
+	defer func() {
+		if err := bw.Flush(); err != nil {
+			log.Fatalf("%v", err)
+		}
+	}()
 
 	//err = convertXml(td, xml.NewDecoder(br), csv.NewWriter(bw))
 	//if err != nil {
