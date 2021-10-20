@@ -1,6 +1,6 @@
 create table "{{root}}" (
   {{#fields}}
-  "{{name}}" {{#sqlite}}{{sqlite}}{{/sqlite}}{{^sqlite}}text{{/sqlite}}{{#mandatory}} not null{{/mandatory}}{{#references}} references "{{table}}"("{{column}}") deferrable initially deferred{{/references}},
+  "{{name}}" {{#psql}}{{psql}}{{/psql}}{{^psql}}text{{/psql}}{{#mandatory}} not null{{/mandatory}}{{#references}} references "{{table}}"("{{column}}") deferrable initially deferred{{/references}},
   {{/fields}}
   primary key ("{{primary}}")
 );

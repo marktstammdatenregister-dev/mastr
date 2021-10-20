@@ -2,17 +2,19 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"context"
-	"encoding/csv"
 	"encoding/xml"
 	"flag"
 	"fmt"
+	"github.com/jackc/pgtype"
 	"github.com/jackc/pgx/v4"
 	"gopkg.in/yaml.v3"
 	"io"
 	"log"
 	"os"
-	"strconv"
+	"text/template"
+	"time"
 )
 
 type reference struct {
@@ -21,12 +23,12 @@ type reference struct {
 }
 
 type fieldDescriptor struct {
-	Name       string    `yaml:"name"`
-	Mandatory  bool      `yaml:"mandatory"`
-	Xsd        string    `yaml:"xsd"`
-	Sqlite     string    `yaml:"sqlite"`
-	Psql       string    `yaml:"psql"`
-	References reference `yaml:"references"`
+	Name       string     `yaml:"name"`
+	Mandatory  bool       `yaml:"mandatory"`
+	Xsd        string     `yaml:"xsd"`
+	Sqlite     string     `yaml:"sqlite"`
+	Psql       string     `yaml:"psql"`
+	References *reference `yaml:"references,omitempty"`
 }
 
 type tableDescriptor struct {
@@ -38,6 +40,7 @@ type tableDescriptor struct {
 
 type fields struct {
 	fields map[string]uint
+	psqlty map[string]string
 }
 
 const (
@@ -56,7 +59,7 @@ func decodeDescriptor(descriptorFileName string) (*tableDescriptor, error) {
 	}
 	defer func() {
 		if err := f.Close(); err != nil {
-			log.Fatalf("%v", err)
+			log.Printf("%v", err)
 		}
 	}()
 	d := yaml.NewDecoder(f)
@@ -69,10 +72,12 @@ func decodeDescriptor(descriptorFileName string) (*tableDescriptor, error) {
 
 func newFields(fieldDescriptors []fieldDescriptor) *fields {
 	f := make(map[string]uint)
+	t := make(map[string]string)
 	for i, fieldDescriptor := range fieldDescriptors {
 		f[fieldDescriptor.Name] = uint(i)
+		t[fieldDescriptor.Name] = fieldDescriptor.Psql
 	}
-	return &fields{fields: f}
+	return &fields{fields: f, psqlty: t}
 }
 
 func (f *fields) header() []string {
@@ -84,110 +89,62 @@ func (f *fields) header() []string {
 	return result
 }
 
-func (f *fields) record(item map[string]string) []string {
+var location = time.UTC
+
+func (f *fields) record(item map[string]string) ([]interface{}, error) {
 	n := len(f.fields)
-	result := make([]string, n, n)
+	result := make([]interface{}, n, n)
 	for name, value := range item {
-		result[f.fields[name]] = value
-	}
-	return result
-}
-
-func convertXml(td *tableDescriptor, d *xml.Decoder, w *csv.Writer) error {
-	root := td.Root
-	element := td.Element
-	fields := newFields(td.Fields)
-
-	state := startRoot
-	item := make(map[string]string)
-	var fieldName string
-	var fieldValue []byte
-
-	// NOTE(csv-header): It would be nicer to include the header to make the CSV files
-	// self-contained. However, if we include the header here, we must skip it during the
-	// import to SQLite. SQLite 3.32.0 added the --skip option to the .import command, but the
-	// "ubuntu-latest" GitHub Actions runner uses Ubuntu 20.04, which ships with SQLite 3.31.
-	// So overall it's just easier to not write the header here.
-	//w.Write(fields.header())
-
-	for {
-		tok, err := d.Token()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			return err
-		}
-		switch state {
-		case startRoot:
-			switch t := tok.(type) {
-			case xml.StartElement:
-				name := xml.StartElement(t).Name.Local
-				if name != root {
-					return fmt.Errorf("[%d] expected start of %s, got %s", state, root, name)
-				}
-				state = startItemOrEndRoot
-			default: // ignore
+		switch f.psqlty[name] {
+		case "boolean":
+			v := &pgtype.Bool{}
+			if err := v.Set(value); err != nil {
+				return result, err
 			}
-		case startItemOrEndRoot:
-			switch t := tok.(type) {
-			case xml.StartElement:
-				name := xml.StartElement(t).Name.Local
-				if name != element {
-					return fmt.Errorf("[%d] expected start of %s, got %s", state, element, name)
-				}
-				state = startFieldOrEndItem
-			case xml.EndElement:
-				name := xml.EndElement(t).Name.Local
-				if name != root {
-					return fmt.Errorf("[%d] expected start of %s, got %s", state, root, name)
-				}
-				state = finished
-			default: // ignore
+			result[f.fields[name]] = v
+		case "date":
+			ts, err := time.ParseInLocation("2006-01-02", value, location)
+			if err != nil {
+				return result, err
 			}
-		case startFieldOrEndItem:
-			switch t := tok.(type) {
-			case xml.StartElement:
-				name := xml.StartElement(t).Name.Local
-				fieldName = name
-				state = fieldValueOrEndField
-			case xml.EndElement:
-				name := xml.EndElement(t).Name.Local
-				if name != element {
-					return fmt.Errorf("[%d] expected end of %s, got %s", state, element, name)
-				}
-				w.Write(fields.record(item))
-				item = make(map[string]string)
-				state = startItemOrEndRoot
-			default: // ignore
+			v := &pgtype.Date{}
+			if err := v.Set(ts); err != nil {
+				return result, err
 			}
-		case fieldValueOrEndField:
-			switch t := tok.(type) {
-			case xml.StartElement:
-				name := xml.StartElement(t).Name.Local
-				return fmt.Errorf("[%d] expected end of %s, got start of %s", state, fieldName, name)
-			case xml.EndElement:
-				name := xml.EndElement(t).Name.Local
-				if name != fieldName {
-					return fmt.Errorf("[%d] expected end of %s, got %s", state, fieldName, name)
-				}
-				item[fieldName] = string(fieldValue)
-				fieldValue = []byte{}
-				state = startFieldOrEndItem
-			case xml.CharData:
-				fieldValue = append(fieldValue, []byte(xml.CharData(t))...)
-			default: // ignore
+			result[f.fields[name]] = v
+		case "integer":
+			v := &pgtype.Int4{}
+			if err := v.Set(value); err != nil {
+				return result, err
 			}
-		case finished:
-			switch tok.(type) {
-			case xml.CharData: // ignore
-			default:
-				return fmt.Errorf("[%d] parsing finished, but got %v", state, tok)
+			result[f.fields[name]] = v
+		case "real":
+			v := &pgtype.Float4{}
+			if err := v.Set(value); err != nil {
+				return result, err
 			}
+			result[f.fields[name]] = v
+		case "text", "":
+			v := &pgtype.Text{}
+			if err := v.Set(value); err != nil {
+				return result, err
+			}
+			result[f.fields[name]] = v
+		case "timestamp":
+			ts, err := time.ParseInLocation("2006-01-02T15:04:05.9999999", value, location)
+			if err != nil {
+				return result, err
+			}
+			v := &pgtype.Timestamp{}
+			if err := v.Set(ts); err != nil {
+				return result, err
+			}
+			result[f.fields[name]] = v
+		default:
+			log.Fatalf("unknown PostgreSQL type: %s", f.psqlty[name])
 		}
 	}
-	w.Flush()
-	return w.Error()
+	return result, nil
 }
 
 // Implements CopyFromSource
@@ -197,7 +154,7 @@ type xmlSource struct {
 	fields  *fields
 	state   int
 	d       *xml.Decoder
-	values  []string
+	values  []interface{}
 	err     error
 }
 
@@ -216,7 +173,6 @@ func newXmlSource(td *tableDescriptor, d *xml.Decoder, fields *fields) xmlSource
 // Next() implements pgx.CopyFromSource.
 func (s *xmlSource) Next() bool {
 	values, err := s.nextValues()
-	log.Printf("Next %v %v", values, err)
 	if err == io.EOF {
 		return false
 	}
@@ -230,16 +186,7 @@ func (s *xmlSource) Next() bool {
 
 // Values() implements pgx.CopyFromSource.
 func (s *xmlSource) Values() ([]interface{}, error) {
-	values := make([]interface{}, len(s.values))
-	//for i, v := range s.values {
-	//	values[i] = v
-	//}
-
-	// TODO: Convert to the right type dynamically with a switch on fieldDescriptor.Sqlite
-	values[0], _ = strconv.Atoi(s.values[0])
-	values[1] = s.values[1]
-	log.Printf("Values %v %v %v", s.values, values, s.err)
-	return values, s.err
+	return s.values, s.err
 }
 
 // Err() implements pgx.CopyFromSource.
@@ -247,7 +194,7 @@ func (s *xmlSource) Err() error {
 	return s.err
 }
 
-func (s *xmlSource) nextValues() ([]string, error) {
+func (s *xmlSource) nextValues() ([]interface{}, error) {
 	d := s.d
 	root := s.root
 	element := s.element
@@ -301,7 +248,7 @@ func (s *xmlSource) nextValues() ([]string, error) {
 					return nil, fmt.Errorf("[%d] expected end of %s, got %s", s.state, element, name)
 				}
 				s.state = startItemOrEndRoot
-				return fields.record(item), nil
+				return fields.record(item)
 			default: // ignore
 			}
 		case fieldValueOrEndField:
@@ -331,11 +278,59 @@ func (s *xmlSource) nextValues() ([]string, error) {
 	}
 }
 
+func createTable(tx pgx.Tx, ctx context.Context, td *tableDescriptor, force bool) error {
+	// Generate "create table" statement.
+	tmpl := template.Must(template.New("create").Parse(`
+create table {{if .Force}}{{else}}if not exists{{end}}
+{{- with .Descriptor}}"{{.Root}}" (
+	{{range .Fields -}}
+		"{{.Name}}"
+		{{- with .Psql}} {{.}}{{else}} text{{end}}
+		{{- if .Mandatory}} not null{{end}}
+		{{- with .References}} references "{{.Table}}"("{{.Column}}") deferrable initially deferred{{end}},
+	{{end -}}
+	primary key ("{{.Primary}}")
+);{{end}}
+	`))
+	var stmt bytes.Buffer
+	if err := tmpl.Execute(&stmt, struct {
+		Force      bool
+		Descriptor *tableDescriptor
+	}{force, td}); err != nil {
+		return err
+	}
+
+	// Create the table.
+	_, err := tx.Exec(ctx, stmt.String())
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func main() {
 	descriptorFileName := flag.String("descriptor", "<undefined>", "file name of the table descriptor")
 	databaseUrl := flag.String("database", "<undefined>", "PostgreSQL database URL")
+	forceCreate := flag.Bool("force-create", false, "use CREATE instead of CREATE IF NOT EXISTS")
 	flag.Parse()
 
+	var err error
+	location, err = time.LoadLocation("Europe/Berlin")
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+
+	td, err := decodeDescriptor(*descriptorFileName)
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+	fields := newFields(td.Fields)
+
+	// Construct the buffered XML reader.
+	const bufSize = 4096 * 1024
+	br := xml.NewDecoder(bufio.NewReaderSize(os.Stdin, bufSize))
+
+	// Connect to the database.
 	ctx := context.Background()
 	conn, err := pgx.Connect(ctx, *databaseUrl)
 	if err != nil {
@@ -343,38 +338,39 @@ func main() {
 	}
 	defer func() {
 		if err := conn.Close(ctx); err != nil {
-			log.Fatalf("%v", err)
+			log.Printf("%v", err)
 		}
 	}()
 
-	td, err := decodeDescriptor(*descriptorFileName)
+	// Begin the transaction.
+	tx, err := conn.Begin(ctx)
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
-
-	// Construct buffered reader and writer.
-	const bufSize = 4096 * 1024
-	br := bufio.NewReaderSize(os.Stdin, bufSize)
-	bw := bufio.NewWriterSize(os.Stdout, bufSize)
 	defer func() {
-		if err := bw.Flush(); err != nil {
-			log.Fatalf("%v", err)
+		err := tx.Rollback(ctx)
+		if err != nil && err != pgx.ErrTxClosed {
+			log.Printf("%v", err)
 		}
 	}()
 
-	//err = convertXml(td, xml.NewDecoder(br), csv.NewWriter(bw))
-	//if err != nil {
-	//	log.Fatalf("%v", err)
-	//}
+	// Create the table.
+	if err := createTable(tx, ctx, td, *forceCreate); err != nil {
+		log.Fatalf("%v", err)
+	}
 
-	fields := newFields(td.Fields)
-	s := newXmlSource(td, xml.NewDecoder(br), fields)
-	i, err := conn.CopyFrom(
+	// Copy data into the table.
+	s := newXmlSource(td, br, fields)
+	i, err := tx.CopyFrom(
 		ctx,
-		pgx.Identifier{td.Element},
+		pgx.Identifier{td.Root},
 		fields.header(),
 		&s,
 	)
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+	err = tx.Commit(ctx)
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
