@@ -25,6 +25,7 @@ type fieldDescriptor struct {
 	Mandatory  bool      `yaml:"mandatory"`
 	Xsd        string    `yaml:"xsd"`
 	Sqlite     string    `yaml:"sqlite"`
+	Psql       string    `yaml:"psql"`
 	References reference `yaml:"references"`
 }
 
