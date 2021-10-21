@@ -309,6 +309,16 @@ create unlogged table {{if .Force}}{{else}}if not exists{{end}}
 }
 
 func insertFromXml(xmlFile string, conn *pgx.Conn, ctx context.Context, td *tableDescriptor, force bool) error {
+	start := time.Now()
+
+	// Construct the buffered XML reader.
+	f, err := os.Open(xmlFile)
+	if err != nil {
+		return err
+	}
+	const bufSize = 4096 * 1024
+	br := xml.NewDecoder(bufio.NewReaderSize(f, bufSize))
+
 	// Begin the transaction.
 	tx, err := conn.Begin(ctx)
 	if err != nil {
@@ -325,17 +335,6 @@ func insertFromXml(xmlFile string, conn *pgx.Conn, ctx context.Context, td *tabl
 	if err := createTable(tx, ctx, td, force); err != nil {
 		return err
 	}
-
-	start := time.Now()
-
-	f, err := os.Open(xmlFile)
-	if err != nil {
-		return err
-	}
-
-	// Construct the buffered XML reader.
-	const bufSize = 4096 * 1024
-	br := xml.NewDecoder(bufio.NewReaderSize(f, bufSize))
 
 	// Copy data into the table.
 	fields := newFields(td.Fields)
@@ -355,7 +354,7 @@ func insertFromXml(xmlFile string, conn *pgx.Conn, ctx context.Context, td *tabl
 	}
 
 	elapsed := time.Since(start).Seconds()
-	log.Printf("%s: \tinserted %d rows in %2.1f seconds (%.f inserts/second)", xmlFile, i, elapsed, float64(i)/elapsed)
+	log.Printf("%s\t%d entries\t%2.1f seconds\t%.f entries/second", xmlFile, i, elapsed, float64(i)/elapsed)
 	return nil
 }
 
