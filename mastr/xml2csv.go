@@ -309,6 +309,8 @@ create unlogged table {{if .Force}}{{else}}if not exists{{end}}
 }
 
 func main() {
+	start := time.Now()
+
 	descriptorFileName := flag.String("descriptor", "<undefined>", "file name of the table descriptor")
 	databaseUrl := flag.String("database", "<undefined>", "PostgreSQL database URL")
 	forceCreate := flag.Bool("force-create", false, "use CREATE instead of CREATE IF NOT EXISTS")
@@ -374,5 +376,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
-	log.Printf("wrote %d rows", i)
+
+	elapsed := time.Since(start).Seconds()
+	log.Printf("inserted %d rows in %2.1f seconds (%.f inserts/second)", i, elapsed, float64(i)/elapsed)
 }
