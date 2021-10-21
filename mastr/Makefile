@@ -38,23 +38,27 @@ Katalogkategorien_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'Katalog
 Katalogwerte_xml := $(shell unzip -Z1 Gesamtdatenexport.zip | grep 'Katalogwerte')
 
 Marktstammdatenregister_xml := \
-$(Lokationen) \
-$(Katalogkategorien) \
-$(Katalogwerte) \
-$(Marktakteure) \
-$(AnlagenEegBiomasse) \
-$(AnlagenEegSolar) \
-$(AnlagenEegWasser) \
-$(AnlagenEegWind) \
-$(AnlagenStromSpeicher) \
-$(EinheitenBiomasse) \
-$(EinheitenSolar) \
-$(EinheitenStromSpeicher) \
-$(EinheitenWasser) \
-$(EinheitenWind)
+$(Lokationen_xml) \
+$(Katalogkategorien_xml) \
+$(Katalogwerte_xml) \
+$(Marktakteure_xml) \
+$(AnlagenEegBiomasse_xml) \
+$(AnlagenEegSolar_xml) \
+$(AnlagenEegWasser_xml) \
+$(AnlagenEegWind_xml) \
+$(AnlagenStromSpeicher_xml) \
+$(EinheitenBiomasse_xml) \
+$(EinheitenSolar_xml) \
+$(EinheitenStromSpeicher_xml) \
+$(EinheitenWasser_xml) \
+$(EinheitenWind_xml)
 
 xml2psql: xml2psql.go
 	go build -o $@ $<
+
+%.xml: Gesamtdatenexport.zip
+	unzip -qo "$<" "$@"
+	touch "$@"
 
 .PHONY: populate-db
 populate-db: xml2psql $(Marktstammdatenregister_xml)
@@ -102,10 +106,7 @@ Marktstammdatenregister.db: Marktstammdatenregister.gen.sql
 	sqlite3 $@ <<<'CREATE INDEX idx_EinheitenSolar_AnlagenbetreiberMastrNummer on EinheitenSolar(AnlagenbetreiberMastrNummer);'
 	sqlite3 $@ <<<'VACUUM; ANALYZE;'
 
-Marktstammdatenregister.dump.br: Marktstammdatenregister.dump
-	brotli -4 --keep --force --output=$@ $<
-	touch $@
-
 .PHONY: clean
 clean:
-	rm -f Marktstammdatenregister.dump{,.br}
+	rm *.xml
+	rm -f Marktstammdatenregister.dump
