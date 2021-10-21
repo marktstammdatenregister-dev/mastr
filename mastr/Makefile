@@ -83,6 +83,10 @@ populate-db: xml2psql $(Marktstammdatenregister_xml)
 Marktstammdatenregister.dump:
 	PGPASSWORD=$(db_pass) pg_dump -h $(db_host) -U $(db_user) -Fc $(db_name) | pv -W >"$@"
 
+.PHONY: restore-db
+restore-db: Marktstammdatenregister.dump
+	PGPASSWORD=$(db_pass) pg_restore -h $(db_host) -U $(db_user) -d $(db_name) "$<"
+
 .PHONY: clean
 clean:
 	rm *.xml
