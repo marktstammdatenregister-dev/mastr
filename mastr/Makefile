@@ -53,39 +53,39 @@ $(EinheitenStromSpeicher) \
 $(EinheitenWasser) \
 $(EinheitenWind)
 
-xml2csv: xml2csv.go
+xml2psql: xml2psql.go
 	go build -o $@ $<
 
 .PHONY: populate-db
-populate-db: xml2csv $(Marktstammdatenregister_xml)
+populate-db: xml2psql $(Marktstammdatenregister_xml)
 	find . -name 'Lokationen*.xml' | \
-		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2csv -descriptor Lokationen.yaml -database $(db_url)'
+		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2psql -descriptor Lokationen.yaml -database $(db_url)'
 	find . -name 'Katalogkategorien*.xml' | \
-		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2csv -descriptor Katalogkategorien.yaml -database $(db_url)'
+		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2psql -descriptor Katalogkategorien.yaml -database $(db_url)'
 	find . -name 'Katalogwerte*.xml' | \
-		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2csv -descriptor Katalogwerte.yaml -database $(db_url)'
+		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2psql -descriptor Katalogwerte.yaml -database $(db_url)'
 	find . -name 'Marktakteure*.xml' | \
-		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2csv -descriptor Marktakteure.yaml -database $(db_url)'
+		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2psql -descriptor Marktakteure.yaml -database $(db_url)'
 	find . -name 'AnlagenEegBiomasse*.xml' | \
-		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2csv -descriptor AnlagenEegBiomasse.yaml -database $(db_url)'
+		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2psql -descriptor AnlagenEegBiomasse.yaml -database $(db_url)'
 	find . -name 'AnlagenEegSolar*.xml' | \
-		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2csv -descriptor AnlagenEegSolar.yaml -database $(db_url)'
+		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2psql -descriptor AnlagenEegSolar.yaml -database $(db_url)'
 	find . -name 'AnlagenEegWasser*.xml' | \
-		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2csv -descriptor AnlagenEegWasser.yaml -database $(db_url)'
+		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2psql -descriptor AnlagenEegWasser.yaml -database $(db_url)'
 	find . -name 'AnlagenEegWind*.xml' | \
-		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2csv -descriptor AnlagenEegWind.yaml -database $(db_url)'
+		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2psql -descriptor AnlagenEegWind.yaml -database $(db_url)'
 	find . -name 'AnlagenStromSpeicher*.xml' | \
-		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2csv -descriptor AnlagenStromSpeicher.yaml -database $(db_url)'
+		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2psql -descriptor AnlagenStromSpeicher.yaml -database $(db_url)'
 	find . -name 'EinheitenBiomasse*.xml' | \
-		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2csv -descriptor EinheitenBiomasse.yaml -database $(db_url)'
+		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2psql -descriptor EinheitenBiomasse.yaml -database $(db_url)'
 	find . -name 'EinheitenSolar*.xml' | \
-		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2csv -descriptor EinheitenSolar.yaml -database $(db_url)'
+		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2psql -descriptor EinheitenSolar.yaml -database $(db_url)'
 	find . -name 'EinheitenStromSpeicher*.xml' | \
-		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2csv -descriptor EinheitenStromSpeicher.yaml -database $(db_url)'
+		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2psql -descriptor EinheitenStromSpeicher.yaml -database $(db_url)'
 	find . -name 'EinheitenWasser*.xml' | \
-		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2csv -descriptor EinheitenWasser.yaml -database $(db_url)'
+		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2psql -descriptor EinheitenWasser.yaml -database $(db_url)'
 	find . -name 'EinheitenWind*.xml' | \
-		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2csv -descriptor EinheitenWind.yaml -database $(db_url)'
+		xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2psql -descriptor EinheitenWind.yaml -database $(db_url)'
 
 Marktstammdatenregister.dump:
 	PGPASSWORD=$(db_pass) pg_dump -h $(db_host) -U $(db_user) -Fc $(db_name) | pv -W >"$@"
