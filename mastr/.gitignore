@@ -4,4 +4,4 @@
 *.xml
 *.xsd
 *.zip
-xml2csv
+xml2psql
