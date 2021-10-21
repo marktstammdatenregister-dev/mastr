@@ -3,6 +3,7 @@ pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     axel
     brotli
+    docker-compose
     flyctl
     go
     libxml2
