@@ -281,7 +281,7 @@ func (s *xmlSource) nextValues() ([]interface{}, error) {
 func createTable(tx pgx.Tx, ctx context.Context, td *tableDescriptor, force bool) error {
 	// Generate "create table" statement.
 	tmpl := template.Must(template.New("create").Parse(`
-create table {{if .Force}}{{else}}if not exists{{end}}
+create unlogged table {{if .Force}}{{else}}if not exists{{end}}
 {{- with .Descriptor}}"{{.Root}}" (
 	{{range .Fields -}}
 		"{{.Name}}"
@@ -290,7 +290,7 @@ create table {{if .Force}}{{else}}if not exists{{end}}
 		{{- with .References}} references "{{.Table}}"("{{.Column}}") deferrable initially deferred{{end}},
 	{{end -}}
 	primary key ("{{.Primary}}")
-);{{end}}
+) with (autovacuum_enabled=false);{{end}}
 	`))
 	var stmt bytes.Buffer
 	if err := tmpl.Execute(&stmt, struct {
