@@ -9,6 +9,7 @@ pkgs.mkShell {
     mustache-go
     niv
     osmium-tool
+    postgresql_13
     pup
     pv
     rlwrap
