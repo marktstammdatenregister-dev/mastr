@@ -141,7 +141,7 @@ func (f *fields) record(item map[string]string) ([]interface{}, error) {
 			}
 			result[f.fields[name]] = v
 		default:
-			log.Fatalf("unknown PostgreSQL type: %s", f.psqlty[name])
+			return nil, fmt.Errorf("unknown PostgreSQL type: %s", f.psqlty[name])
 		}
 	}
 	return result, nil
@@ -308,46 +308,11 @@ create unlogged table {{if .Force}}{{else}}if not exists{{end}}
 	return nil
 }
 
-func main() {
-	start := time.Now()
-
-	descriptorFileName := flag.String("descriptor", "<undefined>", "file name of the table descriptor")
-	databaseUrl := flag.String("database", "<undefined>", "PostgreSQL database URL")
-	forceCreate := flag.Bool("force-create", false, "use CREATE instead of CREATE IF NOT EXISTS")
-	flag.Parse()
-
-	var err error
-	location, err = time.LoadLocation("Europe/Berlin")
-	if err != nil {
-		log.Fatalf("%v", err)
-	}
-
-	td, err := decodeDescriptor(*descriptorFileName)
-	if err != nil {
-		log.Fatalf("%v", err)
-	}
-	fields := newFields(td.Fields)
-
-	// Construct the buffered XML reader.
-	const bufSize = 4096 * 1024
-	br := xml.NewDecoder(bufio.NewReaderSize(os.Stdin, bufSize))
-
-	// Connect to the database.
-	ctx := context.Background()
-	conn, err := pgx.Connect(ctx, *databaseUrl)
-	if err != nil {
-		log.Fatalf("%v", err)
-	}
-	defer func() {
-		if err := conn.Close(ctx); err != nil {
-			log.Printf("%v", err)
-		}
-	}()
-
+func insertFromXml(xmlFile string, conn *pgx.Conn, ctx context.Context, td *tableDescriptor, force bool) error {
 	// Begin the transaction.
 	tx, err := conn.Begin(ctx)
 	if err != nil {
-		log.Fatalf("%v", err)
+		return err
 	}
 	defer func() {
 		err := tx.Rollback(ctx)
@@ -357,11 +322,23 @@ func main() {
 	}()
 
 	// Create the table.
-	if err := createTable(tx, ctx, td, *forceCreate); err != nil {
-		log.Fatalf("%v", err)
+	if err := createTable(tx, ctx, td, force); err != nil {
+		return err
 	}
 
+	start := time.Now()
+
+	f, err := os.Open(xmlFile)
+	if err != nil {
+		return err
+	}
+
+	// Construct the buffered XML reader.
+	const bufSize = 4096 * 1024
+	br := xml.NewDecoder(bufio.NewReaderSize(f, bufSize))
+
 	// Copy data into the table.
+	fields := newFields(td.Fields)
 	s := newXmlSource(td, br, fields)
 	i, err := tx.CopyFrom(
 		ctx,
@@ -370,13 +347,55 @@ func main() {
 		&s,
 	)
 	if err != nil {
-		log.Fatalf("%v", err)
+		return err
 	}
 	err = tx.Commit(ctx)
 	if err != nil {
-		log.Fatalf("%v", err)
+		return err
 	}
 
 	elapsed := time.Since(start).Seconds()
-	log.Printf("inserted %d rows in %2.1f seconds (%.f inserts/second)", i, elapsed, float64(i)/elapsed)
+	log.Printf("%s: \tinserted %d rows in %2.1f seconds (%.f inserts/second)", xmlFile, i, elapsed, float64(i)/elapsed)
+	return nil
+}
+
+func main() {
+	descriptorFileName := flag.String("descriptor", "<undefined>", "file name of the table descriptor")
+	databaseUrl := flag.String("database", "<undefined>", "PostgreSQL database URL")
+	forceCreate := flag.Bool("force-create", false, "use CREATE instead of CREATE IF NOT EXISTS")
+	flag.Parse()
+
+	var err error
+	location, err = time.LoadLocation("Europe/Berlin")
+	if err != nil {
+		log.Printf("%v", err)
+		return
+	}
+
+	td, err := decodeDescriptor(*descriptorFileName)
+	if err != nil {
+		log.Printf("%v", err)
+		return
+	}
+
+	// Connect to the database.
+	ctx := context.Background()
+	conn, err := pgx.Connect(ctx, *databaseUrl)
+	if err != nil {
+		log.Printf("%v", err)
+		return
+	}
+	defer func() {
+		if err := conn.Close(ctx); err != nil {
+			log.Printf("%v", err)
+		}
+	}()
+
+	// Insert XML files one by one.
+	for _, xmlFile := range flag.Args() {
+		if err := insertFromXml(xmlFile, conn, ctx, td, *forceCreate); err != nil {
+			log.Printf("%v", err)
+			return
+		}
+	}
 }
