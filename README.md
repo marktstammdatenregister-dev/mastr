@@ -1,5 +1,5 @@
 ```
-docker run --rm -e 'POSTGRES_USER=user' -e 'POSTGRES_PASSWORD=pass' -e 'POSTGRES_DB=db' -p '5432:5432' postgres:13
+docker run --rm -e 'POSTGRES_USER=user' -e 'POSTGRES_PASSWORD=pass' -e 'POSTGRES_DB=Marktstammdatenregister' -p '5432:5432' postgres:13
 find . -name 'EinheitenSolar_*.xml' |
   xargs -I{} sh -c 'iconv -f utf-16 -t utf-8 {} | ./xml2csv -descriptor EinheitenSolar.yaml -database postgres://user:pass@localhost:5432/db'
 ```
