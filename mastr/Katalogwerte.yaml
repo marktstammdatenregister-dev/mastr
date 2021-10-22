@@ -21,6 +21,6 @@ fields:
     sqlite: integer
     mandatory: true
     references:
-      table: Katalogkategorien
+      table: Katalogkategorie
       column: Id
 ---

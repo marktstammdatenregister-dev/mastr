@@ -16,7 +16,7 @@ fields:
     mandatory: true
   - name: LokationMaStRNummer
     references:
-      table: Lokationen
+      table: Lokation
       column: MastrNummer
   - name: NetzbetreiberpruefungStatus
     xsd: nonNegativeInteger
@@ -28,7 +28,7 @@ fields:
     psql: date
   - name: AnlagenbetreiberMastrNummer
     references:
-      table: Marktakteure
+      table: Marktakteur
       column: MastrNummer
   - name: Land
     xsd: nonNegativeInteger
@@ -36,14 +36,14 @@ fields:
     sqlite: integer
     mandatory: true
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
   - name: Bundesland
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
   - name: Landkreis
   - name: Gemeinde
@@ -87,14 +87,14 @@ fields:
     psql: integer
     sqlite: integer
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
   - name: EinheitBetriebsstatus
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
   - name: BestandsanlageMastrNummer
   - name: NichtVorhandenInMigriertenEinheiten
@@ -129,7 +129,7 @@ fields:
     sqlite: integer
     mandatory: true
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
   - name: Bruttoleistung
     xsd: decimal
@@ -171,7 +171,7 @@ fields:
     psql: integer
     sqlite: integer
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
   - name: PraequalifiziertFuerRegelenergie
     xsd: boolean
@@ -183,21 +183,21 @@ fields:
     psql: integer
     sqlite: integer
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
   - name: AcDcKoppelung
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
   - name: Batterietechnologie
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
   - name: PumpbetriebLeistungsaufnahme
     xsd: decimal
@@ -212,7 +212,7 @@ fields:
     psql: integer
     sqlite: integer
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
   - name: Notstromaggregat
     xsd: boolean
@@ -229,7 +229,7 @@ fields:
   - name: ZugeordnenteWirkleistungWechselrichter
   - name: SpeMastrNummer
     references:
-      table: AnlagenStromSpeicher
+      table: AnlageStromSpeicher
       column: MaStRNummer
   - name: EegMaStRNummer
     #mandatory: true
@@ -243,6 +243,6 @@ fields:
     psql: integer
     sqlite: integer
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
 ---

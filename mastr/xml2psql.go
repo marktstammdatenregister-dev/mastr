@@ -323,7 +323,7 @@ func createTable(tx pgx.Tx, ctx context.Context, td *tableDescriptor, force bool
 	// Generate "create table" statement.
 	tmpl := template.Must(template.New("create").Parse(`
 create unlogged table {{if .Force}}{{else}}if not exists{{end}}
-{{- with .Descriptor}}"{{.Root}}" (
+{{- with .Descriptor}}"{{.Element}}" (
 	{{range .Fields -}}
 		"{{.Name}}"
 		{{- with .Psql}} {{.}}{{else}} text{{end}}
@@ -382,7 +382,7 @@ func insertFromXml(xmlFile string, conn *pgx.Conn, ctx context.Context, td *tabl
 	s := newXmlSource(td, br, fields)
 	i, err := tx.CopyFrom(
 		ctx,
-		pgx.Identifier{td.Root},
+		pgx.Identifier{td.Element},
 		fields.header(),
 		&s,
 	)

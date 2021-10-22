@@ -28,6 +28,6 @@ fields:
     sqlite: integer
     mandatory: true
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
 ---

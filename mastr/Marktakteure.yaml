@@ -19,7 +19,7 @@ fields:
     sqlite: integer
     mandatory: true
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
   - name: MarktakteurVorname
   - name: MarktakteurNachname
@@ -34,7 +34,7 @@ fields:
     psql: integer
     sqlite: integer
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
   - name: SonstigeRechtsform
   - name: Marktrollen
@@ -43,7 +43,7 @@ fields:
     psql: integer
     sqlite: integer
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
   - name: Region
   - name: Strasse
@@ -60,7 +60,7 @@ fields:
     psql: integer
     sqlite: integer
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
   - name: Netz
   - name: Nuts2
@@ -154,21 +154,21 @@ fields:
     psql: integer
     sqlite: integer
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
   - name: HauptwirtdschaftszweigGruppe
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
   - name: HauptwirtdschaftszweigAbschnitt
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
     references:
-      table: Katalogwerte
+      table: Katalogwert
       column: Id
   - name: Direktvermarktungsunternehmen
     xsd: boolean
