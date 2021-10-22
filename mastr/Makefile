@@ -64,21 +64,21 @@ xml2psql: xml2psql.go
 	rm "$@.utf16"
 
 .PHONY: populate-db
-populate-db: xml2psql $(Marktstammdatenregister_xml)
-	./xml2psql -descriptor Lokationen.yaml -database $(db_url) $(Lokationen_xml)
-	./xml2psql -descriptor Katalogkategorien.yaml -database $(db_url) $(Katalogkategorien_xml)
-	./xml2psql -descriptor Katalogwerte.yaml -database $(db_url) $(Katalogwerte_xml)
-	./xml2psql -descriptor Marktakteure.yaml -database $(db_url) $(Marktakteure_xml)
-	./xml2psql -descriptor AnlagenEegBiomasse.yaml -database $(db_url) $(AnlagenEegBiomasse_xml)
-	./xml2psql -descriptor AnlagenEegSolar.yaml -database $(db_url) $(AnlagenEegSolar_xml)
-	./xml2psql -descriptor AnlagenEegWasser.yaml -database $(db_url) $(AnlagenEegWasser_xml)
-	./xml2psql -descriptor AnlagenEegWind.yaml -database $(db_url) $(AnlagenEegWind_xml)
-	./xml2psql -descriptor AnlagenStromSpeicher.yaml -database $(db_url) $(AnlagenStromSpeicher_xml)
-	./xml2psql -descriptor EinheitenBiomasse.yaml -database $(db_url) $(EinheitenBiomasse_xml)
-	./xml2psql -descriptor EinheitenSolar.yaml -database $(db_url) $(EinheitenSolar_xml)
-	./xml2psql -descriptor EinheitenStromSpeicher.yaml -database $(db_url) $(EinheitenStromSpeicher_xml)
-	./xml2psql -descriptor EinheitenWasser.yaml -database $(db_url) $(EinheitenWasser_xml)
-	./xml2psql -descriptor EinheitenWind.yaml -database $(db_url) $(EinheitenWind_xml)
+populate-db: Gesamtdatenexport.zip xml2psql
+	./xml2psql -export $< -database $(db_url) -descriptor Lokationen.yaml -prefix Lokationen
+	./xml2psql -export $< -database $(db_url) -descriptor Katalogkategorien.yaml -prefix Katalogkategorien
+	./xml2psql -export $< -database $(db_url) -descriptor Katalogwerte.yaml -prefix Katalogwerte
+	./xml2psql -export $< -database $(db_url) -descriptor Marktakteure.yaml -prefix Marktakteure
+	./xml2psql -export $< -database $(db_url) -descriptor AnlagenEegBiomasse.yaml -prefix AnlagenEegBiomasse
+	./xml2psql -export $< -database $(db_url) -descriptor AnlagenEegSolar.yaml -prefix AnlagenEegSolar
+	./xml2psql -export $< -database $(db_url) -descriptor AnlagenEegWasser.yaml -prefix AnlagenEegWasser
+	./xml2psql -export $< -database $(db_url) -descriptor AnlagenEegWind.yaml -prefix AnlagenEegWind
+	./xml2psql -export $< -database $(db_url) -descriptor AnlagenEegStromSpeicher.yaml -prefix AnlagenEegStromSpeicher
+	./xml2psql -export $< -database $(db_url) -descriptor EinheitenBiomasse.yaml -prefix EinheitenBiomasse
+	./xml2psql -export $< -database $(db_url) -descriptor EinheitenSolar.yaml -prefix EinheitenSolar
+	./xml2psql -export $< -database $(db_url) -descriptor EinheitenStromSpeicher.yaml -prefix EinheitenStromSpeicher
+	./xml2psql -export $< -database $(db_url) -descriptor EinheitenWasser.yaml -prefix EinheitenWasser
+	./xml2psql -export $< -database $(db_url) -descriptor EinheitenWind.yaml -prefix EinheitenWind
 
 Marktstammdatenregister.dump:
 	PGPASSWORD=$(db_pass) pg_dump -h $(db_host) -U $(db_user) -Fc $(db_name) | pv -W >"$@"

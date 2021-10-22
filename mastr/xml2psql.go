@@ -1,6 +1,7 @@
 package main
 
 import (
+	"archive/zip"
 	"bufio"
 	"bytes"
 	"context"
@@ -9,10 +10,12 @@ import (
 	"fmt"
 	"github.com/jackc/pgtype"
 	"github.com/jackc/pgx/v4"
+	"golang.org/x/text/encoding/unicode"
 	"gopkg.in/yaml.v3"
 	"io"
 	"log"
 	"os"
+	"strings"
 	"text/template"
 	"time"
 )
@@ -20,10 +23,26 @@ import (
 var location = time.UTC
 
 func main() {
-	descriptorFileName := flag.String("descriptor", "<undefined>", "file name of the table descriptor")
-	databaseUrl := flag.String("database", "<undefined>", "PostgreSQL database URL")
+	const defaultArg = "<undefined>"
+	exportFileName := flag.String("export", defaultArg, "file name of the export zip file")
+	descriptorFileName := flag.String("descriptor", defaultArg, "file name of the table descriptor")
+	filePrefix := flag.String("prefix", defaultArg, "prefix of xml files to extract")
+	databaseUrl := flag.String("database", defaultArg, "postgres database URL")
 	forceCreate := flag.Bool("force-create", false, "use CREATE instead of CREATE IF NOT EXISTS")
 	flag.Parse()
+
+	// Ensure mandatory flags are set.
+	for _, arg := range []string{
+		*exportFileName,
+		*descriptorFileName,
+		*filePrefix,
+		*databaseUrl,
+	} {
+		if arg == defaultArg {
+			flag.PrintDefaults()
+			os.Exit(64)
+		}
+	}
 
 	var err error
 	location, err = time.LoadLocation("Europe/Berlin")
@@ -37,6 +56,17 @@ func main() {
 		log.Printf("%v", err)
 		return
 	}
+
+	r, err := zip.OpenReader(*exportFileName)
+	if err != nil {
+		log.Printf("%v", err)
+		return
+	}
+	defer func() {
+		if err := r.Close(); err != nil {
+			log.Printf("%v", err)
+		}
+	}()
 
 	// Connect to the database.
 	ctx := context.Background()
@@ -52,8 +82,30 @@ func main() {
 	}()
 
 	// Insert XML files one by one.
-	for _, xmlFile := range flag.Args() {
-		if err := insertFromXml(xmlFile, conn, ctx, td, *forceCreate); err != nil {
+	dec := unicode.UTF16(unicode.LittleEndian, unicode.IgnoreBOM).NewDecoder()
+	for _, xmlFile := range r.File {
+		if !strings.HasPrefix(xmlFile.FileHeader.Name, *filePrefix) {
+			continue
+		}
+		if err = func() error {
+			start := time.Now()
+			f, err := xmlFile.Open()
+			if err != nil {
+				return err
+			}
+			defer func() {
+				if err := f.Close(); err != nil {
+					log.Printf("%v", err)
+				}
+			}()
+			i, err := insertFromXml(dec.Reader(f), conn, ctx, td, *forceCreate)
+			if err != nil {
+				return err
+			}
+			elapsed := time.Since(start).Seconds()
+			log.Printf("%s\t%.f entries/second", xmlFile.FileHeader.Name, float64(i)/elapsed)
+			return nil
+		}(); err != nil {
 			log.Printf("%v", err)
 			return
 		}
@@ -349,21 +401,15 @@ create unlogged table {{if .Force}}{{else}}if not exists{{end}}
 	return nil
 }
 
-func insertFromXml(xmlFile string, conn *pgx.Conn, ctx context.Context, td *tableDescriptor, force bool) error {
-	start := time.Now()
-
+func insertFromXml(f io.Reader, conn *pgx.Conn, ctx context.Context, td *tableDescriptor, force bool) (int64, error) {
 	// Construct the buffered XML reader.
-	f, err := os.Open(xmlFile)
-	if err != nil {
-		return err
-	}
 	const bufSize = 4096 * 1024
 	br := xml.NewDecoder(bufio.NewReaderSize(f, bufSize))
 
 	// Begin the transaction.
 	tx, err := conn.Begin(ctx)
 	if err != nil {
-		return err
+		return 0, err
 	}
 	defer func() {
 		err := tx.Rollback(ctx)
@@ -374,7 +420,7 @@ func insertFromXml(xmlFile string, conn *pgx.Conn, ctx context.Context, td *tabl
 
 	// Create the table.
 	if err := createTable(tx, ctx, td, force); err != nil {
-		return err
+		return 0, err
 	}
 
 	// Copy data into the table.
@@ -387,14 +433,11 @@ func insertFromXml(xmlFile string, conn *pgx.Conn, ctx context.Context, td *tabl
 		&s,
 	)
 	if err != nil {
-		return err
+		return i, err
 	}
 	err = tx.Commit(ctx)
 	if err != nil {
-		return err
+		return i, err
 	}
-
-	elapsed := time.Since(start).Seconds()
-	log.Printf("%s\t%d entries\t%2.1f seconds\t%.f entries/second", xmlFile, i, elapsed, float64(i)/elapsed)
-	return nil
+	return i, nil
 }
