@@ -6,40 +6,6 @@
             "tables": [
                 {
                     "table": {
-                        "name": "article",
-                        "schema": "_helloworld"
-                    },
-                    "object_relationships": [
-                        {
-                            "name": "author",
-                            "using": {
-                                "foreign_key_constraint_on": "author_id"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "table": {
-                        "name": "author",
-                        "schema": "_helloworld"
-                    },
-                    "array_relationships": [
-                        {
-                            "name": "articles",
-                            "using": {
-                                "foreign_key_constraint_on": {
-                                    "table": {
-                                        "name": "article",
-                                        "schema": "_helloworld"
-                                    },
-                                    "column": "author_id"
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "table": {
                         "name": "AnlagenEegBiomasse",
                         "schema": "public"
                     },
@@ -209,49 +175,49 @@
                             }
                         },
                         {
-                            "name": "katalogwerteByBundesland",
+                            "name": "Bundesland_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Bundesland"
                             }
                         },
                         {
-                            "name": "katalogwerteByEinheitbetriebsstatus",
+                            "name": "Einheitbetriebsstatus_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "EinheitBetriebsstatus"
                             }
                         },
                         {
-                            "name": "katalogwerteByEinheitsystemstatus",
+                            "name": "Einheitsystemstatus_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "EinheitSystemstatus"
                             }
                         },
                         {
-                            "name": "katalogwerteByEinspeisungsart",
+                            "name": "Einspeisungsart_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Einspeisungsart"
                             }
                         },
                         {
-                            "name": "katalogwerteByEnergietraeger",
+                            "name": "Energietraeger_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Energietraeger"
                             }
                         },
                         {
-                            "name": "katalogwerteByHauptbrennstoff",
+                            "name": "Hauptbrennstoff_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Hauptbrennstoff"
                             }
                         },
                         {
-                            "name": "katalogwerteByLand",
+                            "name": "Land_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Land"
                             }
                         },
                         {
-                            "name": "katalogwerteByTechnologie",
+                            "name": "Technologie_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Technologie"
                             }
@@ -289,79 +255,79 @@
                             }
                         },
                         {
-                            "name": "katalogwerteByEinheitbetriebsstatus",
+                            "name": "Einheitbetriebsstatus_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "EinheitBetriebsstatus"
                             }
                         },
                         {
-                            "name": "katalogwerteByEinheitsystemstatus",
+                            "name": "Einheitsystemstatus_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "EinheitSystemstatus"
                             }
                         },
                         {
-                            "name": "katalogwerteByEinspeisungsart",
+                            "name": "Einspeisungsart_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Einspeisungsart"
                             }
                         },
                         {
-                            "name": "katalogwerteByEnergietraeger",
+                            "name": "Energietraeger_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Energietraeger"
                             }
                         },
                         {
-                            "name": "katalogwerteByGemeinsamerwechselrichtermitspeicher",
+                            "name": "Gemeinsamerwechselrichtermitspeicher_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "GemeinsamerWechselrichterMitSpeicher"
                             }
                         },
                         {
-                            "name": "katalogwerteByHauptausrichtung",
+                            "name": "Hauptausrichtung_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Hauptausrichtung"
                             }
                         },
                         {
-                            "name": "katalogwerteByHauptausrichtungneigungswinkel",
+                            "name": "Hauptausrichtungneigungswinkel_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "HauptausrichtungNeigungswinkel"
                             }
                         },
                         {
-                            "name": "katalogwerteByLage",
+                            "name": "Lage_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Lage"
                             }
                         },
                         {
-                            "name": "katalogwerteByLand",
+                            "name": "Land_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Land"
                             }
                         },
                         {
-                            "name": "katalogwerteByLeistungsbegrenzung",
+                            "name": "Leistungsbegrenzung_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Leistungsbegrenzung"
                             }
                         },
                         {
-                            "name": "katalogwerteByNebenausrichtung",
+                            "name": "Nebenausrichtung_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Nebenausrichtung"
                             }
                         },
                         {
-                            "name": "katalogwerteByNebenausrichtungneigungswinkel",
+                            "name": "Nebenausrichtungneigungswinkel_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "NebenausrichtungNeigungswinkel"
                             }
                         },
                         {
-                            "name": "katalogwerteByNutzungsbereich",
+                            "name": "Nutzungsbereich_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Nutzungsbereich"
                             }
@@ -399,61 +365,61 @@
                             }
                         },
                         {
-                            "name": "katalogwerteByBatterietechnologie",
+                            "name": "Batterietechnologie_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Batterietechnologie"
                             }
                         },
                         {
-                            "name": "katalogwerteByBundesland",
+                            "name": "Bundesland_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Bundesland"
                             }
                         },
                         {
-                            "name": "katalogwerteByEinheitbetriebsstatus",
+                            "name": "Einheitbetriebsstatus_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "EinheitBetriebsstatus"
                             }
                         },
                         {
-                            "name": "katalogwerteByEinheitsystemstatus",
+                            "name": "Einheitsystemstatus_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "EinheitSystemstatus"
                             }
                         },
                         {
-                            "name": "katalogwerteByEinsatzort",
+                            "name": "Einsatzort_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Einsatzort"
                             }
                         },
                         {
-                            "name": "katalogwerteByEinspeisungsart",
+                            "name": "Einspeisungsart_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Einspeisungsart"
                             }
                         },
                         {
-                            "name": "katalogwerteByEnergietraeger",
+                            "name": "Energietraeger_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Energietraeger"
                             }
                         },
                         {
-                            "name": "katalogwerteByLand",
+                            "name": "Land_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Land"
                             }
                         },
                         {
-                            "name": "katalogwerteByPumpspeichertechnologie",
+                            "name": "Pumpspeichertechnologie_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Pumpspeichertechnologie"
                             }
                         },
                         {
-                            "name": "katalogwerteByTechnologie",
+                            "name": "Technologie_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Technologie"
                             }
@@ -491,49 +457,49 @@
                             }
                         },
                         {
-                            "name": "katalogwerteByArtderwasserkraftanlage",
+                            "name": "Artderwasserkraftanlage_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "ArtDerWasserkraftanlage"
                             }
                         },
                         {
-                            "name": "katalogwerteByArtdeszuflusses",
+                            "name": "Artdeszuflusses_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "ArtDesZuflusses"
                             }
                         },
                         {
-                            "name": "katalogwerteByBundesland",
+                            "name": "Bundesland_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Bundesland"
                             }
                         },
                         {
-                            "name": "katalogwerteByEinheitbetriebsstatus",
+                            "name": "Einheitbetriebsstatus_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "EinheitBetriebsstatus"
                             }
                         },
                         {
-                            "name": "katalogwerteByEinheitsystemstatus",
+                            "name": "Einheitsystemstatus_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "EinheitSystemstatus"
                             }
                         },
                         {
-                            "name": "katalogwerteByEinspeisungsart",
+                            "name": "Einspeisungsart_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Einspeisungsart"
                             }
                         },
                         {
-                            "name": "katalogwerteByEnergietraeger",
+                            "name": "Energietraeger_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Energietraeger"
                             }
                         },
                         {
-                            "name": "katalogwerteByLand",
+                            "name": "Land_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Land"
                             }
@@ -571,67 +537,67 @@
                             }
                         },
                         {
-                            "name": "katalogwerteByClusternordsee",
+                            "name": "Clusternordsee_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "ClusterNordsee"
                             }
                         },
                         {
-                            "name": "katalogwerteByClusterostsee",
+                            "name": "Clusterostsee_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "ClusterOstsee"
                             }
                         },
                         {
-                            "name": "katalogwerteByEinheitbetriebsstatus",
+                            "name": "Einheitbetriebsstatus_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "EinheitBetriebsstatus"
                             }
                         },
                         {
-                            "name": "katalogwerteByEinheitsystemstatus",
+                            "name": "Einheitsystemstatus_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "EinheitSystemstatus"
                             }
                         },
                         {
-                            "name": "katalogwerteByEinspeisungsart",
+                            "name": "Einspeisungsart_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Einspeisungsart"
                             }
                         },
                         {
-                            "name": "katalogwerteByEnergietraeger",
+                            "name": "Energietraeger_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Energietraeger"
                             }
                         },
                         {
-                            "name": "katalogwerteByHersteller",
+                            "name": "Hersteller_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Hersteller"
                             }
                         },
                         {
-                            "name": "katalogwerteByLage",
+                            "name": "Lage_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Lage"
                             }
                         },
                         {
-                            "name": "katalogwerteByLand",
+                            "name": "Land_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Land"
                             }
                         },
                         {
-                            "name": "katalogwerteBySeelage",
+                            "name": "Seelage_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Seelage"
                             }
                         },
                         {
-                            "name": "katalogwerteByTechnologie",
+                            "name": "Technologie_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Technologie"
                             }
@@ -797,7 +763,7 @@
                             }
                         },
                         {
-                            "name": "einheitenBiomassesByBundesland",
+                            "name": "Bundesland_einheitenBiomasses",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -809,7 +775,7 @@
                             }
                         },
                         {
-                            "name": "einheitenBiomassesByEinheitbetriebsstatus",
+                            "name": "Einheitbetriebsstatus_einheitenBiomasses",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -821,7 +787,7 @@
                             }
                         },
                         {
-                            "name": "einheitenBiomassesByEinheitsystemstatus",
+                            "name": "Einheitsystemstatus_einheitenBiomasses",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -833,7 +799,7 @@
                             }
                         },
                         {
-                            "name": "einheitenBiomassesByEinspeisungsart",
+                            "name": "Einspeisungsart_einheitenBiomasses",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -845,7 +811,7 @@
                             }
                         },
                         {
-                            "name": "einheitenBiomassesByEnergietraeger",
+                            "name": "Energietraeger_einheitenBiomasses",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -857,7 +823,7 @@
                             }
                         },
                         {
-                            "name": "einheitenBiomassesByHauptbrennstoff",
+                            "name": "Hauptbrennstoff_einheitenBiomasses",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -869,7 +835,7 @@
                             }
                         },
                         {
-                            "name": "einheitenBiomassesByLand",
+                            "name": "Land_einheitenBiomasses",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -881,7 +847,7 @@
                             }
                         },
                         {
-                            "name": "einheitenBiomassesByTechnologie",
+                            "name": "Technologie_einheitenBiomasses",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -893,7 +859,7 @@
                             }
                         },
                         {
-                            "name": "einheitenSolarsByEinheitbetriebsstatus",
+                            "name": "Einheitbetriebsstatus_einheitenSolars",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -905,7 +871,7 @@
                             }
                         },
                         {
-                            "name": "einheitenSolarsByEinheitsystemstatus",
+                            "name": "Einheitsystemstatus_einheitenSolars",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -917,7 +883,7 @@
                             }
                         },
                         {
-                            "name": "einheitenSolarsByEinspeisungsart",
+                            "name": "Einspeisungsart_einheitenSolars",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -929,7 +895,7 @@
                             }
                         },
                         {
-                            "name": "einheitenSolarsByEnergietraeger",
+                            "name": "Energietraeger_einheitenSolars",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -941,7 +907,7 @@
                             }
                         },
                         {
-                            "name": "einheitenSolarsByGemeinsamerwechselrichtermitspeicher",
+                            "name": "Gemeinsamerwechselrichtermitspeicher_einheitenSolars",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -953,7 +919,7 @@
                             }
                         },
                         {
-                            "name": "einheitenSolarsByHauptausrichtung",
+                            "name": "Hauptausrichtung_einheitenSolars",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -965,7 +931,7 @@
                             }
                         },
                         {
-                            "name": "einheitenSolarsByHauptausrichtungneigungswinkel",
+                            "name": "Hauptausrichtungneigungswinkel_einheitenSolars",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -977,7 +943,7 @@
                             }
                         },
                         {
-                            "name": "einheitenSolarsByLage",
+                            "name": "Lage_einheitenSolars",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -989,7 +955,7 @@
                             }
                         },
                         {
-                            "name": "einheitenSolarsByLand",
+                            "name": "Land_einheitenSolars",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1001,7 +967,7 @@
                             }
                         },
                         {
-                            "name": "einheitenSolarsByLeistungsbegrenzung",
+                            "name": "Leistungsbegrenzung_einheitenSolars",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1013,7 +979,7 @@
                             }
                         },
                         {
-                            "name": "einheitenSolarsByNebenausrichtung",
+                            "name": "Nebenausrichtung_einheitenSolars",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1025,7 +991,7 @@
                             }
                         },
                         {
-                            "name": "einheitenSolarsByNebenausrichtungneigungswinkel",
+                            "name": "Nebenausrichtungneigungswinkel_einheitenSolars",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1037,7 +1003,7 @@
                             }
                         },
                         {
-                            "name": "einheitenSolarsByNutzungsbereich",
+                            "name": "Nutzungsbereich_einheitenSolars",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1049,7 +1015,7 @@
                             }
                         },
                         {
-                            "name": "einheitenStromSpeichersByBatterietechnologie",
+                            "name": "Batterietechnologie_einheitenStromSpeichers",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1061,7 +1027,7 @@
                             }
                         },
                         {
-                            "name": "einheitenStromSpeichersByBundesland",
+                            "name": "Bundesland_einheitenStromSpeichers",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1073,7 +1039,7 @@
                             }
                         },
                         {
-                            "name": "einheitenStromSpeichersByEinheitbetriebsstatus",
+                            "name": "Einheitbetriebsstatus_einheitenStromSpeichers",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1085,7 +1051,7 @@
                             }
                         },
                         {
-                            "name": "einheitenStromSpeichersByEinheitsystemstatus",
+                            "name": "Einheitsystemstatus_einheitenStromSpeichers",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1097,7 +1063,7 @@
                             }
                         },
                         {
-                            "name": "einheitenStromSpeichersByEinsatzort",
+                            "name": "Einsatzort_einheitenStromSpeichers",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1109,7 +1075,7 @@
                             }
                         },
                         {
-                            "name": "einheitenStromSpeichersByEinspeisungsart",
+                            "name": "Einspeisungsart_einheitenStromSpeichers",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1121,7 +1087,7 @@
                             }
                         },
                         {
-                            "name": "einheitenStromSpeichersByEnergietraeger",
+                            "name": "Energietraeger_einheitenStromSpeichers",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1133,7 +1099,7 @@
                             }
                         },
                         {
-                            "name": "einheitenStromSpeichersByLand",
+                            "name": "Land_einheitenStromSpeichers",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1145,7 +1111,7 @@
                             }
                         },
                         {
-                            "name": "einheitenStromSpeichersByPumpspeichertechnologie",
+                            "name": "Pumpspeichertechnologie_einheitenStromSpeichers",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1157,7 +1123,7 @@
                             }
                         },
                         {
-                            "name": "einheitenStromSpeichersByTechnologie",
+                            "name": "Technologie_einheitenStromSpeichers",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1169,7 +1135,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWassersByArtderwasserkraftanlage",
+                            "name": "Artderwasserkraftanlage_einheitenWassers",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1181,7 +1147,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWassersByArtdeszuflusses",
+                            "name": "Artdeszuflusses_einheitenWassers",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1193,7 +1159,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWassersByBundesland",
+                            "name": "Bundesland_einheitenWassers",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1205,7 +1171,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWassersByEinheitbetriebsstatus",
+                            "name": "Einheitbetriebsstatus_einheitenWassers",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1217,7 +1183,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWassersByEinheitsystemstatus",
+                            "name": "Einheitsystemstatus_einheitenWassers",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1229,7 +1195,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWassersByEinspeisungsart",
+                            "name": "Einspeisungsart_einheitenWassers",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1241,7 +1207,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWassersByEnergietraeger",
+                            "name": "Energietraeger_einheitenWassers",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1253,7 +1219,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWassersByLand",
+                            "name": "Land_einheitenWassers",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1265,7 +1231,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWindsByClusternordsee",
+                            "name": "Clusternordsee_einheitenWinds",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1277,7 +1243,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWindsByClusterostsee",
+                            "name": "Clusterostsee_einheitenWinds",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1289,7 +1255,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWindsByEinheitbetriebsstatus",
+                            "name": "Einheitbetriebsstatus_einheitenWinds",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1301,7 +1267,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWindsByEinheitsystemstatus",
+                            "name": "Einheitsystemstatus_einheitenWinds",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1313,7 +1279,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWindsByEinspeisungsart",
+                            "name": "Einspeisungsart_einheitenWinds",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1325,7 +1291,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWindsByEnergietraeger",
+                            "name": "Energietraeger_einheitenWinds",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1337,7 +1303,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWindsByHersteller",
+                            "name": "Hersteller_einheitenWinds",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1349,7 +1315,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWindsByLage",
+                            "name": "Lage_einheitenWinds",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1361,7 +1327,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWindsByLand",
+                            "name": "Land_einheitenWinds",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1373,7 +1339,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWindsBySeelage",
+                            "name": "Seelage_einheitenWinds",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1385,7 +1351,7 @@
                             }
                         },
                         {
-                            "name": "einheitenWindsByTechnologie",
+                            "name": "Technologie_einheitenWinds",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1397,7 +1363,7 @@
                             }
                         },
                         {
-                            "name": "marktakteuresByHauptwirtdschaftszweigabschnitt",
+                            "name": "Hauptwirtdschaftszweigabschnitt_marktakteures",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1409,7 +1375,7 @@
                             }
                         },
                         {
-                            "name": "marktakteuresByHauptwirtdschaftszweigabteilung",
+                            "name": "Hauptwirtdschaftszweigabteilung_marktakteures",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1421,7 +1387,7 @@
                             }
                         },
                         {
-                            "name": "marktakteuresByHauptwirtdschaftszweiggruppe",
+                            "name": "Hauptwirtdschaftszweiggruppe_marktakteures",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1433,7 +1399,7 @@
                             }
                         },
                         {
-                            "name": "marktakteuresByLand",
+                            "name": "Land_marktakteures",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1445,7 +1411,7 @@
                             }
                         },
                         {
-                            "name": "marktakteuresByPersonenart",
+                            "name": "Personenart_marktakteures",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1457,7 +1423,7 @@
                             }
                         },
                         {
-                            "name": "marktakteuresByRechtsform",
+                            "name": "Rechtsform_marktakteures",
                             "using": {
                                 "foreign_key_constraint_on": {
                                     "table": {
@@ -1621,37 +1587,37 @@
                             }
                         },
                         {
-                            "name": "katalogwerteByHauptwirtdschaftszweigabschnitt",
+                            "name": "Hauptwirtdschaftszweigabschnitt_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "HauptwirtdschaftszweigAbschnitt"
                             }
                         },
                         {
-                            "name": "katalogwerteByHauptwirtdschaftszweigabteilung",
+                            "name": "Hauptwirtdschaftszweigabteilung_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "HauptwirtdschaftszweigAbteilung"
                             }
                         },
                         {
-                            "name": "katalogwerteByHauptwirtdschaftszweiggruppe",
+                            "name": "Hauptwirtdschaftszweiggruppe_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "HauptwirtdschaftszweigGruppe"
                             }
                         },
                         {
-                            "name": "katalogwerteByLand",
+                            "name": "Land_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Land"
                             }
                         },
                         {
-                            "name": "katalogwerteByPersonenart",
+                            "name": "Personenart_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Personenart"
                             }
                         },
                         {
-                            "name": "katalogwerteByRechtsform",
+                            "name": "Rechtsform_Katalogwerte",
                             "using": {
                                 "foreign_key_constraint_on": "Rechtsform"
                             }
