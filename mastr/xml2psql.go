@@ -17,6 +17,49 @@ import (
 	"time"
 )
 
+var location = time.UTC
+
+func main() {
+	descriptorFileName := flag.String("descriptor", "<undefined>", "file name of the table descriptor")
+	databaseUrl := flag.String("database", "<undefined>", "PostgreSQL database URL")
+	forceCreate := flag.Bool("force-create", false, "use CREATE instead of CREATE IF NOT EXISTS")
+	flag.Parse()
+
+	var err error
+	location, err = time.LoadLocation("Europe/Berlin")
+	if err != nil {
+		log.Printf("%v", err)
+		return
+	}
+
+	td, err := decodeDescriptor(*descriptorFileName)
+	if err != nil {
+		log.Printf("%v", err)
+		return
+	}
+
+	// Connect to the database.
+	ctx := context.Background()
+	conn, err := pgx.Connect(ctx, *databaseUrl)
+	if err != nil {
+		log.Printf("%v", err)
+		return
+	}
+	defer func() {
+		if err := conn.Close(ctx); err != nil {
+			log.Printf("%v", err)
+		}
+	}()
+
+	// Insert XML files one by one.
+	for _, xmlFile := range flag.Args() {
+		if err := insertFromXml(xmlFile, conn, ctx, td, *forceCreate); err != nil {
+			log.Printf("%v", err)
+			return
+		}
+	}
+}
+
 type reference struct {
 	Table  string `yaml:"table"`
 	Column string `yaml:"column"`
@@ -88,8 +131,6 @@ func (f *fields) header() []string {
 	}
 	return result
 }
-
-var location = time.UTC
 
 func (f *fields) record(item map[string]string) ([]interface{}, error) {
 	n := len(f.fields)
@@ -356,45 +397,4 @@ func insertFromXml(xmlFile string, conn *pgx.Conn, ctx context.Context, td *tabl
 	elapsed := time.Since(start).Seconds()
 	log.Printf("%s\t%d entries\t%2.1f seconds\t%.f entries/second", xmlFile, i, elapsed, float64(i)/elapsed)
 	return nil
-}
-
-func main() {
-	descriptorFileName := flag.String("descriptor", "<undefined>", "file name of the table descriptor")
-	databaseUrl := flag.String("database", "<undefined>", "PostgreSQL database URL")
-	forceCreate := flag.Bool("force-create", false, "use CREATE instead of CREATE IF NOT EXISTS")
-	flag.Parse()
-
-	var err error
-	location, err = time.LoadLocation("Europe/Berlin")
-	if err != nil {
-		log.Printf("%v", err)
-		return
-	}
-
-	td, err := decodeDescriptor(*descriptorFileName)
-	if err != nil {
-		log.Printf("%v", err)
-		return
-	}
-
-	// Connect to the database.
-	ctx := context.Background()
-	conn, err := pgx.Connect(ctx, *databaseUrl)
-	if err != nil {
-		log.Printf("%v", err)
-		return
-	}
-	defer func() {
-		if err := conn.Close(ctx); err != nil {
-			log.Printf("%v", err)
-		}
-	}()
-
-	// Insert XML files one by one.
-	for _, xmlFile := range flag.Args() {
-		if err := insertFromXml(xmlFile, conn, ctx, td, *forceCreate); err != nil {
-			log.Printf("%v", err)
-			return
-		}
-	}
 }
