@@ -1,0 +1,1672 @@
+{
+    "sources": [
+        {
+            "kind": "postgres",
+            "name": "local",
+            "tables": [
+                {
+                    "table": {
+                        "name": "article",
+                        "schema": "_helloworld"
+                    },
+                    "object_relationships": [
+                        {
+                            "name": "author",
+                            "using": {
+                                "foreign_key_constraint_on": "author_id"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "table": {
+                        "name": "author",
+                        "schema": "_helloworld"
+                    },
+                    "array_relationships": [
+                        {
+                            "name": "articles",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "article",
+                                        "schema": "_helloworld"
+                                    },
+                                    "column": "author_id"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "table": {
+                        "name": "AnlagenEegBiomasse",
+                        "schema": "public"
+                    },
+                    "array_relationships": [
+                        {
+                            "name": "EinheitenBiomasses",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenBiomasse",
+                                        "schema": "public"
+                                    },
+                                    "column": "EegMaStRNummer"
+                                }
+                            }
+                        }
+                    ],
+                    "object_relationships": [
+                        {
+                            "name": "Katalogwerte",
+                            "using": {
+                                "foreign_key_constraint_on": "AnlageBetriebsstatus"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "table": {
+                        "name": "AnlagenEegSolar",
+                        "schema": "public"
+                    },
+                    "array_relationships": [
+                        {
+                            "name": "EinheitenSolars",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenSolar",
+                                        "schema": "public"
+                                    },
+                                    "column": "EegMaStRNummer"
+                                }
+                            }
+                        }
+                    ],
+                    "object_relationships": [
+                        {
+                            "name": "Katalogwerte",
+                            "using": {
+                                "foreign_key_constraint_on": "AnlageBetriebsstatus"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "table": {
+                        "name": "AnlagenEegWasser",
+                        "schema": "public"
+                    },
+                    "array_relationships": [
+                        {
+                            "name": "EinheitenWassers",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWasser",
+                                        "schema": "public"
+                                    },
+                                    "column": "EegMaStRNummer"
+                                }
+                            }
+                        }
+                    ],
+                    "object_relationships": [
+                        {
+                            "name": "Katalogwerte",
+                            "using": {
+                                "foreign_key_constraint_on": "AnlageBetriebsstatus"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "table": {
+                        "name": "AnlagenEegWind",
+                        "schema": "public"
+                    },
+                    "array_relationships": [
+                        {
+                            "name": "EinheitenWinds",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWind",
+                                        "schema": "public"
+                                    },
+                                    "column": "EegMaStRNummer"
+                                }
+                            }
+                        }
+                    ],
+                    "object_relationships": [
+                        {
+                            "name": "Katalogwerte",
+                            "using": {
+                                "foreign_key_constraint_on": "AnlageBetriebsstatus"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "table": {
+                        "name": "AnlagenStromSpeicher",
+                        "schema": "public"
+                    },
+                    "array_relationships": [
+                        {
+                            "name": "EinheitenStromSpeichers",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenStromSpeicher",
+                                        "schema": "public"
+                                    },
+                                    "column": "SpeMastrNummer"
+                                }
+                            }
+                        }
+                    ],
+                    "object_relationships": [
+                        {
+                            "name": "Katalogwerte",
+                            "using": {
+                                "foreign_key_constraint_on": "AnlageBetriebsstatus"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "table": {
+                        "name": "EinheitenBiomasse",
+                        "schema": "public"
+                    },
+                    "object_relationships": [
+                        {
+                            "name": "AnlagenEegBiomasse",
+                            "using": {
+                                "foreign_key_constraint_on": "EegMaStRNummer"
+                            }
+                        },
+                        {
+                            "name": "Katalogwerte",
+                            "using": {
+                                "foreign_key_constraint_on": "Biomasseart"
+                            }
+                        },
+                        {
+                            "name": "Lokationen",
+                            "using": {
+                                "foreign_key_constraint_on": "LokationMaStRNummer"
+                            }
+                        },
+                        {
+                            "name": "Marktakteure",
+                            "using": {
+                                "foreign_key_constraint_on": "AnlagenbetreiberMastrNummer"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByBundesland",
+                            "using": {
+                                "foreign_key_constraint_on": "Bundesland"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEinheitbetriebsstatus",
+                            "using": {
+                                "foreign_key_constraint_on": "EinheitBetriebsstatus"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEinheitsystemstatus",
+                            "using": {
+                                "foreign_key_constraint_on": "EinheitSystemstatus"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEinspeisungsart",
+                            "using": {
+                                "foreign_key_constraint_on": "Einspeisungsart"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEnergietraeger",
+                            "using": {
+                                "foreign_key_constraint_on": "Energietraeger"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByHauptbrennstoff",
+                            "using": {
+                                "foreign_key_constraint_on": "Hauptbrennstoff"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByLand",
+                            "using": {
+                                "foreign_key_constraint_on": "Land"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByTechnologie",
+                            "using": {
+                                "foreign_key_constraint_on": "Technologie"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "table": {
+                        "name": "EinheitenSolar",
+                        "schema": "public"
+                    },
+                    "object_relationships": [
+                        {
+                            "name": "AnlagenEegSolar",
+                            "using": {
+                                "foreign_key_constraint_on": "EegMaStRNummer"
+                            }
+                        },
+                        {
+                            "name": "Katalogwerte",
+                            "using": {
+                                "foreign_key_constraint_on": "Bundesland"
+                            }
+                        },
+                        {
+                            "name": "Lokationen",
+                            "using": {
+                                "foreign_key_constraint_on": "LokationMaStRNummer"
+                            }
+                        },
+                        {
+                            "name": "Marktakteure",
+                            "using": {
+                                "foreign_key_constraint_on": "AnlagenbetreiberMastrNummer"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEinheitbetriebsstatus",
+                            "using": {
+                                "foreign_key_constraint_on": "EinheitBetriebsstatus"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEinheitsystemstatus",
+                            "using": {
+                                "foreign_key_constraint_on": "EinheitSystemstatus"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEinspeisungsart",
+                            "using": {
+                                "foreign_key_constraint_on": "Einspeisungsart"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEnergietraeger",
+                            "using": {
+                                "foreign_key_constraint_on": "Energietraeger"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByGemeinsamerwechselrichtermitspeicher",
+                            "using": {
+                                "foreign_key_constraint_on": "GemeinsamerWechselrichterMitSpeicher"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByHauptausrichtung",
+                            "using": {
+                                "foreign_key_constraint_on": "Hauptausrichtung"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByHauptausrichtungneigungswinkel",
+                            "using": {
+                                "foreign_key_constraint_on": "HauptausrichtungNeigungswinkel"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByLage",
+                            "using": {
+                                "foreign_key_constraint_on": "Lage"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByLand",
+                            "using": {
+                                "foreign_key_constraint_on": "Land"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByLeistungsbegrenzung",
+                            "using": {
+                                "foreign_key_constraint_on": "Leistungsbegrenzung"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByNebenausrichtung",
+                            "using": {
+                                "foreign_key_constraint_on": "Nebenausrichtung"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByNebenausrichtungneigungswinkel",
+                            "using": {
+                                "foreign_key_constraint_on": "NebenausrichtungNeigungswinkel"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByNutzungsbereich",
+                            "using": {
+                                "foreign_key_constraint_on": "Nutzungsbereich"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "table": {
+                        "name": "EinheitenStromSpeicher",
+                        "schema": "public"
+                    },
+                    "object_relationships": [
+                        {
+                            "name": "AnlagenStromSpeicher",
+                            "using": {
+                                "foreign_key_constraint_on": "SpeMastrNummer"
+                            }
+                        },
+                        {
+                            "name": "Katalogwerte",
+                            "using": {
+                                "foreign_key_constraint_on": "AcDcKoppelung"
+                            }
+                        },
+                        {
+                            "name": "Lokationen",
+                            "using": {
+                                "foreign_key_constraint_on": "LokationMaStRNummer"
+                            }
+                        },
+                        {
+                            "name": "Marktakteure",
+                            "using": {
+                                "foreign_key_constraint_on": "AnlagenbetreiberMastrNummer"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByBatterietechnologie",
+                            "using": {
+                                "foreign_key_constraint_on": "Batterietechnologie"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByBundesland",
+                            "using": {
+                                "foreign_key_constraint_on": "Bundesland"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEinheitbetriebsstatus",
+                            "using": {
+                                "foreign_key_constraint_on": "EinheitBetriebsstatus"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEinheitsystemstatus",
+                            "using": {
+                                "foreign_key_constraint_on": "EinheitSystemstatus"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEinsatzort",
+                            "using": {
+                                "foreign_key_constraint_on": "Einsatzort"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEinspeisungsart",
+                            "using": {
+                                "foreign_key_constraint_on": "Einspeisungsart"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEnergietraeger",
+                            "using": {
+                                "foreign_key_constraint_on": "Energietraeger"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByLand",
+                            "using": {
+                                "foreign_key_constraint_on": "Land"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByPumpspeichertechnologie",
+                            "using": {
+                                "foreign_key_constraint_on": "Pumpspeichertechnologie"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByTechnologie",
+                            "using": {
+                                "foreign_key_constraint_on": "Technologie"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "table": {
+                        "name": "EinheitenWasser",
+                        "schema": "public"
+                    },
+                    "object_relationships": [
+                        {
+                            "name": "AnlagenEegWasser",
+                            "using": {
+                                "foreign_key_constraint_on": "EegMaStRNummer"
+                            }
+                        },
+                        {
+                            "name": "Katalogwerte",
+                            "using": {
+                                "foreign_key_constraint_on": "ArtDerStilllegung"
+                            }
+                        },
+                        {
+                            "name": "Lokationen",
+                            "using": {
+                                "foreign_key_constraint_on": "LokationMaStRNummer"
+                            }
+                        },
+                        {
+                            "name": "Marktakteure",
+                            "using": {
+                                "foreign_key_constraint_on": "AnlagenbetreiberMastrNummer"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByArtderwasserkraftanlage",
+                            "using": {
+                                "foreign_key_constraint_on": "ArtDerWasserkraftanlage"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByArtdeszuflusses",
+                            "using": {
+                                "foreign_key_constraint_on": "ArtDesZuflusses"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByBundesland",
+                            "using": {
+                                "foreign_key_constraint_on": "Bundesland"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEinheitbetriebsstatus",
+                            "using": {
+                                "foreign_key_constraint_on": "EinheitBetriebsstatus"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEinheitsystemstatus",
+                            "using": {
+                                "foreign_key_constraint_on": "EinheitSystemstatus"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEinspeisungsart",
+                            "using": {
+                                "foreign_key_constraint_on": "Einspeisungsart"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEnergietraeger",
+                            "using": {
+                                "foreign_key_constraint_on": "Energietraeger"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByLand",
+                            "using": {
+                                "foreign_key_constraint_on": "Land"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "table": {
+                        "name": "EinheitenWind",
+                        "schema": "public"
+                    },
+                    "object_relationships": [
+                        {
+                            "name": "AnlagenEegWind",
+                            "using": {
+                                "foreign_key_constraint_on": "EegMaStRNummer"
+                            }
+                        },
+                        {
+                            "name": "Katalogwerte",
+                            "using": {
+                                "foreign_key_constraint_on": "Bundesland"
+                            }
+                        },
+                        {
+                            "name": "Lokationen",
+                            "using": {
+                                "foreign_key_constraint_on": "LokationMaStRNummer"
+                            }
+                        },
+                        {
+                            "name": "Marktakteure",
+                            "using": {
+                                "foreign_key_constraint_on": "AnlagenbetreiberMastrNummer"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByClusternordsee",
+                            "using": {
+                                "foreign_key_constraint_on": "ClusterNordsee"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByClusterostsee",
+                            "using": {
+                                "foreign_key_constraint_on": "ClusterOstsee"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEinheitbetriebsstatus",
+                            "using": {
+                                "foreign_key_constraint_on": "EinheitBetriebsstatus"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEinheitsystemstatus",
+                            "using": {
+                                "foreign_key_constraint_on": "EinheitSystemstatus"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEinspeisungsart",
+                            "using": {
+                                "foreign_key_constraint_on": "Einspeisungsart"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByEnergietraeger",
+                            "using": {
+                                "foreign_key_constraint_on": "Energietraeger"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByHersteller",
+                            "using": {
+                                "foreign_key_constraint_on": "Hersteller"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByLage",
+                            "using": {
+                                "foreign_key_constraint_on": "Lage"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByLand",
+                            "using": {
+                                "foreign_key_constraint_on": "Land"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteBySeelage",
+                            "using": {
+                                "foreign_key_constraint_on": "Seelage"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByTechnologie",
+                            "using": {
+                                "foreign_key_constraint_on": "Technologie"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "table": {
+                        "name": "Katalogkategorien",
+                        "schema": "public"
+                    },
+                    "array_relationships": [
+                        {
+                            "name": "Katalogwertes",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "Katalogwerte",
+                                        "schema": "public"
+                                    },
+                                    "column": "KatalogKategorieId"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "table": {
+                        "name": "Katalogwerte",
+                        "schema": "public"
+                    },
+                    "array_relationships": [
+                        {
+                            "name": "AnlagenEegBiomasses",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "AnlagenEegBiomasse",
+                                        "schema": "public"
+                                    },
+                                    "column": "AnlageBetriebsstatus"
+                                }
+                            }
+                        },
+                        {
+                            "name": "AnlagenEegSolars",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "AnlagenEegSolar",
+                                        "schema": "public"
+                                    },
+                                    "column": "AnlageBetriebsstatus"
+                                }
+                            }
+                        },
+                        {
+                            "name": "AnlagenEegWassers",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "AnlagenEegWasser",
+                                        "schema": "public"
+                                    },
+                                    "column": "AnlageBetriebsstatus"
+                                }
+                            }
+                        },
+                        {
+                            "name": "AnlagenEegWinds",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "AnlagenEegWind",
+                                        "schema": "public"
+                                    },
+                                    "column": "AnlageBetriebsstatus"
+                                }
+                            }
+                        },
+                        {
+                            "name": "AnlagenStromSpeichers",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "AnlagenStromSpeicher",
+                                        "schema": "public"
+                                    },
+                                    "column": "AnlageBetriebsstatus"
+                                }
+                            }
+                        },
+                        {
+                            "name": "EinheitenBiomasses",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenBiomasse",
+                                        "schema": "public"
+                                    },
+                                    "column": "Biomasseart"
+                                }
+                            }
+                        },
+                        {
+                            "name": "EinheitenSolars",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenSolar",
+                                        "schema": "public"
+                                    },
+                                    "column": "Bundesland"
+                                }
+                            }
+                        },
+                        {
+                            "name": "EinheitenStromSpeichers",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenStromSpeicher",
+                                        "schema": "public"
+                                    },
+                                    "column": "AcDcKoppelung"
+                                }
+                            }
+                        },
+                        {
+                            "name": "EinheitenWassers",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWasser",
+                                        "schema": "public"
+                                    },
+                                    "column": "ArtDerStilllegung"
+                                }
+                            }
+                        },
+                        {
+                            "name": "EinheitenWinds",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWind",
+                                        "schema": "public"
+                                    },
+                                    "column": "Bundesland"
+                                }
+                            }
+                        },
+                        {
+                            "name": "Marktakteures",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "Marktakteure",
+                                        "schema": "public"
+                                    },
+                                    "column": "Bundesland"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenBiomassesByBundesland",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenBiomasse",
+                                        "schema": "public"
+                                    },
+                                    "column": "Bundesland"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenBiomassesByEinheitbetriebsstatus",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenBiomasse",
+                                        "schema": "public"
+                                    },
+                                    "column": "EinheitBetriebsstatus"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenBiomassesByEinheitsystemstatus",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenBiomasse",
+                                        "schema": "public"
+                                    },
+                                    "column": "EinheitSystemstatus"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenBiomassesByEinspeisungsart",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenBiomasse",
+                                        "schema": "public"
+                                    },
+                                    "column": "Einspeisungsart"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenBiomassesByEnergietraeger",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenBiomasse",
+                                        "schema": "public"
+                                    },
+                                    "column": "Energietraeger"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenBiomassesByHauptbrennstoff",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenBiomasse",
+                                        "schema": "public"
+                                    },
+                                    "column": "Hauptbrennstoff"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenBiomassesByLand",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenBiomasse",
+                                        "schema": "public"
+                                    },
+                                    "column": "Land"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenBiomassesByTechnologie",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenBiomasse",
+                                        "schema": "public"
+                                    },
+                                    "column": "Technologie"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenSolarsByEinheitbetriebsstatus",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenSolar",
+                                        "schema": "public"
+                                    },
+                                    "column": "EinheitBetriebsstatus"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenSolarsByEinheitsystemstatus",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenSolar",
+                                        "schema": "public"
+                                    },
+                                    "column": "EinheitSystemstatus"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenSolarsByEinspeisungsart",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenSolar",
+                                        "schema": "public"
+                                    },
+                                    "column": "Einspeisungsart"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenSolarsByEnergietraeger",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenSolar",
+                                        "schema": "public"
+                                    },
+                                    "column": "Energietraeger"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenSolarsByGemeinsamerwechselrichtermitspeicher",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenSolar",
+                                        "schema": "public"
+                                    },
+                                    "column": "GemeinsamerWechselrichterMitSpeicher"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenSolarsByHauptausrichtung",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenSolar",
+                                        "schema": "public"
+                                    },
+                                    "column": "Hauptausrichtung"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenSolarsByHauptausrichtungneigungswinkel",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenSolar",
+                                        "schema": "public"
+                                    },
+                                    "column": "HauptausrichtungNeigungswinkel"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenSolarsByLage",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenSolar",
+                                        "schema": "public"
+                                    },
+                                    "column": "Lage"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenSolarsByLand",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenSolar",
+                                        "schema": "public"
+                                    },
+                                    "column": "Land"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenSolarsByLeistungsbegrenzung",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenSolar",
+                                        "schema": "public"
+                                    },
+                                    "column": "Leistungsbegrenzung"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenSolarsByNebenausrichtung",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenSolar",
+                                        "schema": "public"
+                                    },
+                                    "column": "Nebenausrichtung"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenSolarsByNebenausrichtungneigungswinkel",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenSolar",
+                                        "schema": "public"
+                                    },
+                                    "column": "NebenausrichtungNeigungswinkel"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenSolarsByNutzungsbereich",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenSolar",
+                                        "schema": "public"
+                                    },
+                                    "column": "Nutzungsbereich"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenStromSpeichersByBatterietechnologie",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenStromSpeicher",
+                                        "schema": "public"
+                                    },
+                                    "column": "Batterietechnologie"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenStromSpeichersByBundesland",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenStromSpeicher",
+                                        "schema": "public"
+                                    },
+                                    "column": "Bundesland"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenStromSpeichersByEinheitbetriebsstatus",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenStromSpeicher",
+                                        "schema": "public"
+                                    },
+                                    "column": "EinheitBetriebsstatus"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenStromSpeichersByEinheitsystemstatus",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenStromSpeicher",
+                                        "schema": "public"
+                                    },
+                                    "column": "EinheitSystemstatus"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenStromSpeichersByEinsatzort",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenStromSpeicher",
+                                        "schema": "public"
+                                    },
+                                    "column": "Einsatzort"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenStromSpeichersByEinspeisungsart",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenStromSpeicher",
+                                        "schema": "public"
+                                    },
+                                    "column": "Einspeisungsart"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenStromSpeichersByEnergietraeger",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenStromSpeicher",
+                                        "schema": "public"
+                                    },
+                                    "column": "Energietraeger"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenStromSpeichersByLand",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenStromSpeicher",
+                                        "schema": "public"
+                                    },
+                                    "column": "Land"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenStromSpeichersByPumpspeichertechnologie",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenStromSpeicher",
+                                        "schema": "public"
+                                    },
+                                    "column": "Pumpspeichertechnologie"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenStromSpeichersByTechnologie",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenStromSpeicher",
+                                        "schema": "public"
+                                    },
+                                    "column": "Technologie"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWassersByArtderwasserkraftanlage",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWasser",
+                                        "schema": "public"
+                                    },
+                                    "column": "ArtDerWasserkraftanlage"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWassersByArtdeszuflusses",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWasser",
+                                        "schema": "public"
+                                    },
+                                    "column": "ArtDesZuflusses"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWassersByBundesland",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWasser",
+                                        "schema": "public"
+                                    },
+                                    "column": "Bundesland"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWassersByEinheitbetriebsstatus",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWasser",
+                                        "schema": "public"
+                                    },
+                                    "column": "EinheitBetriebsstatus"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWassersByEinheitsystemstatus",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWasser",
+                                        "schema": "public"
+                                    },
+                                    "column": "EinheitSystemstatus"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWassersByEinspeisungsart",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWasser",
+                                        "schema": "public"
+                                    },
+                                    "column": "Einspeisungsart"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWassersByEnergietraeger",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWasser",
+                                        "schema": "public"
+                                    },
+                                    "column": "Energietraeger"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWassersByLand",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWasser",
+                                        "schema": "public"
+                                    },
+                                    "column": "Land"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWindsByClusternordsee",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWind",
+                                        "schema": "public"
+                                    },
+                                    "column": "ClusterNordsee"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWindsByClusterostsee",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWind",
+                                        "schema": "public"
+                                    },
+                                    "column": "ClusterOstsee"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWindsByEinheitbetriebsstatus",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWind",
+                                        "schema": "public"
+                                    },
+                                    "column": "EinheitBetriebsstatus"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWindsByEinheitsystemstatus",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWind",
+                                        "schema": "public"
+                                    },
+                                    "column": "EinheitSystemstatus"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWindsByEinspeisungsart",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWind",
+                                        "schema": "public"
+                                    },
+                                    "column": "Einspeisungsart"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWindsByEnergietraeger",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWind",
+                                        "schema": "public"
+                                    },
+                                    "column": "Energietraeger"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWindsByHersteller",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWind",
+                                        "schema": "public"
+                                    },
+                                    "column": "Hersteller"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWindsByLage",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWind",
+                                        "schema": "public"
+                                    },
+                                    "column": "Lage"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWindsByLand",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWind",
+                                        "schema": "public"
+                                    },
+                                    "column": "Land"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWindsBySeelage",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWind",
+                                        "schema": "public"
+                                    },
+                                    "column": "Seelage"
+                                }
+                            }
+                        },
+                        {
+                            "name": "einheitenWindsByTechnologie",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWind",
+                                        "schema": "public"
+                                    },
+                                    "column": "Technologie"
+                                }
+                            }
+                        },
+                        {
+                            "name": "marktakteuresByHauptwirtdschaftszweigabschnitt",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "Marktakteure",
+                                        "schema": "public"
+                                    },
+                                    "column": "HauptwirtdschaftszweigAbschnitt"
+                                }
+                            }
+                        },
+                        {
+                            "name": "marktakteuresByHauptwirtdschaftszweigabteilung",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "Marktakteure",
+                                        "schema": "public"
+                                    },
+                                    "column": "HauptwirtdschaftszweigAbteilung"
+                                }
+                            }
+                        },
+                        {
+                            "name": "marktakteuresByHauptwirtdschaftszweiggruppe",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "Marktakteure",
+                                        "schema": "public"
+                                    },
+                                    "column": "HauptwirtdschaftszweigGruppe"
+                                }
+                            }
+                        },
+                        {
+                            "name": "marktakteuresByLand",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "Marktakteure",
+                                        "schema": "public"
+                                    },
+                                    "column": "Land"
+                                }
+                            }
+                        },
+                        {
+                            "name": "marktakteuresByPersonenart",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "Marktakteure",
+                                        "schema": "public"
+                                    },
+                                    "column": "Personenart"
+                                }
+                            }
+                        },
+                        {
+                            "name": "marktakteuresByRechtsform",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "Marktakteure",
+                                        "schema": "public"
+                                    },
+                                    "column": "Rechtsform"
+                                }
+                            }
+                        }
+                    ],
+                    "object_relationships": [
+                        {
+                            "name": "Katalogkategorien",
+                            "using": {
+                                "foreign_key_constraint_on": "KatalogKategorieId"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "table": {
+                        "name": "Lokationen",
+                        "schema": "public"
+                    },
+                    "array_relationships": [
+                        {
+                            "name": "EinheitenBiomasses",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenBiomasse",
+                                        "schema": "public"
+                                    },
+                                    "column": "LokationMaStRNummer"
+                                }
+                            }
+                        },
+                        {
+                            "name": "EinheitenSolars",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenSolar",
+                                        "schema": "public"
+                                    },
+                                    "column": "LokationMaStRNummer"
+                                }
+                            }
+                        },
+                        {
+                            "name": "EinheitenStromSpeichers",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenStromSpeicher",
+                                        "schema": "public"
+                                    },
+                                    "column": "LokationMaStRNummer"
+                                }
+                            }
+                        },
+                        {
+                            "name": "EinheitenWassers",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWasser",
+                                        "schema": "public"
+                                    },
+                                    "column": "LokationMaStRNummer"
+                                }
+                            }
+                        },
+                        {
+                            "name": "EinheitenWinds",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWind",
+                                        "schema": "public"
+                                    },
+                                    "column": "LokationMaStRNummer"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "table": {
+                        "name": "Marktakteure",
+                        "schema": "public"
+                    },
+                    "array_relationships": [
+                        {
+                            "name": "EinheitenBiomasses",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenBiomasse",
+                                        "schema": "public"
+                                    },
+                                    "column": "AnlagenbetreiberMastrNummer"
+                                }
+                            }
+                        },
+                        {
+                            "name": "EinheitenSolars",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenSolar",
+                                        "schema": "public"
+                                    },
+                                    "column": "AnlagenbetreiberMastrNummer"
+                                }
+                            }
+                        },
+                        {
+                            "name": "EinheitenStromSpeichers",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenStromSpeicher",
+                                        "schema": "public"
+                                    },
+                                    "column": "AnlagenbetreiberMastrNummer"
+                                }
+                            }
+                        },
+                        {
+                            "name": "EinheitenWassers",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWasser",
+                                        "schema": "public"
+                                    },
+                                    "column": "AnlagenbetreiberMastrNummer"
+                                }
+                            }
+                        },
+                        {
+                            "name": "EinheitenWinds",
+                            "using": {
+                                "foreign_key_constraint_on": {
+                                    "table": {
+                                        "name": "EinheitenWind",
+                                        "schema": "public"
+                                    },
+                                    "column": "AnlagenbetreiberMastrNummer"
+                                }
+                            }
+                        }
+                    ],
+                    "object_relationships": [
+                        {
+                            "name": "Katalogwerte",
+                            "using": {
+                                "foreign_key_constraint_on": "Bundesland"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByHauptwirtdschaftszweigabschnitt",
+                            "using": {
+                                "foreign_key_constraint_on": "HauptwirtdschaftszweigAbschnitt"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByHauptwirtdschaftszweigabteilung",
+                            "using": {
+                                "foreign_key_constraint_on": "HauptwirtdschaftszweigAbteilung"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByHauptwirtdschaftszweiggruppe",
+                            "using": {
+                                "foreign_key_constraint_on": "HauptwirtdschaftszweigGruppe"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByLand",
+                            "using": {
+                                "foreign_key_constraint_on": "Land"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByPersonenart",
+                            "using": {
+                                "foreign_key_constraint_on": "Personenart"
+                            }
+                        },
+                        {
+                            "name": "katalogwerteByRechtsform",
+                            "using": {
+                                "foreign_key_constraint_on": "Rechtsform"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "configuration": {
+                "connection_info": {
+                    "database_url": "postgres://user:password@postgres:5432/db",
+                    "isolation_level": "read-committed",
+                    "use_prepared_statements": false
+                }
+            }
+        }
+    ],
+    "version": 3
+}
