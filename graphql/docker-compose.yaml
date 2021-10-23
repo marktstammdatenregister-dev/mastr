@@ -1,0 +1,49 @@
+version: "3"
+services:
+
+  postgres:
+    image: postgres:12
+    ports:
+      - 127.0.0.1:5432:5432 # PostgreSQL port.
+    restart: always
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db_data2:/var/lib/postgresql/data
+    #command: ["postgres", "-c", "log_statement=all", "-c", "log_destination=stderr"]
+
+  graphql-engine:
+    image: hasura/graphql-engine:v2.0.10
+    ports:
+    - "8080:8080"
+    depends_on:
+    - "postgres"
+    restart: always
+    environment:
+      ## postgres database to store Hasura metadata
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://user:password@postgres:5432/db
+      ## this env var can be used to add the above postgres database to Hasura as a data source. this can be removed/updated based on your needs
+      PG_DATABASE_URL: postgres://user:password@postgres:5432/db
+      ## enable the console served by server
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      ## enable debugging mode. It is recommended to disable this in production
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      ## uncomment next line to set an admin secret
+      # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+    - "8081:80"
+    depends_on:
+    - "postgres"
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: e@ma.il
+      PGADMIN_DEFAULT_PASSWORD: password
+
+volumes:
+  db_data2:
