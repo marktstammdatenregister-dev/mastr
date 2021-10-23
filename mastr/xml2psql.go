@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/xml"
+	"errors"
 	"flag"
 	"fmt"
 	"github.com/jackc/pgtype"
@@ -20,14 +21,28 @@ import (
 	"time"
 )
 
-var location = time.UTC
+var (
+	location         = time.UTC
+	errMissingOption = errors.New("missing mandatory argument")
+)
 
 func main() {
-	const defaultArg = "<undefined>"
-	exportFileName := flag.String("export", defaultArg, "file name of the export zip file")
-	descriptorFileName := flag.String("descriptor", defaultArg, "file name of the table descriptor")
-	filePrefix := flag.String("prefix", defaultArg, "prefix of xml files to extract")
-	databaseUrl := flag.String("database", defaultArg, "postgres database URL")
+	err := insert()
+	if errors.Is(err, errMissingOption) {
+		flag.PrintDefaults()
+		os.Exit(64)
+	}
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+}
+
+func insert() error {
+	const defaultOption = "<undefined>"
+	exportFileName := flag.String("export", defaultOption, "file name of the export zip file")
+	descriptorFileName := flag.String("descriptor", defaultOption, "file name of the table descriptor")
+	filePrefix := flag.String("prefix", defaultOption, "prefix of xml files to extract")
+	databaseUrl := flag.String("database", defaultOption, "postgres database URL")
 	forceCreate := flag.Bool("force-create", false, "use CREATE instead of CREATE IF NOT EXISTS")
 	flag.Parse()
 
@@ -38,29 +53,25 @@ func main() {
 		*filePrefix,
 		*databaseUrl,
 	} {
-		if arg == defaultArg {
-			flag.PrintDefaults()
-			os.Exit(64)
+		if arg == defaultOption {
+			return errMissingOption
 		}
 	}
 
 	var err error
 	location, err = time.LoadLocation("Europe/Berlin")
 	if err != nil {
-		log.Printf("%v", err)
-		return
+		return fmt.Errorf("failed to load location data: %w", err)
 	}
 
 	td, err := decodeDescriptor(*descriptorFileName)
 	if err != nil {
-		log.Printf("%v", err)
-		return
+		return fmt.Errorf("failed to decode descriptor: %w", err)
 	}
 
 	r, err := zip.OpenReader(*exportFileName)
 	if err != nil {
-		log.Printf("%v", err)
-		return
+		return fmt.Errorf("failed to open zip file: %w", err)
 	}
 	defer func() {
 		if err := r.Close(); err != nil {
@@ -72,8 +83,7 @@ func main() {
 	ctx := context.Background()
 	conn, err := pgx.Connect(ctx, *databaseUrl)
 	if err != nil {
-		log.Printf("%v", err)
-		return
+		return fmt.Errorf("failed to connect: %w", err)
 	}
 	defer func() {
 		if err := conn.Close(ctx); err != nil {
@@ -91,7 +101,7 @@ func main() {
 			start := time.Now()
 			f, err := xmlFile.Open()
 			if err != nil {
-				return err
+				return fmt.Errorf("failed to open xml file: %w", err)
 			}
 			defer func() {
 				if err := f.Close(); err != nil {
@@ -100,16 +110,16 @@ func main() {
 			}()
 			i, err := insertFromXml(dec.Reader(f), conn, ctx, td, *forceCreate)
 			if err != nil {
-				return err
+				return fmt.Errorf("failed to insert from xml file: %w", err)
 			}
 			elapsed := time.Since(start).Seconds()
 			log.Printf("%s\t%.f entries/second", xmlFile.FileHeader.Name, float64(i)/elapsed)
 			return nil
 		}(); err != nil {
-			log.Printf("%v", err)
-			return
+			return fmt.Errorf("failed to process xml file: %w", err)
 		}
 	}
+	return nil
 }
 
 type reference struct {
@@ -266,7 +276,7 @@ func newXmlSource(td *tableDescriptor, d *xml.Decoder, fields *fields) xmlSource
 // Next() implements pgx.CopyFromSource.
 func (s *xmlSource) Next() bool {
 	values, err := s.nextValues()
-	if err == io.EOF {
+	if errors.Is(err, io.EOF) {
 		return false
 	}
 	if err != nil {
@@ -390,13 +400,13 @@ create unlogged table {{if .Force}}{{else}}if not exists{{end}}
 		Force      bool
 		Descriptor *tableDescriptor
 	}{force, td}); err != nil {
-		return err
+		return fmt.Errorf("failed to execute sql template: %w", err)
 	}
 
 	// Create the table.
 	_, err := tx.Exec(ctx, stmt.String())
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to execute create table statement: %w", err)
 	}
 	return nil
 }
