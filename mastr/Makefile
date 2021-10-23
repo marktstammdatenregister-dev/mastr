@@ -73,7 +73,7 @@ populate-db: Gesamtdatenexport.zip xml2psql
 	./xml2psql -export $< -database $(db_url) -descriptor AnlagenEegSolar.yaml -prefix AnlagenEegSolar
 	./xml2psql -export $< -database $(db_url) -descriptor AnlagenEegWasser.yaml -prefix AnlagenEegWasser
 	./xml2psql -export $< -database $(db_url) -descriptor AnlagenEegWind.yaml -prefix AnlagenEegWind
-	./xml2psql -export $< -database $(db_url) -descriptor AnlagenEegStromSpeicher.yaml -prefix AnlagenEegStromSpeicher
+	./xml2psql -export $< -database $(db_url) -descriptor AnlagenStromSpeicher.yaml -prefix AnlagenStromSpeicher
 	./xml2psql -export $< -database $(db_url) -descriptor EinheitenBiomasse.yaml -prefix EinheitenBiomasse
 	./xml2psql -export $< -database $(db_url) -descriptor EinheitenSolar.yaml -prefix EinheitenSolar
 	./xml2psql -export $< -database $(db_url) -descriptor EinheitenStromSpeicher.yaml -prefix EinheitenStromSpeicher
