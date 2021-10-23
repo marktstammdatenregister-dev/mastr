@@ -1,0 +1,15 @@
+table:
+  name: AnlagenEegWasser
+  schema: public
+object_relationships:
+- name: Katalogwerte
+  using:
+    foreign_key_constraint_on: AnlageBetriebsstatus
+array_relationships:
+- name: EinheitenWassers
+  using:
+    foreign_key_constraint_on:
+      column: EegMaStRNummer
+      table:
+        name: EinheitenWasser
+        schema: public

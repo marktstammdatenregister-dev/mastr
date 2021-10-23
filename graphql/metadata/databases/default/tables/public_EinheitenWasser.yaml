@@ -1,0 +1,40 @@
+table:
+  name: EinheitenWasser
+  schema: public
+object_relationships:
+- name: AnlagenEegWasser
+  using:
+    foreign_key_constraint_on: EegMaStRNummer
+- name: Katalogwerte
+  using:
+    foreign_key_constraint_on: ArtDerStilllegung
+- name: Lokationen
+  using:
+    foreign_key_constraint_on: LokationMaStRNummer
+- name: Marktakteure
+  using:
+    foreign_key_constraint_on: AnlagenbetreiberMastrNummer
+- name: katalogwerteByArtderwasserkraftanlage
+  using:
+    foreign_key_constraint_on: ArtDerWasserkraftanlage
+- name: katalogwerteByArtdeszuflusses
+  using:
+    foreign_key_constraint_on: ArtDesZuflusses
+- name: katalogwerteByBundesland
+  using:
+    foreign_key_constraint_on: Bundesland
+- name: katalogwerteByEinheitbetriebsstatus
+  using:
+    foreign_key_constraint_on: EinheitBetriebsstatus
+- name: katalogwerteByEinheitsystemstatus
+  using:
+    foreign_key_constraint_on: EinheitSystemstatus
+- name: katalogwerteByEinspeisungsart
+  using:
+    foreign_key_constraint_on: Einspeisungsart
+- name: katalogwerteByEnergietraeger
+  using:
+    foreign_key_constraint_on: Energietraeger
+- name: katalogwerteByLand
+  using:
+    foreign_key_constraint_on: Land

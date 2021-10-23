@@ -1,0 +1,15 @@
+table:
+  name: AnlagenEegBiomasse
+  schema: public
+object_relationships:
+- name: Katalogwerte
+  using:
+    foreign_key_constraint_on: AnlageBetriebsstatus
+array_relationships:
+- name: EinheitenBiomasses
+  using:
+    foreign_key_constraint_on:
+      column: EegMaStRNummer
+      table:
+        name: EinheitenBiomasse
+        schema: public

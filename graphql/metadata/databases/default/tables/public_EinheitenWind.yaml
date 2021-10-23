@@ -1,0 +1,49 @@
+table:
+  name: EinheitenWind
+  schema: public
+object_relationships:
+- name: AnlagenEegWind
+  using:
+    foreign_key_constraint_on: EegMaStRNummer
+- name: Katalogwerte
+  using:
+    foreign_key_constraint_on: Bundesland
+- name: Lokationen
+  using:
+    foreign_key_constraint_on: LokationMaStRNummer
+- name: Marktakteure
+  using:
+    foreign_key_constraint_on: AnlagenbetreiberMastrNummer
+- name: katalogwerteByClusternordsee
+  using:
+    foreign_key_constraint_on: ClusterNordsee
+- name: katalogwerteByClusterostsee
+  using:
+    foreign_key_constraint_on: ClusterOstsee
+- name: katalogwerteByEinheitbetriebsstatus
+  using:
+    foreign_key_constraint_on: EinheitBetriebsstatus
+- name: katalogwerteByEinheitsystemstatus
+  using:
+    foreign_key_constraint_on: EinheitSystemstatus
+- name: katalogwerteByEinspeisungsart
+  using:
+    foreign_key_constraint_on: Einspeisungsart
+- name: katalogwerteByEnergietraeger
+  using:
+    foreign_key_constraint_on: Energietraeger
+- name: katalogwerteByHersteller
+  using:
+    foreign_key_constraint_on: Hersteller
+- name: katalogwerteByLage
+  using:
+    foreign_key_constraint_on: Lage
+- name: katalogwerteByLand
+  using:
+    foreign_key_constraint_on: Land
+- name: katalogwerteBySeelage
+  using:
+    foreign_key_constraint_on: Seelage
+- name: katalogwerteByTechnologie
+  using:
+    foreign_key_constraint_on: Technologie

@@ -1,0 +1,11 @@
+table:
+  name: author
+  schema: _helloworld
+array_relationships:
+- name: articles
+  using:
+    foreign_key_constraint_on:
+      column: author_id
+      table:
+        name: article
+        schema: _helloworld
