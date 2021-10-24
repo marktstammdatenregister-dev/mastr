@@ -1,7 +1,7 @@
 # Usage:
 #
 #     make download
-#     make populate-db
+#     make do-pgimport
 #     make Marktstammdatenregister.dump
 
 SHELL := bash
@@ -55,7 +55,7 @@ $(EinheitenStromSpeicher_xml) \
 $(EinheitenWasser_xml) \
 $(EinheitenWind_xml)
 
-xml2psql: xml2psql.go
+pgimport: cmd/pgimport/main.go
 	go build -o $@ $<
 
 %.xml: Gesamtdatenexport.zip
@@ -64,22 +64,22 @@ xml2psql: xml2psql.go
 	iconv -f utf-16 -t utf-8 <"$@.utf16" >"$@"
 	rm "$@.utf16"
 
-.PHONY: populate-db
-populate-db: Gesamtdatenexport.zip xml2psql
-	./xml2psql -export $< -database $(db_url) -descriptor $(api_dir)/Lokationen.yaml -prefix Lokationen
-	./xml2psql -export $< -database $(db_url) -descriptor $(api_dir)/Katalogkategorien.yaml -prefix Katalogkategorien
-	./xml2psql -export $< -database $(db_url) -descriptor $(api_dir)/Katalogwerte.yaml -prefix Katalogwerte
-	./xml2psql -export $< -database $(db_url) -descriptor $(api_dir)/Marktakteure.yaml -prefix Marktakteure
-	./xml2psql -export $< -database $(db_url) -descriptor $(api_dir)/AnlagenEegBiomasse.yaml -prefix AnlagenEegBiomasse
-	./xml2psql -export $< -database $(db_url) -descriptor $(api_dir)/AnlagenEegSolar.yaml -prefix AnlagenEegSolar
-	./xml2psql -export $< -database $(db_url) -descriptor $(api_dir)/AnlagenEegWasser.yaml -prefix AnlagenEegWasser
-	./xml2psql -export $< -database $(db_url) -descriptor $(api_dir)/AnlagenEegWind.yaml -prefix AnlagenEegWind
-	./xml2psql -export $< -database $(db_url) -descriptor $(api_dir)/AnlagenStromSpeicher.yaml -prefix AnlagenStromSpeicher
-	./xml2psql -export $< -database $(db_url) -descriptor $(api_dir)/EinheitenBiomasse.yaml -prefix EinheitenBiomasse
-	./xml2psql -export $< -database $(db_url) -descriptor $(api_dir)/EinheitenSolar.yaml -prefix EinheitenSolar
-	./xml2psql -export $< -database $(db_url) -descriptor $(api_dir)/EinheitenStromSpeicher.yaml -prefix EinheitenStromSpeicher
-	./xml2psql -export $< -database $(db_url) -descriptor $(api_dir)/EinheitenWasser.yaml -prefix EinheitenWasser
-	./xml2psql -export $< -database $(db_url) -descriptor $(api_dir)/EinheitenWind.yaml -prefix EinheitenWind
+.PHONY: do-pgimport
+do-pgimport: Gesamtdatenexport.zip pgimport
+	./pgimport -export $< -database $(db_url) -descriptor $(api_dir)/Lokationen.yaml -prefix Lokationen
+	./pgimport -export $< -database $(db_url) -descriptor $(api_dir)/Katalogkategorien.yaml -prefix Katalogkategorien
+	./pgimport -export $< -database $(db_url) -descriptor $(api_dir)/Katalogwerte.yaml -prefix Katalogwerte
+	./pgimport -export $< -database $(db_url) -descriptor $(api_dir)/Marktakteure.yaml -prefix Marktakteure
+	./pgimport -export $< -database $(db_url) -descriptor $(api_dir)/AnlagenEegBiomasse.yaml -prefix AnlagenEegBiomasse
+	./pgimport -export $< -database $(db_url) -descriptor $(api_dir)/AnlagenEegSolar.yaml -prefix AnlagenEegSolar
+	./pgimport -export $< -database $(db_url) -descriptor $(api_dir)/AnlagenEegWasser.yaml -prefix AnlagenEegWasser
+	./pgimport -export $< -database $(db_url) -descriptor $(api_dir)/AnlagenEegWind.yaml -prefix AnlagenEegWind
+	./pgimport -export $< -database $(db_url) -descriptor $(api_dir)/AnlagenStromSpeicher.yaml -prefix AnlagenStromSpeicher
+	./pgimport -export $< -database $(db_url) -descriptor $(api_dir)/EinheitenBiomasse.yaml -prefix EinheitenBiomasse
+	./pgimport -export $< -database $(db_url) -descriptor $(api_dir)/EinheitenSolar.yaml -prefix EinheitenSolar
+	./pgimport -export $< -database $(db_url) -descriptor $(api_dir)/EinheitenStromSpeicher.yaml -prefix EinheitenStromSpeicher
+	./pgimport -export $< -database $(db_url) -descriptor $(api_dir)/EinheitenWasser.yaml -prefix EinheitenWasser
+	./pgimport -export $< -database $(db_url) -descriptor $(api_dir)/EinheitenWind.yaml -prefix EinheitenWind
 
 Marktstammdatenregister.dump:
 	PGPASSWORD=$(db_pass) pg_dump -h $(db_host) -U $(db_user) -Fc $(db_name) | pv -W >"$@"
