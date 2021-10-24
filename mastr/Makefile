@@ -55,7 +55,7 @@ $(EinheitenStromSpeicher_xml) \
 $(EinheitenWasser_xml) \
 $(EinheitenWind_xml)
 
-xml2psql: cmd/xml2psql.go
+xml2psql: xml2psql.go
 	go build -o $@ $<
 
 %.xml: Gesamtdatenexport.zip
