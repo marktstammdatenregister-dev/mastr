@@ -66,20 +66,20 @@ pgimport: cmd/pgimport/main.go
 
 .PHONY: do-pgimport
 do-pgimport: Gesamtdatenexport.zip pgimport
-	./pgimport -export $< -database $(db_url) -descriptor $(spec_dir)/Lokationen.yaml -prefix Lokationen
-	./pgimport -export $< -database $(db_url) -descriptor $(spec_dir)/Katalogkategorien.yaml -prefix Katalogkategorien
-	./pgimport -export $< -database $(db_url) -descriptor $(spec_dir)/Katalogwerte.yaml -prefix Katalogwerte
-	./pgimport -export $< -database $(db_url) -descriptor $(spec_dir)/Marktakteure.yaml -prefix Marktakteure
-	./pgimport -export $< -database $(db_url) -descriptor $(spec_dir)/AnlagenEegBiomasse.yaml -prefix AnlagenEegBiomasse
-	./pgimport -export $< -database $(db_url) -descriptor $(spec_dir)/AnlagenEegSolar.yaml -prefix AnlagenEegSolar
-	./pgimport -export $< -database $(db_url) -descriptor $(spec_dir)/AnlagenEegWasser.yaml -prefix AnlagenEegWasser
-	./pgimport -export $< -database $(db_url) -descriptor $(spec_dir)/AnlagenEegWind.yaml -prefix AnlagenEegWind
-	./pgimport -export $< -database $(db_url) -descriptor $(spec_dir)/AnlagenStromSpeicher.yaml -prefix AnlagenStromSpeicher
-	./pgimport -export $< -database $(db_url) -descriptor $(spec_dir)/EinheitenBiomasse.yaml -prefix EinheitenBiomasse
-	./pgimport -export $< -database $(db_url) -descriptor $(spec_dir)/EinheitenSolar.yaml -prefix EinheitenSolar
-	./pgimport -export $< -database $(db_url) -descriptor $(spec_dir)/EinheitenStromSpeicher.yaml -prefix EinheitenStromSpeicher
-	./pgimport -export $< -database $(db_url) -descriptor $(spec_dir)/EinheitenWasser.yaml -prefix EinheitenWasser
-	./pgimport -export $< -database $(db_url) -descriptor $(spec_dir)/EinheitenWind.yaml -prefix EinheitenWind
+	./pgimport -export $< -database $(db_url) -spec $(spec_dir)/Lokationen.yaml -prefix Lokationen
+	./pgimport -export $< -database $(db_url) -spec $(spec_dir)/Katalogkategorien.yaml -prefix Katalogkategorien
+	./pgimport -export $< -database $(db_url) -spec $(spec_dir)/Katalogwerte.yaml -prefix Katalogwerte
+	./pgimport -export $< -database $(db_url) -spec $(spec_dir)/Marktakteure.yaml -prefix Marktakteure
+	./pgimport -export $< -database $(db_url) -spec $(spec_dir)/AnlagenEegBiomasse.yaml -prefix AnlagenEegBiomasse
+	./pgimport -export $< -database $(db_url) -spec $(spec_dir)/AnlagenEegSolar.yaml -prefix AnlagenEegSolar
+	./pgimport -export $< -database $(db_url) -spec $(spec_dir)/AnlagenEegWasser.yaml -prefix AnlagenEegWasser
+	./pgimport -export $< -database $(db_url) -spec $(spec_dir)/AnlagenEegWind.yaml -prefix AnlagenEegWind
+	./pgimport -export $< -database $(db_url) -spec $(spec_dir)/AnlagenStromSpeicher.yaml -prefix AnlagenStromSpeicher
+	./pgimport -export $< -database $(db_url) -spec $(spec_dir)/EinheitenBiomasse.yaml -prefix EinheitenBiomasse
+	./pgimport -export $< -database $(db_url) -spec $(spec_dir)/EinheitenSolar.yaml -prefix EinheitenSolar
+	./pgimport -export $< -database $(db_url) -spec $(spec_dir)/EinheitenStromSpeicher.yaml -prefix EinheitenStromSpeicher
+	./pgimport -export $< -database $(db_url) -spec $(spec_dir)/EinheitenWasser.yaml -prefix EinheitenWasser
+	./pgimport -export $< -database $(db_url) -spec $(spec_dir)/EinheitenWind.yaml -prefix EinheitenWind
 
 Marktstammdatenregister.dump:
 	PGPASSWORD=$(db_pass) pg_dump -h $(db_host) -U $(db_user) -Fc $(db_name) | pv -W >"$@"

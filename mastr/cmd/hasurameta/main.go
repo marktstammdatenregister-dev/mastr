@@ -4,17 +4,18 @@ import (
 	"flag"
 	"log"
 	"pvdb.de/mastr/internal"
+	"pvdb.de/mastr/internal/spec"
 )
 
 func main() {
 	const defaultOption = "<undefined>"
-	descriptorFileName := flag.String("descriptor", defaultOption, "file name of the table descriptor")
+	specFileName := flag.String("spec", defaultOption, "file name of the table spec")
 	schemaName := flag.String("schema", defaultOption, "schema name")
 	flag.Parse()
 
-	td, err := internal.DecodeDescriptor(*descriptorFileName)
+	td, err := spec.Decode(*specFileName)
 	if err != nil {
-		log.Fatalf("failed to decode descriptor: %w", err)
+		log.Fatalf("failed to decode spec: %w", err)
 	}
 
 	b, err := internal.ToHasura(*schemaName, *td)

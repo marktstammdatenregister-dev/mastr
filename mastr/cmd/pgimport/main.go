@@ -15,6 +15,7 @@ import (
 	"log"
 	"os"
 	"pvdb.de/mastr/internal"
+	"pvdb.de/mastr/internal/spec"
 	"strings"
 	"text/template"
 	"time"
@@ -36,7 +37,7 @@ func main() {
 func insert() error {
 	const defaultOption = "<undefined>"
 	exportFileName := flag.String("export", defaultOption, "file name of the export zip file")
-	descriptorFileName := flag.String("descriptor", defaultOption, "file name of the table descriptor")
+	specFileName := flag.String("spec", defaultOption, "file name of the table spec")
 	filePrefix := flag.String("prefix", defaultOption, "prefix of xml files to extract")
 	databaseUrl := flag.String("database", defaultOption, "postgres database URL")
 	forceCreate := flag.Bool("force-create", false, "use CREATE instead of CREATE IF NOT EXISTS")
@@ -45,7 +46,7 @@ func insert() error {
 	// Ensure mandatory flags are set.
 	for _, arg := range []string{
 		*exportFileName,
-		*descriptorFileName,
+		*specFileName,
 		*filePrefix,
 		*databaseUrl,
 	} {
@@ -60,9 +61,9 @@ func insert() error {
 	}
 	internal.Location = location
 
-	td, err := internal.DecodeDescriptor(*descriptorFileName)
+	td, err := spec.Decode(*specFileName)
 	if err != nil {
-		return fmt.Errorf("failed to decode descriptor: %w", err)
+		return fmt.Errorf("failed to decode spec: %w", err)
 	}
 
 	r, err := zip.OpenReader(*exportFileName)
@@ -118,7 +119,7 @@ func insert() error {
 	return nil
 }
 
-func createTable(tx pgx.Tx, ctx context.Context, td *internal.TableDescriptor, force bool) error {
+func createTable(tx pgx.Tx, ctx context.Context, td *spec.Table, force bool) error {
 	// Generate "create table" statement.
 	tmpl := template.Must(template.New("create").Parse(`
 create unlogged table {{if .Force}}{{else}}if not exists{{end}}
@@ -135,7 +136,7 @@ create unlogged table {{if .Force}}{{else}}if not exists{{end}}
 	var stmt bytes.Buffer
 	if err := tmpl.Execute(&stmt, struct {
 		Force      bool
-		Descriptor *internal.TableDescriptor
+		Descriptor *spec.Table
 	}{force, td}); err != nil {
 		return fmt.Errorf("failed to execute sql template: %w", err)
 	}
@@ -148,7 +149,7 @@ create unlogged table {{if .Force}}{{else}}if not exists{{end}}
 	return nil
 }
 
-func insertFromXml(f io.Reader, conn *pgx.Conn, ctx context.Context, td *internal.TableDescriptor, force bool) (int64, error) {
+func insertFromXml(f io.Reader, conn *pgx.Conn, ctx context.Context, td *spec.Table, force bool) (int64, error) {
 	// Construct the buffered XML reader.
 	const bufSize = 4096 * 1024
 	br := xml.NewDecoder(bufio.NewReaderSize(f, bufSize))

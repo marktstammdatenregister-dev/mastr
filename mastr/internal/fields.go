@@ -3,6 +3,7 @@ package internal
 import (
 	"fmt"
 	"github.com/jackc/pgtype"
+	"pvdb.de/mastr/internal/spec"
 	"time"
 )
 
@@ -13,12 +14,12 @@ type Fields struct {
 	psqlty map[string]string
 }
 
-func NewFields(fieldDescriptors []FieldDescriptor) *Fields {
+func NewFields(fields []spec.Field) *Fields {
 	f := make(map[string]uint)
 	t := make(map[string]string)
-	for i, fieldDescriptor := range fieldDescriptors {
-		f[fieldDescriptor.Name] = uint(i)
-		t[fieldDescriptor.Name] = fieldDescriptor.Psql
+	for i, field := range fields {
+		f[field.Name] = uint(i)
+		t[field.Name] = field.Psql
 	}
 	return &Fields{fields: f, psqlty: t}
 }

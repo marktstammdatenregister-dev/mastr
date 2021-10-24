@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"pvdb.de/mastr/internal/spec"
 )
 
 const (
@@ -26,7 +27,7 @@ type XMLSource struct {
 	err     error
 }
 
-func NewXMLSource(td *TableDescriptor, d *xml.Decoder, fields *Fields) XMLSource {
+func NewXMLSource(td *spec.Table, d *xml.Decoder, fields *Fields) XMLSource {
 	return XMLSource{
 		root:    td.Root,
 		element: td.Element,

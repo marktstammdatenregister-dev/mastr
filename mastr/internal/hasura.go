@@ -3,6 +3,7 @@ package internal
 import (
 	"fmt"
 	"gopkg.in/yaml.v3"
+	"pvdb.de/mastr/internal/spec"
 )
 
 type tableMeta struct {
@@ -37,7 +38,7 @@ type arrayRel struct {
 	Using arrayRelFKC `yaml:"using"`
 }
 
-func ToHasura(schema string, td TableDescriptor) ([]byte, error) {
+func ToHasura(schema string, td spec.Table) ([]byte, error) {
 	var objectRels []objectRel
 	for _, field := range td.Fields {
 		if field.References == nil {

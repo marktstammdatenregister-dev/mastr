@@ -1,4 +1,4 @@
-package internal
+package spec
 
 import (
 	"gopkg.in/yaml.v3"
@@ -11,7 +11,7 @@ type Reference struct {
 	Column string `yaml:"column"`
 }
 
-type FieldDescriptor struct {
+type Field struct {
 	Name       string     `yaml:"name"`
 	Mandatory  bool       `yaml:"mandatory"`
 	Xsd        string     `yaml:"xsd"`
@@ -20,16 +20,16 @@ type FieldDescriptor struct {
 	References *Reference `yaml:"references,omitempty"`
 }
 
-type TableDescriptor struct {
-	Root    string            `yaml:"root"`
-	Element string            `yaml:"element"`
-	Primary string            `yaml:"primary"`
-	Fields  []FieldDescriptor `yaml:"fields"`
+type Table struct {
+	Root    string  `yaml:"root"`
+	Element string  `yaml:"element"`
+	Primary string  `yaml:"primary"`
+	Fields  []Field `yaml:"fields"`
 }
 
-func DecodeDescriptor(descriptorFileName string) (*TableDescriptor, error) {
-	var tableDescriptor TableDescriptor
-	f, err := os.Open(descriptorFileName)
+func Decode(fileName string) (*Table, error) {
+	var table Table
+	f, err := os.Open(fileName)
 	if err != nil {
 		return nil, err
 	}
@@ -39,9 +39,9 @@ func DecodeDescriptor(descriptorFileName string) (*TableDescriptor, error) {
 		}
 	}()
 	d := yaml.NewDecoder(f)
-	err = d.Decode(&tableDescriptor)
+	err = d.Decode(&table)
 	if err != nil {
 		return nil, err
 	}
-	return &tableDescriptor, nil
+	return &table, nil
 }
