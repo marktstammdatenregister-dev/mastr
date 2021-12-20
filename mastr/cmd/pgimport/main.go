@@ -91,14 +91,15 @@ func insert() error {
 	// Insert XML files one by one.
 	dec := unicode.UTF16(unicode.LittleEndian, unicode.IgnoreBOM).NewDecoder()
 	for _, xmlFile := range r.File {
-		if !strings.HasPrefix(xmlFile.FileHeader.Name, *filePrefix) {
+		name := xmlFile.FileHeader.Name
+		if !strings.HasPrefix(name, *filePrefix) {
 			continue
 		}
 		if err = func() error {
 			start := time.Now()
 			f, err := xmlFile.Open()
 			if err != nil {
-				return fmt.Errorf("failed to open xml file: %w", err)
+				return fmt.Errorf("failed to open xml file %s: %w", name, err)
 			}
 			defer func() {
 				if err := f.Close(); err != nil {
@@ -107,10 +108,10 @@ func insert() error {
 			}()
 			i, err := insertFromXml(dec.Reader(f), conn, ctx, td, *forceCreate)
 			if err != nil {
-				return fmt.Errorf("failed to insert from xml file: %w", err)
+				return fmt.Errorf("failed to insert from xml file %s: %w", name, err)
 			}
 			elapsed := time.Since(start).Seconds()
-			log.Printf("%s\t%.f entries/second", xmlFile.FileHeader.Name, float64(i)/elapsed)
+			log.Printf("%s\t%.f entries/second", name, float64(i)/elapsed)
 			return nil
 		}(); err != nil {
 			return fmt.Errorf("failed to process xml file: %w", err)
