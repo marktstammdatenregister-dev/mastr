@@ -150,6 +150,8 @@ create unlogged table {{if .Force}}{{else}}if not exists{{end}}
 	return nil
 }
 
+var prevPrimary string
+
 func insertFromXml(f io.Reader, conn *pgx.Conn, ctx context.Context, td *spec.Table, force bool) (int64, error) {
 	// Construct the buffered XML reader.
 	const bufSize = 4096 * 1024
@@ -161,10 +163,10 @@ func insertFromXml(f io.Reader, conn *pgx.Conn, ctx context.Context, td *spec.Ta
 		return 0, err
 	}
 	defer func() {
-		err := tx.Rollback(ctx)
-		if err != nil && err != pgx.ErrTxClosed {
-			log.Printf("%v", err)
-		}
+		//err := tx.Rollback(ctx)
+		//if err != nil && err != pgx.ErrTxClosed {
+		//	log.Printf("%v", err)
+		//}
 	}()
 
 	// Create the table.
@@ -173,8 +175,22 @@ func insertFromXml(f io.Reader, conn *pgx.Conn, ctx context.Context, td *spec.Ta
 	}
 
 	// Copy data into the table.
+	if err != nil {
+		return 0, err
+	}
+	skip := func(values map[string]string) bool {
+		v := values[td.Primary]
+		p := prevPrimary
+		prevPrimary = v
+		if v == p {
+			log.Printf("skipping duplicate item with primary key %s", v)
+			return true
+		} else {
+			return false
+		}
+	}
 	fields := internal.NewFields(td.Fields)
-	s := internal.NewXMLSource(td, br, fields)
+	s := internal.NewXMLSource(td, br, fields, skip)
 	i, err := tx.CopyFrom(
 		ctx,
 		pgx.Identifier{td.Element},
@@ -182,11 +198,13 @@ func insertFromXml(f io.Reader, conn *pgx.Conn, ctx context.Context, td *spec.Ta
 		&s,
 	)
 	if err != nil {
-		return i, err
+		log.Printf("ignoring %v", err)
+		//return i, err
 	}
 	err = tx.Commit(ctx)
 	if err != nil {
-		return i, err
+		log.Printf("ignoring %v", err)
+		//return i, err
 	}
 	return i, nil
 }
