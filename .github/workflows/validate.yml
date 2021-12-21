@@ -11,10 +11,10 @@ jobs:
     - uses: actions/checkout@v2
     - run: |
         cd mastr
-        curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload |
-          sed -E 's|^.*(https://download.marktstammdatenregister.de/Gesamtdatenexport_.*\.zip).*|\1|gp;d' |
-          tee report.txt
-        curl -sSLo Gesamtdatenexport.zip "<(report.txt)"
+        EXPORT_URL="$(curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload |
+          sed -E 's|^.*(https://download.marktstammdatenregister.de/Gesamtdatenexport_.*\.zip).*|\1|gp;d')"
+        curl -sSLo Gesamtdatenexport.zip "${EXPORT_URL}"
         go build -o validate cmd/validate/main.go
+        echo "${EXPORT_URL}" >report.txt
         ./validate -export Gesamtdatenexport.zip -spec spec/Gesamtdatenexport.yaml | tee --append report.txt
         curl --upload-file report.txt https://paste.c-net.org/
