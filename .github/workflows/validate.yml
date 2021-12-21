@@ -29,4 +29,4 @@ jobs:
         echo "${EXPORT_URL}" | tee result.txt
         curl -sSLo Gesamtdatenexport.zip "${EXPORT_URL}"
         ./validate -export Gesamtdatenexport.zip -spec spec/Gesamtdatenexport.yaml | tee --append result.txt
-        curl --upload-file result.txt https://paste.c-net.org/
+        curl -sS --upload-file result.txt https://paste.c-net.org/
