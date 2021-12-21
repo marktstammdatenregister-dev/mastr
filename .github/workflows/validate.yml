@@ -1,8 +1,8 @@
 name: Validate export
 on:
   schedule:
-  - cron: '0 4 * * *' # Every weekday at 04:00
-  workflow_dispatch:  # Enable manual trigger
+  - cron: '0 4 * * MON-FRI' # Every weekday at 04:00
+  workflow_dispatch:        # Enable manual trigger
 
 jobs:
   validate:
