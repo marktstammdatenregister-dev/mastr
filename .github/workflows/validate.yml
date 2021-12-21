@@ -25,8 +25,8 @@ jobs:
         cd mastr
         go build -o validate ./cmd/validate/main.go
         EXPORT_URL="$(curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload |
-          sed -E 's|^.*(https://download.marktstammdatenregister.de/Gesamtdatenexport_.*\.zip).*|\1|gp;d')"
-        echo "${EXPORT_URL}" | tee report.txt
+          sed -E 's|^.*(https://download.marktstammdatenregister.de/Gesamtdatenexport_.*\.zip).*$|\1|gp;d')"
+        echo "${EXPORT_URL}" | tee result.txt
         curl -sSLo Gesamtdatenexport.zip "${EXPORT_URL}"
-        ./validate -export Gesamtdatenexport.zip -spec spec/Gesamtdatenexport.yaml | tee --append report.txt
-        curl --upload-file report.txt https://paste.c-net.org/
+        ./validate -export Gesamtdatenexport.zip -spec spec/Gesamtdatenexport.yaml | tee --append result.txt
+        curl --upload-file result.txt https://paste.c-net.org/
