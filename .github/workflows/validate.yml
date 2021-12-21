@@ -1,0 +1,20 @@
+name: Validate export
+on:
+  schedule:
+  - cron: '0 4 * * *' # Every weekday at 04:00
+  workflow_dispatch:  # Enable manual trigger
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: |
+        cd mastr
+        curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload |
+          sed -E 's|^.*(https://download.marktstammdatenregister.de/Gesamtdatenexport_.*\.zip).*|\1|gp;d' |
+          tee report.txt
+        curl -sSLO "<(report.txt)"
+        go build -o validate cmd/validate/main.go
+        ./validate -export Gesamtdatenexport_*.zip -spec spec/Gesamtdatenexport.yaml | tee --append report.txt
+        curl --upload-file report.txt https://paste.c-net.org/
