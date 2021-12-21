@@ -14,7 +14,7 @@ jobs:
         curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload |
           sed -E 's|^.*(https://download.marktstammdatenregister.de/Gesamtdatenexport_.*\.zip).*|\1|gp;d' |
           tee report.txt
-        curl -sSLO "<(report.txt)"
+        curl -sSLo Gesamtdatenexport.zip "<(report.txt)"
         go build -o validate cmd/validate/main.go
-        ./validate -export Gesamtdatenexport_*.zip -spec spec/Gesamtdatenexport.yaml | tee --append report.txt
+        ./validate -export Gesamtdatenexport.zip -spec spec/Gesamtdatenexport.yaml | tee --append report.txt
         curl --upload-file report.txt https://paste.c-net.org/
