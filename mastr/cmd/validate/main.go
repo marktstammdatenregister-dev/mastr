@@ -107,7 +107,7 @@ func insert() error {
 	if v.errCount == 0 {
 		println("SUCCESS")
 	} else {
-		fmt.Printf("FAILURE: %d error(s) found", v.errCount)
+		fmt.Printf("FAILURE: %d error(s) found\n", v.errCount)
 	}
 	return nil
 }
