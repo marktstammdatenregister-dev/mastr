@@ -10,7 +10,7 @@ fields:
   - name: Registrierungsdatum
     xsd: date
     psql: date
-    #mandatory: true
+    mandatory: true # sometimes missing
   - name: DatumLetzteAktualisierung
     xsd: dateTime
     psql: timestamp
@@ -22,7 +22,7 @@ fields:
     mandatory: true
   - name: AnlagenschluesselEeg
   - name: AnlagenkennzifferAnlagenregister
-    #mandatory: true
+    mandatory: true # sometimes missing
   - name: AnlagenkennzifferAnlagenregister_nv
     xsd: boolean
     psql: boolean

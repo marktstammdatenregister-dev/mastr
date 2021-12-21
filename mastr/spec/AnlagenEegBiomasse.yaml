@@ -10,7 +10,7 @@ fields:
   - name: Registrierungsdatum
     xsd: date
     psql: date
-    #mandatory: true
+    mandatory: true # sometimes missing
   - name: DatumLetzteAktualisierung
     xsd: dateTime
     psql: timestamp
@@ -22,6 +22,7 @@ fields:
     mandatory: true
   - name: AnlagenschluesselEeg
   - name: AnlagenkennzifferAnlagenregister
+    mandatory: true # sometimes missing
   - name: AnlagenkennzifferAnlagenregister_nv
     xsd: boolean
     psql: boolean
@@ -36,6 +37,7 @@ fields:
     psql: boolean
     sqlite: integer
   - name: AusschreibungZuschlag
+    mandatory: true # sometimes missing
     xsd: boolean
     psql: boolean
     sqlite: integer
@@ -66,7 +68,7 @@ fields:
     xsd: decimal
     psql: real
     sqlite: real
-    #mandatory: true
+    mandatory: true # sometimes missing
   - name: BiogasGaserzeugungskapazitaet_nv
     xsd: boolean
     psql: boolean
@@ -77,6 +79,7 @@ fields:
     psql: real
     sqlite: real
   - name: BiomethanErstmaligerEinsatz
+    mandatory: true # sometimes missing
     xsd: date
     psql: date
   - name: BiomethanErstmaligerEinsatz_nv

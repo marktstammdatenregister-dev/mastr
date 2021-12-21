@@ -1,0 +1,15 @@
+# The order is significant! Later items may reference earlier items.
+- Lokationen.yaml
+- Katalogkategorien.yaml
+- Katalogwerte.yaml
+- Marktakteure.yaml
+- AnlagenEegBiomasse.yaml
+- AnlagenEegSolar.yaml
+- AnlagenEegWasser.yaml
+- AnlagenEegWind.yaml
+- AnlagenStromSpeicher.yaml
+- EinheitenBiomasse.yaml
+- EinheitenSolar.yaml
+- EinheitenStromSpeicher.yaml
+- EinheitenWasser.yaml
+- EinheitenWind.yaml

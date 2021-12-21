@@ -15,6 +15,7 @@ fields:
     sqlite: text
     mandatory: true
   - name: LokationMaStRNummer
+    mandatory: true # sometimes missing
     references:
       table: Lokation
       column: MastrNummer
@@ -27,6 +28,7 @@ fields:
     xsd: date
     psql: date
   - name: AnlagenbetreiberMastrNummer
+    mandatory: true # sometimes missing
     references:
       table: Marktakteur
       column: MastrNummer
@@ -49,7 +51,7 @@ fields:
   - name: Gemeinde
   - name: Gemeindeschluessel
   - name: Postleitzahl
-    #mandatory: true
+    mandatory: true # sometimes missing
   - name: Gemarkung
   - name: FlurFlurstuecknummern
   - name: Strasse
@@ -58,7 +60,9 @@ fields:
     psql: boolean
     sqlite: integer
   - name: Hausnummer
+    mandatory: true # sometimes missing
   - name: Hausnummer_nv
+    mandatory: true # sometimes missing
     xsd: boolean
     psql: boolean
     sqlite: integer
@@ -68,6 +72,7 @@ fields:
     sqlite: integer
   - name: Adresszusatz
   - name: Ort
+    mandatory: true # sometimes missing
   - name: Laengengrad
     xsd: decimal
     psql: real
@@ -90,6 +95,7 @@ fields:
       table: Katalogwert
       column: Id
   - name: EinheitBetriebsstatus
+    mandatory: true # sometimes missing
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
@@ -111,6 +117,7 @@ fields:
   - name: NameStromerzeugungseinheit
     mandatory: true
   - name: Weic
+    mandatory: true # sometimes missing
   - name: Weic_nv
     xsd: boolean
     psql: boolean
@@ -118,6 +125,7 @@ fields:
     mandatory: true
   - name: WeicDisplayName
   - name: Kraftwerksnummer
+    mandatory: true # sometimes missing
   - name: Kraftwerksnummer_nv
     mandatory: true
     xsd: boolean
@@ -179,7 +187,7 @@ fields:
     sqlite: integer
   - name: GenMastrNummer
   - name: NameWindpark
-    #mandatory: true
+    mandatory: true # sometimes missing
   - name: Lage
     mandatory: true
     xsd: nonNegativeInteger
@@ -224,14 +232,14 @@ fields:
       table: Katalogwert
       column: Id
   - name: Typenbezeichnung
-    #mandatory: true
+    mandatory: true # sometimes missing
   - name: Nabenhoehe
-    #mandatory: true
+    mandatory: true # sometimes missing
     xsd: decimal
     psql: real
     sqlite: real
   - name: Rotordurchmesser
-    #mandatory: true
+    mandatory: true # sometimes missing
     xsd: decimal
     psql: real
     sqlite: real
@@ -240,7 +248,7 @@ fields:
     psql: boolean
     sqlite: integer
   - name: AuflageAbschaltungLeistungsbegrenzung
-    #mandatory: true
+    mandatory: true # sometimes missing
     xsd: boolean
     psql: boolean
     sqlite: integer
@@ -269,16 +277,17 @@ fields:
     psql: boolean
     sqlite: integer
   - name: Wassertiefe
-    #mandatory: true
+    mandatory: true # sometimes missing
     xsd: decimal
     psql: real
     sqlite: real
   - name: Kuestenentfernung
-    #mandatory: true
+    mandatory: true # sometimes missing
     xsd: decimal
     psql: real
     sqlite: real
   - name: EegMaStRNummer
+    mandatory: true # sometimes missing
     references:
       table: AnlageEegWind
       column: EegMaStRNummer

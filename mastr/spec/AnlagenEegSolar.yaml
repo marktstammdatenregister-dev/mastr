@@ -26,6 +26,7 @@ fields:
     sqlite: integer
   - name: AnlagenschluesselEeg
   - name: AnlagenkennzifferAnlagenregister
+    mandatory: true # sometimes missing
   - name: AnlagenkennzifferAnlagenregister_nv
     xsd: boolean
     psql: boolean
@@ -36,6 +37,7 @@ fields:
     psql: real
     sqlite: real
   - name: RegistrierungsnummerPvMeldeportal
+    mandatory: true # sometimes missing
   - name: RegistrierungsnummerPvMeldeportal_nv
     xsd: boolean
     psql: boolean

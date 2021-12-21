@@ -21,7 +21,7 @@ fields:
   - name: EegMaStRNummer
     mandatory: true
   - name: AnlagenkennzifferAnlagenregister
-    #mandatory: true
+    mandatory: true # sometimes missing
   - name: AnlagenkennzifferAnlagenregister_nv
     xsd: boolean
     psql: boolean
@@ -29,12 +29,12 @@ fields:
     mandatory: true
   - name: AnlagenschluesselEeg
   - name: PrototypAnlage
-    #mandatory: true
+    mandatory: true # sometimes missing
     xsd: boolean
     psql: boolean
     sqlite: integer
   - name: PilotAnlage
-    #mandatory: true
+    mandatory: true # sometimes missing
     xsd: boolean
     psql: boolean
     sqlite: integer
@@ -43,7 +43,7 @@ fields:
     psql: real
     sqlite: real
   - name: VerhaeltnisErtragsschaetzungReferenzertrag
-    #mandatory: true
+    mandatory: true # sometimes missing
     xsd: decimal
     psql: real
     sqlite: real
@@ -53,7 +53,7 @@ fields:
     psql: boolean
     sqlite: integer
   - name: VerhaeltnisReferenzertragErtrag5Jahre
-    #mandatory: true
+    mandatory: true # sometimes missing
     xsd: decimal
     psql: real
     sqlite: real
@@ -63,7 +63,7 @@ fields:
     psql: boolean
     sqlite: integer
   - name: VerhaeltnisReferenzertragErtrag10Jahre
-    #mandatory: true
+    mandatory: true # sometimes missing
     xsd: decimal
     psql: real
     sqlite: real
@@ -73,7 +73,7 @@ fields:
     psql: boolean
     sqlite: integer
   - name: VerhaeltnisReferenzertragErtrag15Jahre
-    #mandatory: true
+    mandatory: true # sometimes missing
     xsd: decimal
     psql: real
     sqlite: real
@@ -83,7 +83,7 @@ fields:
     psql: boolean
     sqlite: integer
   - name: AusschreibungZuschlag
-    #mandatory: true
+    mandatory: true # sometimes missing
     xsd: boolean
     psql: boolean
     sqlite: integer
