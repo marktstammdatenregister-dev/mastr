@@ -13,7 +13,7 @@ func main() {
 	schemaName := flag.String("schema", defaultOption, "schema name")
 	flag.Parse()
 
-	td, err := spec.Decode(*specFileName)
+	td, err := spec.DecodeTable(*specFileName)
 	if err != nil {
 		log.Fatalf("failed to decode spec: %w", err)
 	}

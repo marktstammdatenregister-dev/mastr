@@ -61,7 +61,7 @@ func insert() error {
 	}
 	internal.Location = location
 
-	td, err := spec.Decode(*specFileName)
+	td, err := spec.DecodeTable(*specFileName)
 	if err != nil {
 		return fmt.Errorf("failed to decode spec: %w", err)
 	}
