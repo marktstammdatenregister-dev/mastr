@@ -23,7 +23,7 @@ jobs:
     - name: Validate
       run: |
         cd mastr
-        go build -o validate cmd/validate/main.go
+        go build -o validate ./cmd/validate/main.go
         EXPORT_URL="$(curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload |
           sed -E 's|^.*(https://download.marktstammdatenregister.de/Gesamtdatenexport_.*\.zip).*|\1|gp;d')"
         echo "${EXPORT_URL}" | tee report.txt
