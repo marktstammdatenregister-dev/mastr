@@ -10,12 +10,11 @@ import (
 	"golang.org/x/text/encoding/unicode"
 	"io"
 	"log"
-	"sort"
 	"os"
 	"pvdb.de/mastr/internal"
 	"pvdb.de/mastr/internal/spec"
+	"sort"
 	"strings"
-	//"time"
 )
 
 var errMissingOption = errors.New("missing mandatory argument")
@@ -47,12 +46,6 @@ func insert() error {
 		}
 	}
 
-	//location, err := time.LoadLocation("Europe/Berlin")
-	//if err != nil {
-	//	return fmt.Errorf("failed to load location data: %w", err)
-	//}
-	//internal.Location = location
-
 	export, err := spec.DecodeExport(*specFileName)
 	if err != nil {
 		return fmt.Errorf("failed to decode export spec: %w", err)
@@ -81,7 +74,6 @@ func insert() error {
 				continue
 			}
 			if err = func() error {
-				//start := time.Now()
 				f, err := xmlFile.Open()
 				if err != nil {
 					return fmt.Errorf("failed to open xml file %s: %w", name, err)
@@ -95,15 +87,12 @@ func insert() error {
 				if err != nil {
 					return fmt.Errorf("failed to validate xml file %s: %w", name, err)
 				}
-				//elapsed := time.Since(start).Seconds()
-				//log.Printf("%s\t%.f entries/second", name, float64(i)/elapsed)
 				return nil
 			}(); err != nil {
 				return fmt.Errorf("failed to process xml file: %w", err)
 			}
 		}
 	}
-	//v.reportUnvalidated(r)
 	if v.errCount == 0 {
 		println("SUCCESS")
 	} else {
@@ -236,33 +225,9 @@ func (v *validator) validateFile(f io.Reader, fileName string, td *spec.Table) (
 				continue
 			}
 		}
-
-		//if v.errCount > 100 {
-		//	return i, fmt.Errorf("too many validation errors")
-		//}
 	}
 	reportMissing(mis, td.Element, td.Primary)
 	return i, nil
-}
-
-func (v *validator) reportUnvalidated(r *zip.ReadCloser) {
-	for _, xmlFile := range r.File {
-		name := xmlFile.FileHeader.Name
-		if !strings.HasSuffix(name, ".xml") {
-			continue
-		}
-
-		found := false
-		for _, validated := range v.files {
-			if name == validated {
-				found = true
-				break
-			}
-		}
-		if found == false {
-			fmt.Printf("%s: not validated\n", name)
-		}
-	}
 }
 
 func reportDuplicate(dup duplicate) {
