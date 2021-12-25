@@ -120,6 +120,39 @@ type broken struct {
 	referenceFile string
 }
 
+type fileReport struct {
+	name      string
+	missing   map[string]*missing
+	duplicate []duplicate
+	broken    []broken
+}
+
+func newReport(fileName string) fileReport {
+	return fileReport{
+		name:      fileName,
+		missing:   make(map[string]*missing),
+		duplicate: make([]duplicate, 0),
+		broken:    make([]broken, 0),
+	}
+}
+
+func (r *fileReport) reportMissing(fieldName, key string) {
+	if _, ok := r.missing[fieldName]; !ok {
+		r.missing[fieldName] = &missing{firstKey: key, count: 0}
+	}
+	m := r.missing[fieldName]
+	m.count++
+}
+
+func (r *fileReport) reportDuplicate(d duplicate) {
+	r.duplicate = append(r.duplicate, d)
+}
+
+func (r *fileReport) reportBroken(d broken) {
+	r.broken = append(r.broken, d)
+}
+
+
 type missing struct {
 	firstKey string
 	count    int
@@ -148,7 +181,7 @@ func (v *validator) validateFile(f io.Reader, fileName string, td *spec.Table) (
 	r := internal.NewXMLReader(td, d)
 
 	// Validate the file.
-	mis := make(map[string]missing)
+	report := newReport(fileName)
 	i := 0
 	for {
 		item, err := r.Read()
@@ -167,7 +200,7 @@ func (v *validator) validateFile(f io.Reader, fileName string, td *spec.Table) (
 		}
 		keys := v.key[td.Element]
 		if originalFileIndex, ok := keys[key]; ok {
-			reportDuplicate(duplicate{
+			report.reportDuplicate(duplicate{
 				table:         td.Element,
 				column:        td.Primary,
 				key:           key,
@@ -184,12 +217,7 @@ func (v *validator) validateFile(f io.Reader, fileName string, td *spec.Table) (
 				continue
 			}
 			if _, ok := item[field.Name]; !ok {
-				if _, ok := mis[field.Name]; !ok {
-					mis[field.Name] = missing{firstKey: item[td.Primary], count: 0}
-				}
-				m := mis[field.Name]
-				m.count++
-				mis[field.Name] = m
+				report.reportMissing(field.Name, item[td.Primary])
 				v.errCount++
 			}
 		}
@@ -215,18 +243,19 @@ func (v *validator) validateFile(f io.Reader, fileName string, td *spec.Table) (
 				referenceFile: fileName,
 			}
 			if _, ok := v.key[ref.Table]; !ok {
-				reportBroken(brk)
+				report.reportBroken(brk)
 				v.errCount++
 				continue
 			}
 			if _, ok := v.key[ref.Table][x]; !ok {
-				reportBroken(brk)
+				report.reportBroken(brk)
 				v.errCount++
 				continue
 			}
 		}
 	}
-	reportMissing(mis, td.Element, td.Primary)
+	// TODO: Do something with the report.
+	//report.reportMissing(mis, td.Element, td.Primary)
 	return i, nil
 }
 
@@ -238,7 +267,7 @@ func reportBroken(brk broken) {
 	fmt.Printf("- broken: %s(%s=%s).%s references %s.%s=%s, which is missing\n", brk.table, brk.primary, brk.key, brk.column, brk.targetTable, brk.targetColumn, brk.targetKey)
 }
 
-func reportMissing(mis map[string]missing, table string, primary string) {
+func reportMissing(mis map[string]*missing, table string, primary string) {
 	cols := make([]string, 0)
 	for col, _ := range mis {
 		cols = append(cols, col)
