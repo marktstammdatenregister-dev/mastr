@@ -2,16 +2,16 @@ package internal
 
 import (
 	"fmt"
-	"github.com/jackc/pgtype"
 	"pvdb.de/mastr/internal/spec"
+	"strconv"
 	"time"
 )
 
 var Location = time.UTC
 
 type Fields struct {
-	fields map[string]uint
-	psqlty map[string]string
+	fields   map[string]uint
+	sqlitety map[string]string
 }
 
 func NewFields(fields []spec.Field) *Fields {
@@ -19,9 +19,9 @@ func NewFields(fields []spec.Field) *Fields {
 	t := make(map[string]string)
 	for i, field := range fields {
 		f[field.Name] = uint(i)
-		t[field.Name] = field.Psql
+		t[field.Name] = field.Sqlite
 	}
-	return &Fields{fields: f, psqlty: t}
+	return &Fields{fields: f, sqlitety: t}
 }
 
 func (f *Fields) Header() []string {
@@ -37,53 +37,57 @@ func (f *Fields) Record(item map[string]string) ([]interface{}, error) {
 	n := len(f.fields)
 	result := make([]interface{}, n, n)
 	for name, value := range item {
-		switch f.psqlty[name] {
-		case "boolean":
-			v := &pgtype.Bool{}
-			if err := v.Set(value); err != nil {
-				return result, err
-			}
-			result[f.fields[name]] = v
-		case "date":
-			ts, err := time.ParseInLocation("2006-01-02", value, Location)
-			if err != nil {
-				return result, err
-			}
-			v := &pgtype.Date{}
-			if err := v.Set(ts); err != nil {
-				return result, err
-			}
-			result[f.fields[name]] = v
+		switch f.sqlitety[name] {
+		//case "boolean":
+		//	v := &pgtype.Bool{}
+		//	if err := v.Set(value); err != nil {
+		//		return result, err
+		//	}
+		//	result[f.fields[name]] = v
+		//case "date":
+		//	ts, err := time.ParseInLocation("2006-01-02", value, Location)
+		//	if err != nil {
+		//		return result, err
+		//	}
+		//	v := &pgtype.Date{}
+		//	if err := v.Set(ts); err != nil {
+		//		return result, err
+		//	}
+		//	result[f.fields[name]] = v
 		case "integer":
-			v := &pgtype.Int4{}
-			if err := v.Set(value); err != nil {
+			if value == "" {
+				result[f.fields[name]] = nil
+				continue
+			}
+			v, err := strconv.Atoi(value)
+			if err != nil {
 				return result, err
 			}
 			result[f.fields[name]] = v
 		case "real":
-			v := &pgtype.Float4{}
-			if err := v.Set(value); err != nil {
+			if value == "" {
+				result[f.fields[name]] = nil
+				continue
+			}
+			v, err := strconv.ParseFloat(value, 64)
+			if err != nil {
 				return result, err
 			}
 			result[f.fields[name]] = v
 		case "text", "":
-			v := &pgtype.Text{}
-			if err := v.Set(value); err != nil {
-				return result, err
-			}
-			result[f.fields[name]] = v
-		case "timestamp":
-			ts, err := time.ParseInLocation("2006-01-02T15:04:05.9999999", value, Location)
-			if err != nil {
-				return result, err
-			}
-			v := &pgtype.Timestamp{}
-			if err := v.Set(ts); err != nil {
-				return result, err
-			}
-			result[f.fields[name]] = v
+			result[f.fields[name]] = value
+		//case "timestamp":
+		//	ts, err := time.ParseInLocation("2006-01-02T15:04:05.9999999", value, Location)
+		//	if err != nil {
+		//		return result, err
+		//	}
+		//	v := &pgtype.Timestamp{}
+		//	if err := v.Set(ts); err != nil {
+		//		return result, err
+		//	}
+		//	result[f.fields[name]] = v
 		default:
-			return nil, fmt.Errorf("unknown PostgreSQL type: %s", f.psqlty[name])
+			return nil, fmt.Errorf("unknown SQLite type: %s", f.sqlitety[name])
 		}
 	}
 	return result, nil
