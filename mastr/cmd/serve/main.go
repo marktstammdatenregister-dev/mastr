@@ -1,16 +1,19 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"time"
 
 	"github.com/graphql-go/graphql"
+	"github.com/graphql-go/handler"
 	_ "github.com/mattn/go-sqlite3"
 	"pvdb.de/mastr/internal"
 	"pvdb.de/mastr/internal/spec"
@@ -71,66 +74,33 @@ func serve() error {
 	fields := graphql.Fields{}
 	for _, ed := range export {
 		td := ed.Table
-		args := graphql.FieldConfigArgument{}
-		args[td.Primary] = &graphql.ArgumentConfig{
-			Type: graphql.String,
-		}
-
-		//obj := graphql.NewObject(graphql.ObjectConfig{
-		//	Name: td.Element,
-		//	Fields: graphql.Fields{
-		//		td.Primary: &graphql.Field{
-		//			Type: graphql.String,
-		//			Args: args,
-		//			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-		//				fmt.Printf("%s = %s\n", td.Primary, p.Args[td.Primary])
-		//				println(p.Info.FieldName)
-		//				row := db.QueryRow(`select Ort from Marktakteur where Ort is not null limit 1`)
-		//				var id string
-		//				err := row.Scan(&id)
-		//				return id, err
-		//			},
-		//		},
-		//	},
-		//})
-
 		obj, err := getTable(db, &td)
+		if err != nil {
+			return err
+		}
+		f := internal.NewFields(td.Fields)
+		t, err := f.GraphqlType(td.Primary)
 		if err != nil {
 			return err
 		}
 		fields[td.Element] = &graphql.Field{
 			Type: obj,
-			Args: args,
+			Args: graphql.FieldConfigArgument{
+				td.Primary: &graphql.ArgumentConfig{
+					Type: t,
+				},
+			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				// if _, ok := p.Args[td.Primary]; ok {
-				// 	return obj, nil
-				// }
-				// return td.Primary, nil
-				//fmt.Printf("hi %s = %s\n", td.Primary, p.Args[td.Primary])
-				//fmt.Printf("Resolve: %s, %v\n%v", td.Primary, p.Args[td.Primary], p)
-
-				primary := p.Args[td.Primary].(string)
+				primary := p.Args[td.Primary]
+				fmt.Printf("top level Resolve: %s\n", primary)
+				p.Context = context.WithValue(context.Background(), "toplevel", primary)
 				return getObject(db, &td, primary)
 			},
 		}
 	}
-
-	// Schema
-
-	// for k, _ := range fields {
-	// 	println(k)
-	// }
-	// fields := graphql.Fields{
-	// 	"hello": &graphql.Field{
-	// 		Type: graphql.String,
-	// 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-	// 			return "world", nil
-	// 		},
-	// 	},
-	// }
-	rootQuery := graphql.ObjectConfig{Name: "RootQuery", Fields: fields}
-	schemaConfig := graphql.SchemaConfig{Query: graphql.NewObject(rootQuery)}
-	schema, err := graphql.NewSchema(schemaConfig)
+	schema, err := graphql.NewSchema(graphql.SchemaConfig{
+		Query: graphql.NewObject(graphql.ObjectConfig{Name: "RootQuery", Fields: fields}),
+	})
 	if err != nil {
 		log.Fatalf("failed to create new schema, error: %v", err)
 	}
@@ -144,6 +114,12 @@ func serve() error {
 				Personenart
 				Firmenname
 			}
+			EinheitWind(EinheitMastrNummer: "SEE900002935310") {
+				EinheitMastrNummer
+				DatumLetzteAktualisierung
+				Ort
+				Hausnummer
+			}
 		}
 	`
 	params := graphql.Params{Schema: schema, RequestString: query}
@@ -154,17 +130,30 @@ func serve() error {
 	rJSON, _ := json.Marshal(r)
 	fmt.Printf("%s \n", rJSON) // {"data":{"hello":"world"}}
 
-	return nil
+	h := handler.New(&handler.Config{
+		Schema:   &schema,
+		Pretty:   true,
+		GraphiQL: true,
+	})
+	http.Handle("/graphql", h)
+	return http.ListenAndServe(":8080", nil)
 }
 
 func getTable(db *sql.DB, td *spec.Table) (*graphql.Object, error) {
 	f := graphql.Fields{}
-	for _, v := range td.Fields {
-		f[v.Name] = &graphql.Field{
-			Type: graphql.String,
+	for _, field := range td.Fields {
+		fields := internal.NewFields(td.Fields)
+		t, err := fields.GraphqlType(field.Name)
+		if err != nil {
+			return nil, err
+		}
+		f[field.Name] = &graphql.Field{
+			Type: t,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				primary := p.Source.(*graphql.Object).PrivateName
-				//fmt.Printf("getTable.Resolve: %v\n", p)
+				//primary := p.Source.(*graphql.Object).PrivateName
+				//primary := p.Args[td.Primary].(string)
+				primary := p.Context.Value("toplevel").(string)
+				fmt.Printf("getTable.Resolve: %s\n", primary)
 				v, err := getValue(db, td, primary, p.Info.FieldName)
 				if err != nil {
 					return nil, err
@@ -184,54 +173,62 @@ func getTable(db *sql.DB, td *spec.Table) (*graphql.Object, error) {
 }
 
 func getValue(db *sql.DB, td *spec.Table, primary string, column string) (sql.NullString, error) {
-	row := db.QueryRow(fmt.Sprintf(`select %s from %s where %s = ?`, column, td.Element, td.Primary), primary)
 	result := sql.NullString{}
-	err := row.Scan(&result)
+	stmt, err := db.Prepare(fmt.Sprintf(`select %s from %s where %s = ?`, column, td.Element, td.Primary))
+	if err != nil {
+		return result, err
+	}
+	defer stmt.Close()
+	fmt.Println(stmt)
+	row := stmt.QueryRow(primary)
+	err = row.Scan(&result)
 	return result, err
 }
 
-func getObject(db *sql.DB, td *spec.Table, primary string) (*graphql.Object, error) {
-	fields := internal.NewFields(td.Fields)
-	headers := fields.Header()
-	columns := headers[0]
-	for _, header := range headers[1:] {
-		columns = fmt.Sprintf("%s, %s", columns, header)
-	}
+func getObject(db *sql.DB, td *spec.Table, primary interface{}) (*graphql.Object, error) {
+	// fields := internal.NewFields(td.Fields)
+	// headers := fields.Header()
+	// columns := headers[0]
+	// for _, header := range headers[1:] {
+	// 	columns = fmt.Sprintf("%s, %s", columns, header)
+	// }
 
-	stmt := fmt.Sprintf(`select %s from %s where %s = ?`, columns, td.Element, td.Primary)
-	row := db.QueryRow(stmt, primary)
-	record := make([]interface{}, len(headers))
-	for i, _ := range record {
-		record[i] = &sql.NullString{}
-	}
+	// // TODO: Prepare one statement
+	// stmt := fmt.Sprintf(`select %s from %s where %s = ?`, columns, td.Element, td.Primary)
+	// row := db.QueryRow(stmt, primary)
+	// dest := fields.ScanDest()
+	// if err := row.Scan(dest...); err != nil {
+	// 	return nil, fmt.Errorf("getObject scan: %v", err)
+	// }
 
-	if err := row.Scan(record...); err != nil {
-		return nil, fmt.Errorf("getObject scan: %v", err)
-	}
+	// m, err := fields.Map(dest)
+	// if err != nil {
+	// 	return nil, fmt.Errorf("getObject new fields: %v", err)
+	// }
 
-	m, err := fields.Map(record)
-	if err != nil {
-		return nil, fmt.Errorf("getObject new fields: %v", err)
-	}
-
-	f := graphql.Fields{}
-	for k, v := range m {
-		f[k] = &graphql.Field{
-			Type: graphql.String,
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				fmt.Printf("getObject.Resolve: %v\n", p)
-				v2 := v.(sql.NullString)
-				if v2.Valid {
-					return v2.String, nil
-				} else {
-					return nil, nil
-				}
-			},
-		}
-	}
+	// f := graphql.Fields{}
+	// for k, v := range m {
+	// 	t, err := fields.GraphqlType(k)
+	// 	if err != nil {
+	// 		return nil, err
+	// 	}
+	// 	f[k] = &graphql.Field{
+	// 		Type: t,
+	// 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+	// 			fmt.Printf("getObject.Resolve: %v\n", p)
+	// 			v2 := v.(sql.NullString)
+	// 			if v2.Valid {
+	// 				return v2.String, nil
+	// 			} else {
+	// 				return nil, nil
+	// 			}
+	// 		},
+	// 	}
+	// }
 
 	return graphql.NewObject(graphql.ObjectConfig{
-		Name:   primary,
-		Fields: f,
+		Name: fmt.Sprintf("%v", primary),
+		// TODO: Try adding Resolve here -- perhaps that's how we can achieve caching?
+		//Fields: f,
 	}), nil
 }
