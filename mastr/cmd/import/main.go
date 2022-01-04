@@ -167,6 +167,7 @@ func insertFromXml(tx *sql.Tx, ctx context.Context, f io.Reader, td *spec.Table)
 	br := xml.NewDecoder(bufio.NewReaderSize(f, bufSize))
 
 	// Prepare the INSERT statement.
+	// TODO: This only needs to be done once per spec.Table, not once per XML file. Hoist.
 	fields := internal.NewFields(td.Fields)
 	headers := fields.Header()
 	columns := headers[0]

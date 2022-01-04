@@ -2,9 +2,10 @@ package internal
 
 import (
 	"fmt"
-	"pvdb.de/mastr/internal/spec"
 	"strconv"
 	"time"
+
+	"pvdb.de/mastr/internal/spec"
 )
 
 var Location = time.UTC
@@ -92,3 +93,21 @@ func (f *Fields) Record(item map[string]string) ([]interface{}, error) {
 	}
 	return result, nil
 }
+
+func (f *Fields) Map(record []interface{}) (map[string]interface{}, error) {
+	item := make(map[string]interface{})
+	for field, i := range f.fields {
+		if int(i) > len(record) - 1 {
+			return item, fmt.Errorf("record has %d fields, expected %d", len(record), len(f.fields))
+		}
+		item[field] = record[i]
+	}
+	return item, nil
+}
+
+/*
+
+When reading XML to SQLite: turn map[string]string into []interface{}
+When serving SQLite as GraphQL: turn []interface{} into map[string]&graphql.Field ?
+
+*/
