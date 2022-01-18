@@ -23,10 +23,12 @@ databases:
                         longitude_column: Laengengrad
             Katalogkategorie:
                 label_column: Name
-                hidden: true
+                # Datasette >0.58.1 fails if 'hidden: true' is set.
+                #hidden: true
             Katalogwert:
                 label_column: Wert
-                hidden: true
+                # Datasette >0.58.1 fails if 'hidden: true' is set.
+                #hidden: true
             sqlite_stat1:
                 hidden: true
         queries:

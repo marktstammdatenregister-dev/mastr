@@ -50,7 +50,7 @@
 # https://packages.debian.org/search?suite=bullseye&searchon=names&keywords=spatialite
 FROM python:3.9-slim-bullseye as datasette
 
-ARG VERSION=0.58.1
+ARG VERSION=0.60
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends libsqlite3-mod-spatialite
@@ -75,6 +75,7 @@ RUN apt-get -qq update \
 # https://github.com/curiousleo/datasette-leaflet-geojson/archive/1e402abeb77192e0b8d51504b46055f1e1b4cf4d.tar.gz
 RUN pip install \
       datasette-cluster-map \
+      datasette-graphql \
       datasette-leaflet-geojson \
       datasette-vega \
  && true
