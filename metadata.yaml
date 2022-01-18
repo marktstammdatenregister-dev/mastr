@@ -1,30 +1,30 @@
 databases:
     Marktstammdatenregister:
         tables:
-            EinheitenSolar:
+            EinheitSolar:
                 plugins:
                     datasette-cluster-map:
                         latitude_column: Breitengrad
                         longitude_column: Laengengrad
-            EinheitenStromSpeicher:
+            EinheitStromSpeicher:
                 plugins:
                     datasette-cluster-map:
                         latitude_column: Breitengrad
                         longitude_column: Laengengrad
-            EinheitenWasser:
+            EinheitWasser:
                 plugins:
                     datasette-cluster-map:
                         latitude_column: Breitengrad
                         longitude_column: Laengengrad
-            EinheitenWind:
+            EinheitWind:
                 plugins:
                     datasette-cluster-map:
                         latitude_column: Breitengrad
                         longitude_column: Laengengrad
-            Katalogkategorien:
+            Katalogkategorie:
                 label_column: Name
                 hidden: true
-            Katalogwerte:
+            Katalogwert:
                 label_column: Wert
                 hidden: true
             sqlite_stat1:
@@ -49,8 +49,8 @@ databases:
                       Laengengrad as longitude,
                       Breitengrad as latitude
                     from
-                      EinheitenSolar e
-                      join Marktakteure m on e.AnlagenbetreiberMastrNummer = m.MastrNummer
+                      EinheitSolar e
+                      join Marktakteur m on e.AnlagenbetreiberMastrNummer = m.MastrNummer
                     where
                       e.Ort = :Ort
                       and DatumEndgueltigeStilllegung = ''
@@ -65,22 +65,22 @@ databases:
                         substr(Inbetriebnahmedatum, 0, 8) as Monat,
                         sum(Nettonennleistung) as Leistung
                       from
-                        EinheitenSolar
+                        EinheitSolar
                       where
                         Inbetriebnahmedatum != ''
                       group by
-                        substr(Inbetriebnahmedatum, 0, 8)
+                        Monat
                     ),
                     per_month_retired as (
                       select
                         substr(DatumEndgueltigeStilllegung, 0, 8) as Monat,
                         sum(Nettonennleistung) as Leistung
                       from
-                        EinheitenSolar
+                        EinheitSolar
                       where
                         DatumEndgueltigeStilllegung != ''
                       group by
-                        substr(DatumEndgueltigeStilllegung, 0, 8)
+                        Monat
                     ),
                     months as (
                       select
@@ -122,7 +122,7 @@ databases:
                         substr(Inbetriebnahmedatum, 0, 8) as Monat,
                         sum(Nettonennleistung) as Leistung
                       from
-                        EinheitenWind
+                        EinheitWind
                       where
                         Inbetriebnahmedatum != ''
                       group by
@@ -133,7 +133,7 @@ databases:
                         substr(DatumEndgueltigeStilllegung, 0, 8) as Monat,
                         sum(Nettonennleistung) as Leistung
                       from
-                        EinheitenWind
+                        EinheitWind
                       where
                         DatumEndgueltigeStilllegung != ''
                       group by
@@ -179,11 +179,11 @@ databases:
                       m.Ort,
                       m.Firmenname,
                       m.Taetigkeitsbeginn,
-                      count(e.EinheitMastrNummer) as AnzahlEinheiten,
+                      count(e.EinheitMastrNummer) as AnzahlEinheit,
                       m.MastrNummer
                     from
-                      Marktakteure m
-                      left join EinheitenSolar e on e.AnlagenbetreiberMastrNummer = m.MastrNummer
+                      Marktakteur m
+                      left join EinheitSolar e on e.AnlagenbetreiberMastrNummer = m.MastrNummer
                     where
                       m.Firmenname like "%bürger%"
                       and m.Firmenname not like "%bürgerlich%"
