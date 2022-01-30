@@ -23,4 +23,4 @@ jobs:
         subject: Marktstammdatenregister validation result
         to: ~curiousleo/marktstammdatenregister-validation@lists.sr.ht
         from: Marktstammdatenregister validator
-        body: file://result.txt
+        body: file://mastr/result.txt
