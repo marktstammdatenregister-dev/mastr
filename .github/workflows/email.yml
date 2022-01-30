@@ -9,6 +9,7 @@ jobs:
 
     - name: Fake validation
       run: |
+        mkdir mastr
         cd mastr
         echo 'This is a test' > result.txt
 
