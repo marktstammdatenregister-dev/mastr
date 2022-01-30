@@ -1,0 +1,25 @@
+name: E-mail test
+on:
+  workflow_dispatch:        # Enable manual trigger
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Fake validation
+      run: |
+        cd mastr
+        echo 'This is a test' > result.txt
+
+    - name: E-mail result
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.fastmail.com
+        server_port: 465
+        username: ${{secrets.MAIL_USERNAME}}
+        password: ${{secrets.MAIL_PASSWORD}}
+        subject: Marktstammdatenregister validation result
+        to: ~curiousleo/marktstammdatenregister-validation@lists.sr.ht
+        from: Marktstammdatenregister validator
+        body: file://result.txt
