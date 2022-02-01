@@ -20,7 +20,7 @@ import (
 var errMissingOption = errors.New("missing mandatory argument")
 
 func main() {
-	err := insert()
+	err := validate()
 	if errors.Is(err, errMissingOption) {
 		flag.PrintDefaults()
 		os.Exit(64)
@@ -30,7 +30,7 @@ func main() {
 	}
 }
 
-func insert() error {
+func validate() error {
 	const defaultOption = "<undefined>"
 	exportFileName := flag.String("export", defaultOption, "file name of the export zip file")
 	specFileName := flag.String("spec", defaultOption, "file name of the export spec")
