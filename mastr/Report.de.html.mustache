@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.4.4/css/pico.min.css">
+    <style>
+        /* Show <tr>s in the overview table not marked with class="failure" iff #all-files is checked. */
+        table.overview tbody tr { display: none; }
+        table.overview tbody tr.failure { display: table-row; }
+        #all-files:checked~figure table.overview tbody tr { display: table-row; }
+    </style>
+    <title>{{ExportName}}</title>
+</head>
+
+<body>
+    <main class="container">
+        <hgroup>
+            <h1>{{ExportName}}</h1>
+            <h2>{{Url}}</h2>
+        </hgroup>
+
+        <article>
+            <header><strong>Zusammenfassung</strong></header>
+
+            <input id="all-files" type="checkbox" />
+            <label for="all-files">Erfolgreich validierte Dateien anzeigen</label>
+            <p></p>
+            <figure>
+                <table class="overview" role="grid">
+                    <thead>
+                        <tr>
+                            <th scope="col">Dateiname</th>
+                            <th scope="col">Fehlende Felder</th>
+                            <th scope="col">Kaputte Verweise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#Files}}
+                        <tr class="{{#NumMissing}}failure{{/NumMissing}}{{^NumMissing}}{{#NumBroken}}failure{{/NumBroken}}{{/NumMissing}}">
+                            <th scope="row">{{FileName}}</th>
+                            <td>{{#NumMissing}}<a href="#{{FileName}}--missing">{{NumMissing}}</a>{{/NumMissing}}{{^NumMissing}}(none){{/NumMissing}}</td>
+                            <td>{{#NumBroken}}<a href="#{{FileName}}--broken">{{NumBroken}}</a>{{/NumBroken}}{{^NumBroken}}(none){{/NumBroken}}</td>
+                        </tr>
+                        {{/Files}}
+                    </tbody>
+                </table>
+            </figure>
+        </article>
+
+        {{#Files}}
+
+        {{#NumMissing}}
+        <article id="{{FileName}}--missing">
+            <header><strong>Fehlende Pflichtfelder</strong> in <code>{{FileName}}</code></header>
+            <figure>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Feldname</th>
+                            <th scope="col">Beispieleintrag</th>
+                            <th scope="col">Anzahl Fälle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#Missing}}
+                        <tr>
+                            <th scope="row">{{FieldName}}</th>
+                            <td>{{Example}}</td>
+                            <td>{{NumOccurrences}}</td>
+                        </tr>
+                        {{/Missing}}                                                                                                                                     
+                    </tbody>
+                </table>
+            </figure>
+        </article>
+        {{/NumMissing}}
+
+        {{#NumBroken}}
+        <article id="{{FileName}}--broken">
+            <header><strong>Kaputte Verweise</strong> in <code>{{FileName}}</code></header>
+            <figure>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Verweis von</th>
+                            <th scope="col">Verweisfeld</th>
+                            <th scope="col">Verweis nach</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#Broken}}
+                        <tr>
+                            <th scope="row">{{Referrer}}</th>
+                            <td>{{Field}}</td>
+                            <td><s>{{Referent}}</s></td>
+                        </tr>
+                        {{/Broken}}
+                    </tbody>
+                </table>
+            </figure>
+        </article>
+        {{/NumBroken}}
+
+        {{/Files}}
+    </main>
+</body>
+
+</html>

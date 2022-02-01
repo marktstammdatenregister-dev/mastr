@@ -3,6 +3,7 @@ package main
 import (
 	"archive/zip"
 	"bufio"
+	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"flag"
@@ -34,6 +35,7 @@ func validate() error {
 	const defaultOption = "<undefined>"
 	exportFileName := flag.String("export", defaultOption, "file name of the export zip file")
 	specFileName := flag.String("spec", defaultOption, "file name of the export spec")
+	format := flag.String("format", "text", "output format [text, json]")
 	flag.Parse()
 
 	// Ensure mandatory flags are set.
@@ -44,6 +46,12 @@ func validate() error {
 		if arg == defaultOption {
 			return errMissingOption
 		}
+	}
+	switch *format {
+	case "text":
+	case "json":
+	default:
+		return errMissingOption
 	}
 
 	export, err := spec.DecodeExport(*specFileName)
@@ -65,6 +73,11 @@ func validate() error {
 		key:      make(map[string]map[string]int),
 		files:    make([]string, 0),
 		errCount: 0,
+		report: ExportReport{
+			ExportName: strings.Split(*exportFileName, "__")[0],
+			Url:        fmt.Sprintf("https://download.marktstammdatenregister.de/%s", *exportFileName),
+			Files:      make([]FileReport, 0),
+		},
 	}
 	dec := unicode.UTF16(unicode.LittleEndian, unicode.IgnoreBOM).NewDecoder()
 	for _, ed := range export {
@@ -83,7 +96,7 @@ func validate() error {
 						log.Printf("%v", err)
 					}
 				}()
-				_, err = v.validateFile(dec.Reader(f), name, &ed.Table)
+				_, err = v.validateFile(dec.Reader(f), name, &ed.Table, *format == "text")
 				if err != nil {
 					return fmt.Errorf("failed to validate xml file %s: %w", name, err)
 				}
@@ -93,10 +106,18 @@ func validate() error {
 			}
 		}
 	}
-	if v.errCount == 0 {
-		println("SUCCESS")
-	} else {
-		fmt.Printf("FAILURE: %d error(s) found\n", v.errCount)
+
+	if *format == "text" {
+		if v.errCount == 0 {
+			println("SUCCESS")
+		} else {
+			fmt.Printf("FAILURE: %d error(s) found\n", v.errCount)
+		}
+	}
+	if *format == "json" {
+		if err := json.NewEncoder(os.Stdout).Encode(v.report); err != nil {
+			return fmt.Errorf("failed to encode json: %s", err)
+		}
 	}
 	return nil
 }
@@ -129,10 +150,20 @@ type validator struct {
 	key      map[string]map[string]int
 	files    []string
 	errCount int
+	report   ExportReport
 }
 
-func (v *validator) validateFile(f io.Reader, fileName string, td *spec.Table) (int, error) {
-	fmt.Println(fileName)
+func (v *validator) validateFile(f io.Reader, fileName string, td *spec.Table, outputText bool) (int, error) {
+	if outputText {
+		fmt.Println(fileName)
+	}
+
+	fileReport := FileReport{
+		FileName: fileName,
+		Missing:  make([]MissingReport, 0),
+		Broken:   make([]BrokenReport, 0),
+	}
+
 	// Insert the file name into `v.files`.
 	for _, name := range v.files {
 		if name == fileName {
@@ -167,14 +198,18 @@ func (v *validator) validateFile(f io.Reader, fileName string, td *spec.Table) (
 		}
 		keys := v.key[td.Element]
 		if originalFileIndex, ok := keys[key]; ok {
-			reportDuplicate(duplicate{
-				table:         td.Element,
-				column:        td.Primary,
-				key:           key,
-				originalFile:  v.files[originalFileIndex],
-				duplicateFile: fileName,
-			})
+			if outputText {
+				reportDuplicate(duplicate{
+					table:         td.Element,
+					column:        td.Primary,
+					key:           key,
+					originalFile:  v.files[originalFileIndex],
+					duplicateFile: fileName,
+				})
+			}
 			v.errCount++
+
+			// TODO: Include duplicates in JSON.
 		}
 		keys[key] = fileIndex
 
@@ -215,18 +250,57 @@ func (v *validator) validateFile(f io.Reader, fileName string, td *spec.Table) (
 				referenceFile: fileName,
 			}
 			if _, ok := v.key[ref.Table]; !ok {
-				reportBroken(brk)
+				if outputText {
+					reportBroken(brk)
+				}
 				v.errCount++
+
+				fileReport.Broken = append(fileReport.Broken, BrokenReport{
+					Referrer: key,
+					Field:    field.Name,
+					Referent: fmt.Sprintf("%s(%s=%s)", ref.Table, ref.Column, x),
+				})
+				fileReport.NumBroken++
+
 				continue
 			}
 			if _, ok := v.key[ref.Table][x]; !ok {
-				reportBroken(brk)
+				if outputText {
+					reportBroken(brk)
+				}
 				v.errCount++
+
+				fileReport.Broken = append(fileReport.Broken, BrokenReport{
+					Referrer: key,
+					Field:    field.Name,
+					Referent: fmt.Sprintf("%s(%s=%s)", ref.Table, ref.Column, x),
+				})
+				fileReport.NumBroken++
+
 				continue
 			}
 		}
 	}
-	reportMissing(mis, td.Element, td.Primary)
+	if outputText {
+		reportMissing(mis, td.Element, td.Primary)
+	}
+
+	// TODO: Get rid of code duplication with reportMissing.
+	cols := make([]string, 0)
+	for col, _ := range mis {
+		cols = append(cols, col)
+	}
+	sort.Strings(cols)
+	for _, col := range cols {
+		m := mis[col]
+		fileReport.Missing = append(fileReport.Missing, MissingReport{
+			FieldName:      col,
+			Example:        m.firstKey,
+			NumOccurrences: m.count,
+		})
+		fileReport.NumMissing += m.count
+	}
+	v.report.Files = append(v.report.Files, fileReport)
 	return i, nil
 }
 
@@ -248,4 +322,31 @@ func reportMissing(mis map[string]missing, table string, primary string) {
 		m := mis[col]
 		fmt.Printf("- missing: %s.%s is mandatory but missing (%d times, e.g. %s=%s)\n", table, col, m.count, primary, m.firstKey)
 	}
+}
+
+// JSON reporting.
+type ExportReport struct {
+	ExportName string
+	Url        string
+	Files      []FileReport
+}
+
+type FileReport struct {
+	FileName   string
+	NumMissing int
+	NumBroken  int
+	Missing    []MissingReport
+	Broken     []BrokenReport
+}
+
+type MissingReport struct {
+	FieldName      string
+	Example        string
+	NumOccurrences int
+}
+
+type BrokenReport struct {
+	Referrer string
+	Field    string
+	Referent string
 }
