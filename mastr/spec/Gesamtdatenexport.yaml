@@ -24,7 +24,7 @@
 - EinheitenWasser.yaml
 - EinheitenGeoSolarthermieGrubenKlaerschlammDruckentspannung.yaml
 - EinheitenVerbrennung.yaml
-#- EinheitenKernkraft.yaml
+- EinheitenKernkraft.yaml
 - EinheitenStromSpeicher.yaml
 #- EinheitenStromVerbraucher.yaml
 #- EinheitenGasErzeuger.yaml
