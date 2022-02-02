@@ -9,7 +9,7 @@
         /* Show <tr>s in the overview table not marked with class="failure" iff #all-files is checked. */
         table.overview tbody tr { display: none; }
         table.overview tbody tr.failure { display: table-row; }
-        #all-files:checked~figure table.overview tbody tr { display: table-row; }
+        #only-failures:not(:checked)~figure table.overview tbody tr { display: table-row; }
     </style>
     <title>{{ExportName}}</title>
 </head>
@@ -24,8 +24,8 @@
         <article>
             <header><strong>Zusammenfassung</strong></header>
 
-            <input id="all-files" type="checkbox" />
-            <label for="all-files">Erfolgreich validierte Dateien anzeigen</label>
+            <input id="only-failures" type="checkbox" role="switch" checked />
+            <label for="only-failures">Nur Dateien mit Validierungsfehlern anzeigen</label>
             <p></p>
             <figure>
                 <table class="overview" role="grid">
