@@ -125,9 +125,8 @@ fields:
     psql: boolean
     sqlite: integer
   - name: GenMastrNummer
-    # TODO
-    #references:
-    #  table: EinheitGenehmigung
-    #  column: GenMastrNummer
+    references:
+      table: EinheitGenehmigung
+      column: GenMastrNummer
   - name: VerknuepfteEinheitenMaStRNummern
 ---

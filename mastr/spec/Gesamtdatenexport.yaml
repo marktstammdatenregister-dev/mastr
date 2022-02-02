@@ -17,7 +17,7 @@
 - AnlagenEegGeoSolarthermieGrubenKlaerschlammDruckentspannung.yaml
 - AnlagenKwk.yaml
 
-#- EinheitenGenehmigung.yaml
+- EinheitenGenehmigung.yaml
 - EinheitenWind.yaml
 - EinheitenSolar.yaml
 - EinheitenBiomasse.yaml

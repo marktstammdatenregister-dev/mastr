@@ -134,4 +134,7 @@ fields:
       table: AnlagenGasSpeicher
       column: MaStRNummer
   - name: GenMastrNummer
+    references:
+      table: EinheitGenehmigung
+      column: GenMastrNummer
 ---

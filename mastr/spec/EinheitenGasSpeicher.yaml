@@ -147,13 +147,15 @@ fields:
     sqlite: integer
     mandatory: true
   - name: GenMastrNummer
-    # TODO
-    #references:
-    #  table: EinheitGenehmigung
-    #  column: GenMastrNummer
+    references:
+      table: EinheitGenehmigung
+      column: GenMastrNummer
   - name: SpeicherMaStRNummer
     references:
       table: AnlageGasSpeicher
       column: MaStRNummer
   - name: GenMastrNummer
+    references:
+      table: EinheitGenehmigung
+      column: GenMastrNummer
 ---

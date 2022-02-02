@@ -186,6 +186,9 @@ fields:
     psql: boolean
     sqlite: integer
   - name: GenMastrNummer
+    references:
+      table: EinheitGenehmigung
+      column: GenMastrNummer
   - name: NameKraftwerk
     #mandatory: true
   - name: ArtDerWasserkraftanlage

@@ -185,6 +185,9 @@ fields:
     psql: boolean
     sqlite: integer
   - name: GenMastrNummer
+    references:
+      table: EinheitGenehmigung
+      column: GenMastrNummer
   - name: ZugeordneteWirkleistungWechselrichter
   - name: GemeinsamerWechselrichterMitSpeicher
     xsd: nonNegativeInteger
