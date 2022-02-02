@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.4.4/css/pico.min.css">
+    <link rel="stylesheet" href="/pico.min.css">
     <style>
         /* Show <tr>s in the overview table not marked with class="failure" iff #all-files is checked. */
         table.overview tbody tr { display: none; }
@@ -40,8 +40,8 @@
                         {{#Files}}
                         <tr class="{{#NumMissing}}failure{{/NumMissing}}{{^NumMissing}}{{#NumBroken}}failure{{/NumBroken}}{{/NumMissing}}">
                             <th scope="row">{{FileName}}</th>
-                            <td>{{#NumMissing}}<a href="#{{FileName}}--missing">{{NumMissing}}</a>{{/NumMissing}}{{^NumMissing}}(none){{/NumMissing}}</td>
-                            <td>{{#NumBroken}}<a href="#{{FileName}}--broken">{{NumBroken}}</a>{{/NumBroken}}{{^NumBroken}}(none){{/NumBroken}}</td>
+                            <td>{{#NumMissing}}<a href="#{{FileName}}--missing">{{NumMissing}}</a>{{/NumMissing}}{{^NumMissing}}—{{/NumMissing}}</td>
+                            <td>{{#NumBroken}}<a href="#{{FileName}}--broken">{{NumBroken}}</a>{{/NumBroken}}{{^NumBroken}}—{{/NumBroken}}</td>
                         </tr>
                         {{/Files}}
                     </tbody>
@@ -55,7 +55,7 @@
         <article id="{{FileName}}--missing">
             <header><strong>Fehlende Pflichtfelder</strong> in <code>{{FileName}}</code></header>
             <figure>
-                <table>
+                <table role="grid">
                     <thead>
                         <tr>
                             <th scope="col">Feldname</th>
@@ -81,7 +81,7 @@
         <article id="{{FileName}}--broken">
             <header><strong>Kaputte Verweise</strong> in <code>{{FileName}}</code></header>
             <figure>
-                <table>
+                <table role="grid">
                     <thead>
                         <tr>
                             <th scope="col">Verweis von</th>
