@@ -27,7 +27,7 @@
 - EinheitenKernkraft.yaml
 - EinheitenStromSpeicher.yaml
 - EinheitenStromVerbraucher.yaml
-#- EinheitenGasErzeuger.yaml
+- EinheitenGasErzeuger.yaml
 #- EinheitenGasSpeicher.yaml
 #- EinheitGasVerbraucher.yaml
 #- EinheitenGenehmigung.yaml
