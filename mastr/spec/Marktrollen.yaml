@@ -9,6 +9,9 @@ fields:
   #   mandatory: false
   - name: MarktakteurMastrNummer
     mandatory: true
+    references:
+      table: Marktakteur
+      column: Id
   - name: DatumLetzteAktualisierung
     mandatory: true
     xsd: dateTime
