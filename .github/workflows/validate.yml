@@ -30,23 +30,29 @@ jobs:
         sudo apt-get update
         sudo apt-get install jq rclone ruby-mustache
 
-    - name: Validate and upload
-      run: |
-        set -Eeuo pipefail
+        echo "jq version"
+        jq --version
 
-        cd mastr
-        go build -o validate ./cmd/validate/main.go
+        echo "rclone version"
+        rclone --version
 
-        EXPORT_URL="$(curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload |
-          sed -E 's|^.*(https://download.marktstammdatenregister.de/Gesamtdatenexport_.*\.zip).*$|\1|gp;d')"
-        EXPORT_FILENAME="${EXPORT_URL##*/}"
-        EXPORT_FILENAME="${EXPORT_FILENAME%%__*}"
+    #- name: Validate and upload
+    #  run: |
+    #    set -Eeuo pipefail
 
-        curl -sSLo "${EXPORT_FILENAME}.zip" "${EXPORT_URL}"
-        ./validate -export "${EXPORT_FILENAME}.zip" -spec spec/Gesamtdatenexport.yaml -format json | tee "${EXPORT_FILENAME}.json"
+    #    cd mastr
+    #    go build -o validate ./cmd/validate/main.go
 
-        rclone copy --include 'Gesamtdatenexport_*.json' . 'wasabi:mastr-validation-1' --config rclone.conf
-        curl -sS --header 'x-random;' --upload-file "${EXPORT_FILENAME}.json" https://paste.c-net.org/
+    #    EXPORT_URL="$(curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload |
+    #      sed -E 's|^.*(https://download.marktstammdatenregister.de/Gesamtdatenexport_.*\.zip).*$|\1|gp;d')"
+    #    EXPORT_FILENAME="${EXPORT_URL##*/}"
+    #    EXPORT_FILENAME="${EXPORT_FILENAME%%__*}"
+
+    #    curl -sSLo "${EXPORT_FILENAME}.zip" "${EXPORT_URL}"
+    #    ./validate -export "${EXPORT_FILENAME}.zip" -spec spec/Gesamtdatenexport.yaml -format json | tee "${EXPORT_FILENAME}.json"
+
+    #    rclone copy --include 'Gesamtdatenexport_*.json' . 'wasabi:mastr-validation-1' --config rclone.conf
+    #    curl -sS --header 'x-random;' --upload-file "${EXPORT_FILENAME}.json" https://paste.c-net.org/
 
     - name: Update site
       run: |
@@ -54,7 +60,7 @@ jobs:
 
         mkdir _site && cd _site
 
-        rclone copy --include 'Gesamtdatenexport_*.json' 'wasabi:mastr-validation-1' . --config mastr/rclone.conf
+        rclone copy --include 'Gesamtdatenexport_*.json' 'wasabi:mastr-validation-1' . --config ../mastr/rclone.conf
 
         for f in Gesamtdatenexport_*.json; do
           BASE="${f%.json}"
