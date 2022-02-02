@@ -186,7 +186,6 @@ fields:
     sqlite: integer
   - name: GenMastrNummer
   - name: Technologie
-    mandatory: true # sometimes missing
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
