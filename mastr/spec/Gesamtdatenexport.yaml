@@ -1,7 +1,8 @@
 # The order is significant! Later items may reference earlier items.
-- Lokationen.yaml
 - Katalogkategorien.yaml
 - Katalogwerte.yaml
+- Bilanzierungsgebiete.yaml
+- Lokationen.yaml
 - Marktakteure.yaml
 - AnlagenEegBiomasse.yaml
 - AnlagenEegSolar.yaml
