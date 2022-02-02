@@ -46,23 +46,23 @@ jobs:
         echo "rclone version"
         rclone --version
 
-    #- name: Validate and upload
-    #  run: |
-    #    set -Eeuo pipefail
+    - name: Validate and upload
+      run: |
+        set -Eeuo pipefail
 
-    #    cd mastr
-    #    go build -o validate ./cmd/validate/main.go
+        cd mastr
+        go build -o validate ./cmd/validate/main.go
 
-    #    EXPORT_URL="$(curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload |
-    #      sed -E 's|^.*(https://download.marktstammdatenregister.de/Gesamtdatenexport_.*\.zip).*$|\1|gp;d')"
-    #    EXPORT_FILENAME="${EXPORT_URL##*/}"
-    #    EXPORT_FILENAME="${EXPORT_FILENAME%%__*}"
+        EXPORT_URL="$(curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload |
+          sed -E 's|^.*(https://download.marktstammdatenregister.de/Gesamtdatenexport_.*\.zip).*$|\1|gp;d')"
+        EXPORT_FILENAME="${EXPORT_URL##*/}"
+        SHORT_FILENAME="${EXPORT_FILENAME%%__*}"
 
-    #    curl -sSLo "${EXPORT_FILENAME}.zip" "${EXPORT_URL}"
-    #    ./validate -export "${EXPORT_FILENAME}.zip" -spec spec/Gesamtdatenexport.yaml -format json | tee "${EXPORT_FILENAME}.json"
+        curl -sSLo "${EXPORT_FILENAME}.zip" "${EXPORT_URL}"
+        ./validate -export "${EXPORT_FILENAME}.zip" -spec spec/Gesamtdatenexport.yaml -format json >"${SHORT_FILENAME}.json"
 
-    #    rclone copy --include 'Gesamtdatenexport_*.json' . 'wasabi:mastr-validation-1' --config rclone.conf
-    #    curl -sS --header 'x-random;' --upload-file "${EXPORT_FILENAME}.json" https://paste.c-net.org/
+        rclone copy --include "${SHORT_FILENAME}.json" . 'wasabi:mastr-validation-1' --config rclone.conf
+        curl -sS --header 'x-random;' --upload-file "${SHORT_FILENAME}.json" https://paste.c-net.org/
 
     - name: Update site
       run: |
