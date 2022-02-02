@@ -84,17 +84,19 @@
                 <table role="grid">
                     <thead>
                         <tr>
-                            <th scope="col">Verweis von</th>
-                            <th scope="col">Verweisfeld</th>
-                            <th scope="col">Verweis nach</th>
+                            <th scope="col">Eintrag</th>
+                            <th scope="col">Fremdschlüsselfeld</th>
+                            <th scope="col">Zieleintragstyp</th>
+                            <th scope="col">Zieleintrag</th>
                         </tr>
                     </thead>
                     <tbody>
                         {{#Broken}}
                         <tr>
-                            <th scope="row">{{Referrer}}</th>
-                            <td>{{Field}}</td>
-                            <td><s>{{Referent}}</s></td>
+                            <th scope="row">{{SourceKey}}</th>
+                            <td>{{ForeignKeyField}}</td>
+                            <td>{{TargetTable}}</td>
+                            <td><s>{{TargetKey}}</s></td>
                         </tr>
                         {{/Broken}}
                     </tbody>

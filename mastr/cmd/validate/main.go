@@ -256,9 +256,11 @@ func (v *validator) validateFile(f io.Reader, fileName string, td *spec.Table, o
 				v.errCount++
 
 				fileReport.Broken = append(fileReport.Broken, BrokenReport{
-					Referrer: key,
-					Field:    field.Name,
-					Referent: fmt.Sprintf("%s(%s=%s)", ref.Table, ref.Column, x),
+					SourceKey:       key,
+					ForeignKeyField: field.Name,
+					TargetTable:     ref.Table,
+					TargetKeyField:  ref.Column,
+					TargetKey:       x,
 				})
 				fileReport.NumBroken++
 
@@ -271,9 +273,11 @@ func (v *validator) validateFile(f io.Reader, fileName string, td *spec.Table, o
 				v.errCount++
 
 				fileReport.Broken = append(fileReport.Broken, BrokenReport{
-					Referrer: key,
-					Field:    field.Name,
-					Referent: fmt.Sprintf("%s(%s=%s)", ref.Table, ref.Column, x),
+					SourceKey:       key,
+					ForeignKeyField: field.Name,
+					TargetTable:     ref.Table,
+					TargetKeyField:  ref.Column,
+					TargetKey:       x,
 				})
 				fileReport.NumBroken++
 
@@ -346,7 +350,9 @@ type MissingReport struct {
 }
 
 type BrokenReport struct {
-	Referrer string
-	Field    string
-	Referent string
+	SourceKey       string
+	ForeignKeyField string
+	TargetTable     string
+	TargetKeyField  string
+	TargetKey       string
 }
