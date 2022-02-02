@@ -29,4 +29,4 @@
 - EinheitenStromVerbraucher.yaml
 - EinheitenGasErzeuger.yaml
 - EinheitenGasSpeicher.yaml
-#- EinheitenGasVerbraucher.yaml
+- EinheitenGasVerbraucher.yaml
