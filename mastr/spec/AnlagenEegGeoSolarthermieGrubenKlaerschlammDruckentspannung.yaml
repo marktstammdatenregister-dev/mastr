@@ -1,0 +1,45 @@
+---
+root: AnlagenEegGeoSolarthermieGrubenKlaerschlammDruckentspannung
+element: AnlageEegGeoSolarthermieGrubenKlaerschlammDruckentspannung
+primary: EegMaStRNummer
+fields:
+  # defaults:
+  #   xsd: string
+  #   sqlite: text
+  #   mandatory: false
+  - name: Registrierungsdatum
+    xsd: date
+    psql: date
+    mandatory: true # sometimes missing
+  - name: DatumLetzteAktualisierung
+    xsd: dateTime
+    psql: timestamp
+    mandatory: true
+  - name: EegInbetriebnahmedatum
+    xsd: date
+    psql: date
+  - name: EegMastrNummer
+    mandatory: true
+  - name: AnlagenschluesselEeg
+  - name: AnlagenkennzifferAnlagenregister
+    mandatory: true # sometimes missing
+  - name: AnlagenkennzifferAnlagenregister_nv
+    xsd: boolean
+    psql: boolean
+    sqlite: integer
+    mandatory: true
+  - name: InstallierteLeistung
+    xsd: decimal
+    psql: real
+    sqlite: real
+  - name: AnlageBetriebsstatus
+    xsd: nonNegativeInteger
+    psql: integer
+    sqlite: integer
+    mandatory: true
+    references:
+      table: Katalogwert
+      column: Id
+  - name: VerknuepfteEinheitenMaStRNummern
+    mandatory: true
+---

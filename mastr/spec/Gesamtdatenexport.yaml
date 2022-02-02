@@ -6,13 +6,17 @@
 - Marktakteure.yaml
 - Marktrollen.yaml
 - Netze.yaml
-- AnlagenEegBiomasse.yaml
-- AnlagenEegSolar.yaml
-- AnlagenEegWasser.yaml
+
 - AnlagenEegWind.yaml
+- AnlagenEegSolar.yaml
+- AnlagenEegBiomasse.yaml
+- AnlagenEegWasser.yaml
 - AnlagenStromSpeicher.yaml
+- AnlagenEegGeoSolarthermieGrubenKlaerschlammDruckentspannung.yaml
+
 - EinheitenWind.yaml
 - EinheitenSolar.yaml
 - EinheitenBiomasse.yaml
 - EinheitenWasser.yaml
+- EinheitenGeoSolarthermieGrubenKlaerschlammDruckentspannung.yaml
 - EinheitenStromSpeicher.yaml
