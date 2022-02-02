@@ -32,7 +32,13 @@ jobs:
     - name: Install packages
       run: |
         sudo apt-get update
-        sudo apt-get install jq rclone ruby-mustache
+        sudo apt-get install jq rclone
+
+        # ruby-mustache does not handle zero as an empty value for the purpose of {#IntValue}...{/IntValue} blocks.
+        wget https://github.com/cbroglie/mustache/releases/download/v1.3.1/mustache_1.3.1_linux_amd64.tar.gz
+        tar -xvzf mustache_1.3.1_linux_amd64.tar.gz mustache
+        sudo mv mustache /usr/bin/mustache
+        rm mustache_1.3.1_linux_amd64.tar.gz
 
         echo "jq version"
         jq --version
