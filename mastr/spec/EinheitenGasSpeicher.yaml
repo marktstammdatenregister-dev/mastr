@@ -1,0 +1,159 @@
+---
+root: EinheitenGasSpeicher # docs say Eineiten
+element: EinheitGasSpeicher # docs say Eineit
+primary: EinheitMastrNummer
+fields:
+  # defaults:
+  #   xsd: string
+  #   sqlite: text
+  #   mandatory: false
+  - name: EinheitMastrNummer
+    mandatory: true
+  - name: DatumLetzteAktualisierung
+    xsd: dateTime
+    psql: timestamp
+    sqlite: text
+    mandatory: true
+  - name: LokationMaStRNummer
+    mandatory: true # sometimes missing
+    references:
+      table: Lokation
+      column: MastrNummer
+  - name: NetzbetreiberpruefungStatus
+    xsd: nonNegativeInteger
+    psql: integer
+    sqlite: integer
+    mandatory: true
+  - name: NetzbetreiberpruefungDatum
+    xsd: date
+    psql: date
+  - name: AnlagenbetreiberMastrNummer
+    mandatory: true # sometimes missing
+    references:
+      table: Marktakteur
+      column: MastrNummer
+  - name: Land
+    xsd: nonNegativeInteger
+    psql: integer
+    sqlite: integer
+    mandatory: true
+    references:
+      table: Katalogwert
+      column: Id
+  - name: Bundesland
+    xsd: nonNegativeInteger
+    psql: integer
+    sqlite: integer
+    references:
+      table: Katalogwert
+      column: Id
+  - name: Landkreis
+  - name: Gemeinde
+  - name: Gemeindeschluessel
+  - name: Postleitzahl
+    mandatory: true
+  - name: Gemarkung
+  - name: FlurFlurstuecknummern
+  - name: Strasse
+  - name: StrasseNichtGefunden
+    xsd: boolean
+    psql: boolean
+    sqlite: integer
+  - name: Hausnummer
+    mandatory: true # sometimes missing
+  - name: Hausnummer_nv
+    mandatory: true # sometimes missing
+    xsd: boolean
+    psql: boolean
+    sqlite: integer
+  - name: HausnummerNichtGefunden
+    xsd: boolean
+    psql: boolean
+    sqlite: integer
+  - name: Adresszusatz
+  - name: Ort
+    mandatory: true # sometimes missing
+  - name: Laengengrad
+    xsd: decimal
+    psql: real
+    sqlite: real
+  - name: Breitengrad
+    xsd: decimal
+    psql: real
+    sqlite: real
+  - name: Registrierungsdatum
+  - name: GeplantesInbetriebnahmedatum
+  - name: Inbetriebnahmedatum
+  - name: DatumEndgueltigeStilllegung
+  - name: DatumBeginnVoruebergehendeStilllegung
+  - name: DatumWiederaufnahmeBetrieb
+  - name: EinheitSystemstatus
+    xsd: nonNegativeInteger
+    psql: integer
+    sqlite: integer
+    references:
+      table: Katalogwert
+      column: Id
+  - name: EinheitBetriebsstatus
+    mandatory: true # sometimes missing
+    xsd: nonNegativeInteger
+    psql: integer
+    sqlite: integer
+    references:
+      table: Katalogwert
+      column: Id
+  - name: BestandsanlageMastrNummer
+  - name: NichtVorhandenInMigriertenEinheiten
+    xsd: boolean
+    psql: boolean
+    sqlite: integer
+  - name: AltAnlagenbentreiberMastrNummer
+  - name: DatumDesBetreiberwechsels
+    xsd: date
+    psql: date
+  - name: DatumRegistrierungDesBetreiberwechsels
+    xsd: date
+    psql: date
+  - name: NameGasspeicher
+    mandatory: true
+  - name: Speicherart
+    mandatory: true
+    xsd: nonNegativeInteger
+    psql: integer
+    sqlite: integer
+    references:
+      table: Katalogwert
+      column: Id
+  - name: MaximalNutzbaresArbeitsgasvolumen
+    xsd: decimal
+    psql: real
+    sqlite: real
+    mandatory: true
+  - name: MaximaleAusspeicherleistung
+    xsd: decimal
+    psql: real
+    sqlite: real
+    mandatory: true
+  - name: DurchschnittlicherBrennwert
+    xsd: decimal
+    psql: real
+    sqlite: real
+    mandatory: true
+  - name: Weic
+    mandatory: true
+  - name: Weic_nv # docs say Weic
+    xsd: boolean
+    psql: boolean
+    sqlite: integer
+    mandatory: true
+  - name: GenMastrNummer
+    # TODO
+    #references:
+    #  table: EinheitGenehmigung
+    #  column: GenMastrNummer
+  - name: SpeicherMaStRNummer
+    references:
+      table: AnlageGasSpeicher
+      column: MaStRNummer
+  - name: GenMastrNummer
+---
