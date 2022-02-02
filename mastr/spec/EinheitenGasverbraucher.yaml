@@ -1,6 +1,6 @@
 ---
-root: EinheitenGasVerbraucher # docs say Eineiten
-element: EinheitGasVerbraucher # docs say Eineit
+root: EinheitenGasverbraucher # docs say EineitenGasVerbraucher
+element: EinheitGasverbraucher # docs say EineitGasVerbraucher
 primary: EinheitMastrNummer
 fields:
   # defaults:

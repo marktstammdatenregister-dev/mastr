@@ -6,6 +6,7 @@
 - Marktakteure.yaml
 - Marktrollen.yaml
 - Netze.yaml
+- Netzanschlusspunkte.yaml
 
 - AnlagenStromSpeicher.yaml
 - AnlagenGasSpeicher.yaml
@@ -29,4 +30,4 @@
 - EinheitenStromVerbraucher.yaml
 - EinheitenGasErzeuger.yaml
 - EinheitenGasSpeicher.yaml
-- EinheitenGasVerbraucher.yaml
+- EinheitenGasverbraucher.yaml

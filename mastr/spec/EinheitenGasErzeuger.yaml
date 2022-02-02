@@ -130,9 +130,10 @@ fields:
     mandatory: true
   - name: SpeicherMaStRNummer
     mandatory: true
-    references:
-      table: AnlagenStromSpeicher
-      column: MaStRNummer
+      # TODO: Figure out what this is supposed to reference.
+    #references:
+    #  table: AnlagenGasSpeicher
+    #  column: MaStRNummer
   - name: GenMastrNummer
     references:
       table: EinheitGenehmigung
