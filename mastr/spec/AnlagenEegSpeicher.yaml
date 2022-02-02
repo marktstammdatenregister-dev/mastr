@@ -1,0 +1,24 @@
+---
+root: AnlagenEegSpeicher
+element: AnlageEegSpeicher
+primary: EegMaStRNummer
+fields:
+  # defaults:
+  #   xsd: string
+  #   sqlite: text
+  #   mandatory: false
+  - name: Registrierungsdatum
+    xsd: date
+    psql: date
+    mandatory: true # sometimes missing
+  - name: DatumLetzteAktualisierung
+    xsd: dateTime
+    psql: timestamp
+    mandatory: true
+  - name: EegInbetriebnahmedatum
+    xsd: date
+    psql: date
+  - name: EegMaStRNummer
+    mandatory: true
+  - name: VerknuepfteEinheitenMaStRNummern
+---

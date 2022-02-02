@@ -131,7 +131,7 @@ fields:
   - name: SpeicherMaStRNummer
     mandatory: true
     references:
-      table: AnlagenGasSpeicher
+      table: AnlagenStromSpeicher
       column: MaStRNummer
   - name: GenMastrNummer
     references:
