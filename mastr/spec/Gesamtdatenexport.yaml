@@ -13,10 +13,21 @@
 - AnlagenEegWasser.yaml
 - AnlagenStromSpeicher.yaml
 - AnlagenEegGeoSolarthermieGrubenKlaerschlammDruckentspannung.yaml
+#- AnlagenKwk.yaml
+
+#- StromSpeicher
+#- GasSpeicher
 
 - EinheitenWind.yaml
 - EinheitenSolar.yaml
 - EinheitenBiomasse.yaml
 - EinheitenWasser.yaml
 - EinheitenGeoSolarthermieGrubenKlaerschlammDruckentspannung.yaml
+#- EinheitenVerbrennung.yaml
+#- EinheitenKernkraft.yaml
 - EinheitenStromSpeicher.yaml
+#- EinheitenStromVerbraucher.yaml
+#- EinheitenGasErzeuger.yaml
+#- EinheitenGasSpeicher.yaml
+#- EinheitGasVerbraucher.yaml
+#- EinheitenGenehmigung.yaml
