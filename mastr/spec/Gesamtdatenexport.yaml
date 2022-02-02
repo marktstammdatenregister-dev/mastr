@@ -26,7 +26,7 @@
 - EinheitenVerbrennung.yaml
 - EinheitenKernkraft.yaml
 - EinheitenStromSpeicher.yaml
-#- EinheitenStromVerbraucher.yaml
+- EinheitenStromVerbraucher.yaml
 #- EinheitenGasErzeuger.yaml
 #- EinheitenGasSpeicher.yaml
 #- EinheitGasVerbraucher.yaml
