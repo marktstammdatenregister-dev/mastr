@@ -23,7 +23,7 @@
 - EinheitenBiomasse.yaml
 - EinheitenWasser.yaml
 - EinheitenGeoSolarthermieGrubenKlaerschlammDruckentspannung.yaml
-#- EinheitenVerbrennung.yaml
+- EinheitenVerbrennung.yaml
 #- EinheitenKernkraft.yaml
 - EinheitenStromSpeicher.yaml
 #- EinheitenStromVerbraucher.yaml
