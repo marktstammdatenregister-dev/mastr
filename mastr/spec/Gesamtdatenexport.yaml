@@ -7,16 +7,15 @@
 - Marktrollen.yaml
 - Netze.yaml
 
+- AnlagenStromSpeicher.yaml
+- AnlagenGasSpeicher.yaml
 - AnlagenEegWind.yaml
 - AnlagenEegSolar.yaml
 - AnlagenEegBiomasse.yaml
 - AnlagenEegWasser.yaml
-- AnlagenStromSpeicher.yaml
+# - AnlagenEegSpeicher.yaml
 - AnlagenEegGeoSolarthermieGrubenKlaerschlammDruckentspannung.yaml
 - AnlagenKwk.yaml
-
-#- StromSpeicher
-#- GasSpeicher
 
 - EinheitenWind.yaml
 - EinheitenSolar.yaml
@@ -29,5 +28,5 @@
 - EinheitenStromVerbraucher.yaml
 - EinheitenGasErzeuger.yaml
 #- EinheitenGasSpeicher.yaml
-#- EinheitGasVerbraucher.yaml
+#- EinheitenGasVerbraucher.yaml
 #- EinheitenGenehmigung.yaml

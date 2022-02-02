@@ -130,9 +130,8 @@ fields:
     mandatory: true
   - name: SpeicherMaStRNummer
     mandatory: true
-    # TODO
-    #references:
-    #  table: GasSpeicher
-    #  column: MaStRNummer
+    references:
+      table: AnlagenGasSpeicher
+      column: MaStRNummer
   - name: GenMastrNummer
 ---
