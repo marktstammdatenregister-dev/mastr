@@ -25,13 +25,45 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-go-
 
-    - name: Validate
+    - name: Install packages
       run: |
+        sudo apt-get update
+        sudo apt-get install jq rclone ruby-mustache
+
+    - name: Validate and upload
+      run: |
+        set -Eeuo pipefail
+
         cd mastr
         go build -o validate ./cmd/validate/main.go
+
         EXPORT_URL="$(curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload |
           sed -E 's|^.*(https://download.marktstammdatenregister.de/Gesamtdatenexport_.*\.zip).*$|\1|gp;d')"
-        echo "${EXPORT_URL}" | tee result.txt
-        curl -sSLo Gesamtdatenexport.zip "${EXPORT_URL}"
-        ./validate -export Gesamtdatenexport.zip -spec spec/Gesamtdatenexport.yaml | tee --append result.txt
-        curl -sS --header 'x-random;' --upload-file result.txt https://paste.c-net.org/
+        EXPORT_FILENAME="${EXPORT_URL##*/}"
+        EXPORT_FILENAME="${EXPORT_FILENAME%%__*}"
+
+        curl -sSLo "${EXPORT_FILENAME}.zip" "${EXPORT_URL}"
+        ./validate -export "${EXPORT_FILENAME}.zip" -spec spec/Gesamtdatenexport.yaml -format json | tee "${EXPORT_FILENAME}.json"
+
+        rclone copy --include 'Gesamtdatenexport_*.json' . 'wasabi:mastr-validation-1' --config rclone.conf
+        curl -sS --header 'x-random;' --upload-file "${EXPORT_FILENAME}.json" https://paste.c-net.org/
+
+    - name: Update site
+      run: |
+        set -Eeuo pipefail
+
+        mkdir _site && cd _site
+
+        rclone copy --include 'Gesamtdatenexport_*.json' 'wasabi:mastr-validation-1' . --config mastr/rclone.conf
+
+        for f in Gesamtdatenexport_*.json; do
+          BASE="${f%.json}"
+          mustache "${BASE}.json" ../mastr/Report.de.html.mustache >"${BASE}.html"
+        done
+
+        ls *.html | sort --reverse | jq --raw-input . | jq --slurp '{Reports: . | map({ExportName: (.[:-5]), FileName: .})}' >index.json
+        mustache index.json ../mastr/Index.de.html.mustache >index.html
+
+        curl https://unpkg.com/@picocss/pico@1.4.4/css/pico.min.css >pico.min.css
+        tar -cvz *.html pico.min.css >site.tar.gz
+        curl --oauth2-bearer "${SRHT_SITE_OAUTH2_TOKEN}" -Fcontent=@site.tar.gz https://pages.sr.ht/publish/curiousleo.srht.site

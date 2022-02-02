@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="pico.min.css">
+    <title>Index</title>
+</head>
+
+<body>
+    <main class="container">
+        <h1>Validierungsergebnisse</h1>
+        <aside>
+            <nav>
+                <ul>
+                    <!-- ls *.html | sort | jq --raw-input . | jq --slurp '{Reports: . | map({ExportName: (.[:-5]), FileName: .})}' --!>
+                    {{#Reports}}
+                    <li><a href="{{FileName}}">{{ExportName}}</a></li>
+                    {{/Reports}}
+                </ul>
+            </nav>
+        </aside>
+    </main>
+</body>
+
+</html>
