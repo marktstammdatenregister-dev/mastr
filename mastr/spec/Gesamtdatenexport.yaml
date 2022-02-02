@@ -13,7 +13,7 @@
 - AnlagenEegWasser.yaml
 - AnlagenStromSpeicher.yaml
 - AnlagenEegGeoSolarthermieGrubenKlaerschlammDruckentspannung.yaml
-#- AnlagenKwk.yaml
+- AnlagenKwk.yaml
 
 #- StromSpeicher
 #- GasSpeicher

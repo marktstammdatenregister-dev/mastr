@@ -212,8 +212,7 @@ fields:
       table: AnlageEegBiomasse
       column: EegMaStRNummer
   - name: KwkMaStRNummer
-    # TODO
-    #references:
-    #  table: AnlageKwk
-    #  column: KwkMaStRNummer
+    references:
+      table: AnlageKwk
+      column: KwkMaStRNummer
 ---
