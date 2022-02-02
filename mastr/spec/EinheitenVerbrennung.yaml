@@ -239,14 +239,8 @@ fields:
     references:
       table: Katalogwert
       column: Id
-  - name: WeitereBrennstoffe
+  - name: WeitereBrennstoffe # docs say this is an int, but it's a list of strings
     mandatory: true
-    xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
-    references:
-      table: Katalogwert
-      column: Id
   - name: BestandteilGrenzkraftwerk
     xsd: boolean
     psql: boolean
