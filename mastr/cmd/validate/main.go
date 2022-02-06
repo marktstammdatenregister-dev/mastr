@@ -74,7 +74,7 @@ func validate() error {
 		files:    make([]string, 0),
 		errCount: 0,
 		report: ExportReport{
-			ExportName: strings.Split(*exportFileName, "__")[0],
+			ExportName: strings.SplitN(*exportFileName, "_", 2)[0],
 			Url:        fmt.Sprintf("https://download.marktstammdatenregister.de/%s", *exportFileName),
 			Files:      make([]FileReport, 0),
 		},
