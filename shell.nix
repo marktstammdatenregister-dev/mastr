@@ -15,6 +15,7 @@ pkgs.mkShell {
     pv
     rlwrap
     spatialite_tools
+    sqldiff
     sqlite
     unzip
   ];
