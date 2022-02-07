@@ -1,7 +1,5 @@
 *
 
-!/metadata.yaml
-!/settings.json
-
-!/mastr/Marktstammdatenregister.db.br
-!/osm/OpenStreetMap.db.br
+!/build/Marktstammdatenregister.db.br
+!/build/metadata.yaml
+!/build/settings.json

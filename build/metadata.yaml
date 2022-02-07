@@ -55,7 +55,8 @@ databases:
                       join Marktakteur m on e.AnlagenbetreiberMastrNummer = m.MastrNummer
                     where
                       e.Ort = :Ort
-                      and DatumEndgueltigeStilllegung = ''
+                      and e.EinheitSystemstatus = 472
+                      and e.EinheitBetriebsstatus = 35
                     order by
                       e.Nettonennleistung desc
             SolarMonatlichGesamt:
@@ -193,61 +194,3 @@ databases:
                       m.MastrNummer
                     order by
                       Leistung desc
-
-    OpenStreetMap:
-        tables:
-            ISO_metadata: {hidden: true}
-            ISO_metadata_reference: {hidden: true}
-            KNN: {hidden: true}
-            SE_external_graphics: {hidden: true}
-            SE_fonts: {hidden: true}
-            SE_raster_styled_layers: {hidden: true}
-            SE_raster_styles: {hidden: true}
-            SE_vector_styled_layers: {hidden: true}
-            SE_vector_styles: {hidden: true}
-            data_licenses: {hidden: true}
-            networks: {hidden: true}
-            raster_coverages: {hidden: true}
-            raster_coverages_keyword: {hidden: true}
-            raster_coverages_srid: {hidden: true}
-            rl2map_configurations: {hidden: true}
-            sqlite_stat1: {hidden: true}
-            stored_procedures: {hidden: true}
-            stored_variables: {hidden: true}
-            topologies: {hidden: true}
-            vector_coverages: {hidden: true}
-            vector_coverages_keyword: {hidden: true}
-            vector_coverages_srid: {hidden: true}
-            wms_getcapabilities: {hidden: true}
-            wms_getmap: {hidden: true}
-            wms_ref_sys: {hidden: true}
-            wms_settings: {hidden: true}
-        queries:
-            GroessteGebaeude:
-                title: Größte Gebäude
-                sql: |-
-                    select
-                      AsGeoJSON(buildings.geometry) as geojson,
-                      cast(
-                        Area(Transform(buildings.geometry, 25832)) as integer
-                      ) as area_sqm,
-                      X(Centroid(buildings.geometry)) as longitude,
-                      Y(Centroid(buildings.geometry)) as latitude
-                    from
-                      buildings,
-                      boundaries
-                    where
-                      boundaries.name = :Ort
-                      and buildings.rowid in (
-                        select
-                          rowid
-                        from
-                          SpatialIndex
-                        where
-                          f_table_name = 'buildings'
-                          and search_frame = boundaries.geometry
-                      )
-                    order by
-                      Area(Transform(buildings.geometry, 25832)) desc
-                    limit
-                      20
