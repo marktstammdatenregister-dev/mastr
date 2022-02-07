@@ -1,8 +1,0 @@
-*.br
-*.csv
-*.gen.*
-*.xml
-*.xsd
-*.zip
-Marktstammdatenregister.dump
-pgimport
