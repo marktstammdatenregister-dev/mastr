@@ -50,7 +50,6 @@ jobs:
       run: |
         set -Eeuo pipefail
 
-        cd mastr
         go build -o validate ./cmd/validate/main.go
 
         EXPORT_URL="$(curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload |
@@ -70,15 +69,15 @@ jobs:
 
         mkdir _site && cd _site
 
-        rclone copy --include 'Gesamtdatenexport_*.json' 'wasabi:mastr-validation-1' . --config ../mastr/rclone.conf
+        rclone copy --include 'Gesamtdatenexport_*.json' 'wasabi:mastr-validation-1' . --config ../build/rclone.conf
 
         for f in Gesamtdatenexport_*.json; do
           BASE="${f%.json}"
-          mustache "${BASE}.json" ../mastr/Report.de.html.mustache >"${BASE}.html"
+          mustache "${BASE}.json" ../template/Report.de.html.mustache >"${BASE}.html"
         done
 
         ls *.html | sort --reverse | jq --raw-input . | jq --slurp '{Reports: . | map({ExportName: (.[:-5]), FileName: .})}' >index.json
-        mustache index.json ../mastr/Index.de.html.mustache >index.html
+        mustache index.json ../template/Index.de.html.mustache >index.html
 
         curl https://unpkg.com/@picocss/pico@1.4.4/css/pico.min.css >pico.min.css
         tar -cvz *.html pico.min.css >site.tar.gz
