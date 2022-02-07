@@ -32,6 +32,8 @@ jobs:
 
     - name: Install packages
       run: |
+        set -Eeuxo pipefail
+
         sudo apt-get update
         sudo apt-get install jq rclone
 
@@ -49,24 +51,24 @@ jobs:
 
     - name: Validate and upload
       run: |
-        set -Eeuo pipefail
+        set -Eeuxo pipefail
 
         go build -o validate ./cmd/validate/main.go
 
         EXPORT_URL="$(curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload |
           sed -E 's|^.*(https://download.marktstammdatenregister.de/Gesamtdatenexport_.*\.zip).*$|\1|gp;d')"
         EXPORT_FILENAME="${EXPORT_URL##*/}"
-        SHORT_FILENAME="${EXPORT_FILENAME%%__*}"
+        SHORT_FILENAME="$(echo "${EXPORT_FILENAME}" | sed -E 's|^(Gesamtdatenexport_.+)_.*_.*.*\.zip$|\1|gp;d')"
 
-        curl -sSLo "${EXPORT_FILENAME}.zip" "${EXPORT_URL}"
-        ./validate -export "${EXPORT_FILENAME}.zip" -spec spec/Gesamtdatenexport.yaml -format json >"${SHORT_FILENAME}.json"
+        curl -sSLo "${EXPORT_FILENAME}" "${EXPORT_URL}"
+        ./validate -export "${EXPORT_FILENAME}" -spec spec/Gesamtdatenexport.yaml -format json >"${SHORT_FILENAME}.json"
 
         rclone copy --include "${SHORT_FILENAME}.json" . 'wasabi:mastr-validation-1' --config rclone.conf
         curl -sS --header 'x-random;' --upload-file "${SHORT_FILENAME}.json" https://paste.c-net.org/
 
     - name: Update site
       run: |
-        set -Eeuo pipefail
+        set -Eeuxo pipefail
 
         mkdir _site && cd _site
 
