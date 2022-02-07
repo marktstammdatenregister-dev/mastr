@@ -6,7 +6,9 @@
 - Marktakteure.yaml
 - Marktrollen.yaml
 - Netze.yaml
-- Netzanschlusspunkte.yaml
+
+# TODO: NetzanschlusspunktMastrNummer frequently duplicated and LokationMaStRNummer often does not resolve ...
+#- Netzanschlusspunkte.yaml
 
 - AnlagenStromSpeicher.yaml
 - AnlagenGasSpeicher.yaml
