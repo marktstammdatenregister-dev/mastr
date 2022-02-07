@@ -114,7 +114,7 @@ fields:
   - name: DatumRegistrierungDesBetreiberwechsels
     xsd: date
     psql: date
-  - name: NameGasverbrauchseinheit
+  - name: NameGasverbrauchsseinheit
     mandatory: true
   - name: MaximaleGasbezugsleistung
     xsd: decimal

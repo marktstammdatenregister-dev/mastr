@@ -142,7 +142,7 @@ fields:
     sqlite: real
   - name: Weic
     mandatory: true
-  - name: Weic_nv # docs say Weic
+  - name: Weic_Na # docs say Weic
     xsd: boolean
     psql: boolean
     sqlite: integer
@@ -155,8 +155,4 @@ fields:
     references:
       table: AnlageGasSpeicher
       column: MaStRNummer
-  - name: GenMastrNummer
-    references:
-      table: EinheitGenehmigung
-      column: GenMastrNummer
 ---
