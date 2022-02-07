@@ -7,6 +7,7 @@ env:
   SRHT_SITE_OAUTH2_TOKEN: ${{secrets.SRHT_SITE_OAUTH2_TOKEN}}
   RCLONE_CONFIG_WASABI_ACCESS_KEY_ID: ${{secrets.RCLONE_CONFIG_WASABI_ACCESS_KEY_ID}}
   RCLONE_CONFIG_WASABI_SECRET_ACCESS_KEY: ${{secrets.RCLONE_CONFIG_WASABI_SECRET_ACCESS_KEY}}
+  FLY_API_TOKEN: ${{secrets.FLY_API_TOKEN}}
 
 jobs:
   validate:
@@ -82,3 +83,8 @@ jobs:
         curl https://unpkg.com/@picocss/pico@1.4.4/css/pico.min.css >pico.min.css
         tar -cvz *.html pico.min.css >site.tar.gz
         curl --oauth2-bearer "${SRHT_SITE_OAUTH2_TOKEN}" -Fcontent=@site.tar.gz https://pages.sr.ht/publish/curiousleo.srht.site
+
+    - name: Deploy
+      uses: superfly/flyctl-actions@1.0
+      with:
+        args: deploy . --config build/fly.toml --dockerfile build/Dockerfile
