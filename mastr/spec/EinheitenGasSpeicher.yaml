@@ -128,17 +128,18 @@ fields:
     xsd: decimal
     psql: real
     sqlite: real
-    mandatory: true
+  - name: MaximaleEinspeicherleistung
+    xsd: decimal
+    psql: real
+    sqlite: real
   - name: MaximaleAusspeicherleistung
     xsd: decimal
     psql: real
     sqlite: real
-    mandatory: true
   - name: DurchschnittlicherBrennwert
     xsd: decimal
     psql: real
     sqlite: real
-    mandatory: true
   - name: Weic
     mandatory: true
   - name: Weic_nv # docs say Weic

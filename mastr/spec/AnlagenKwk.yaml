@@ -13,7 +13,7 @@ fields:
     xsd: boolean
     psql: boolean
     sqlite: integer
-  - name: Zuschlagsnummer
+  - name: Zuschlagnummer
   - name: DatumLetzteAktualisierung
     xsd: dateTime
     psql: timestamp

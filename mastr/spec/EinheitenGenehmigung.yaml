@@ -41,11 +41,11 @@ fields:
     sqlite: integer
     mandatory: true
   - name: WasserrechtsNummer
-  - name: WasserrechtsAblaufdatum
+  - name: WasserrechtAblaufdatum
     xsd: date
     psql: date
     sqlite: text
-  - name: WasserrechtsAblaufdatum_nv
+  - name: WasserrechtAblaufdatum_nv
     xsd: boolean
     psql: boolean
     sqlite: integer

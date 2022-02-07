@@ -265,9 +265,6 @@ fields:
       table: Katalogwert
       column: Id
   - name: KwkMaStRNummer
-    xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: AnlageKwk
       column: KwkMaStRNummer
