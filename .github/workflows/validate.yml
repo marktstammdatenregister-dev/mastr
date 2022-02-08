@@ -38,17 +38,17 @@ jobs:
         sudo apt-get install brotli jq rclone
 
         # ruby-mustache does not handle zero as an empty value for the purpose of {#IntValue}...{/IntValue} blocks.
-        wget https://github.com/cbroglie/mustache/releases/download/v1.3.1/mustache_1.3.1_linux_amd64.tar.gz
-        tar -xvzf mustache_1.3.1_linux_amd64.tar.gz mustache
+        curl -sSLo mustache.tar.gz https://github.com/cbroglie/mustache/releases/download/v1.3.1/mustache_1.3.1_linux_amd64.tar.gz
+        tar -xvzf mustache.tar.gz mustache
         sudo mv mustache /usr/bin/mustache
-        rm mustache_1.3.1_linux_amd64.tar.gz
+        rm mustache.tar.gz
 
         # superfly/flyctl-actions is broken [1], so install flyctl directly instead.
         # [1] https://github.com/superfly/flyctl-actions/issues/16
-        wget https://github.com/superfly/flyctl/releases/download/v0.0.295/flyctl_0.0.295_Linux_x86_64.tar.gz
-        tar -xvzf flyctl_0.0.295_Linux_x86_64.tar.gz
+        curl -sSLo flyctl.tar.gz https://github.com/superfly/flyctl/releases/download/v0.0.295/flyctl_0.0.295_Linux_x86_64.tar.gz
+        tar -xvzf flyctl.tar.gz
         sudo mv flyctl /usr/bin/flyctl
-        rm flyctl_0.0.295_Linux_x86_64.tar.gz
+        rm flyctl.tar.gz
 
         echo "jq version"
         jq --version
