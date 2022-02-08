@@ -9,6 +9,7 @@ pkgs.mkShell {
     mustache-go
     niv
     pv
+    rclone
     rlwrap
     sqldiff
     sqlite
