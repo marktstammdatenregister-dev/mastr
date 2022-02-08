@@ -4,7 +4,6 @@ on:
   - cron: '0 4 * * MON-FRI' # Every weekday at 04:00
   workflow_dispatch:        # Enable manual trigger
 env:
-  DEBIAN_FRONTEND: noninteractive
   SRHT_SITE_OAUTH2_TOKEN: ${{secrets.SRHT_SITE_OAUTH2_TOKEN}}
   RCLONE_CONFIG_WASABI_ACCESS_KEY_ID: ${{secrets.RCLONE_CONFIG_WASABI_ACCESS_KEY_ID}}
   RCLONE_CONFIG_WASABI_SECRET_ACCESS_KEY: ${{secrets.RCLONE_CONFIG_WASABI_SECRET_ACCESS_KEY}}
@@ -35,8 +34,8 @@ jobs:
       run: |
         set -Eeuxo pipefail
 
-        sudo apt-get update
-        sudo apt-get install axel brotli jq rclone
+        sudo apt-get -qq update
+        sudo apt-get -qq install axel brotli jq rclone
 
         # ruby-mustache does not handle zero as an empty value for the purpose of {#IntValue}...{/IntValue} blocks.
         curl -sSLo mustache.tar.gz https://github.com/cbroglie/mustache/releases/download/v1.3.1/mustache_1.3.1_linux_amd64.tar.gz
