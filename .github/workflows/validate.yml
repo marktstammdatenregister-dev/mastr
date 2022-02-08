@@ -72,7 +72,7 @@ jobs:
         axel --quiet --output="${EXPORT_FILENAME}" "${EXPORT_URL}"
         ./validate -export "${EXPORT_FILENAME}" -spec spec/Gesamtdatenexport.yaml -format json >"${SHORT_FILENAME}.json"
 
-        rclone copy --include "${SHORT_FILENAME}.json" . 'wasabi:mastr-validation-1' --config rclone.conf
+        rclone copy --include "${SHORT_FILENAME}.json" . 'wasabi:mastr-validation-1' --config build/rclone.conf
         curl -sS --header 'x-random;' --upload-file "${SHORT_FILENAME}.json" https://paste.c-net.org/
 
     - name: Update site
