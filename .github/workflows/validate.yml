@@ -35,7 +35,7 @@ jobs:
         set -Eeuxo pipefail
 
         sudo apt-get update
-        sudo apt-get install brotli jq rclone
+        sudo apt-get install axel brotli jq rclone
 
         # ruby-mustache does not handle zero as an empty value for the purpose of {#IntValue}...{/IntValue} blocks.
         curl -sSLo mustache.tar.gz https://github.com/cbroglie/mustache/releases/download/v1.3.1/mustache_1.3.1_linux_amd64.tar.gz
@@ -71,7 +71,7 @@ jobs:
 
         SHORT_FILENAME="$(echo "${EXPORT_FILENAME}" | sed -E 's|^(Gesamtdatenexport_.+)_.*_.*.*\.zip$|\1|gp;d')"
 
-        curl -sSLo "${EXPORT_FILENAME}" "${EXPORT_URL}"
+        axel --quiet --output="${EXPORT_FILENAME}" "${EXPORT_URL}"
         ./validate -export "${EXPORT_FILENAME}" -spec spec/Gesamtdatenexport.yaml -format json >"${SHORT_FILENAME}.json"
 
         rclone copy --include "${SHORT_FILENAME}.json" . 'wasabi:mastr-validation-1' --config rclone.conf
