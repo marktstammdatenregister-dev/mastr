@@ -55,11 +55,9 @@ jobs:
         rclone --version
         flyctl version
 
-    - name: Validate and upload
+    - name: Download export
       run: |
         set -Eeuxo pipefail
-
-        go build -o validate ./cmd/validate/main.go
 
         EXPORT_URL="$(curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload |
           sed -E 's|^.*(https://download.marktstammdatenregister.de/Gesamtdatenexport_.*\.zip).*$|\1|gp;d')"
@@ -68,20 +66,25 @@ jobs:
         # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-environment-variable
         echo "EXPORT_FILENAME=${EXPORT_FILENAME}" >> "${GITHUB_ENV}"
 
-        SHORT_FILENAME="$(echo "${EXPORT_FILENAME}" | sed -E 's|^(Gesamtdatenexport_.+)_.*_.*.*\.zip$|\1|gp;d')"
-
         axel --quiet --output="${EXPORT_FILENAME}" "${EXPORT_URL}"
-        ./validate -export "${EXPORT_FILENAME}" -spec spec/Gesamtdatenexport.yaml -format json >"${SHORT_FILENAME}.json"
+
+
+    - name: Validate export
+      run: |
+        set -Eeuxo pipefail
+
+        SHORT_FILENAME="$(echo "${{env.EXPORT_FILENAME}}" | sed -E 's|^(Gesamtdatenexport_.+)_.*_.*.*\.zip$|\1|gp;d')"
+
+        go build -o validate ./cmd/validate/main.go
+        ./validate -export "${{env.EXPORT_FILENAME}}" -spec spec/Gesamtdatenexport.yaml -format json >"${SHORT_FILENAME}.json"
 
         rclone copy --include "${SHORT_FILENAME}.json" . 'wasabi:mastr-validation-1' --config build/rclone.conf
-        curl -sS --header 'x-random;' --upload-file "${SHORT_FILENAME}.json" https://paste.c-net.org/
 
     - name: Update site
       run: |
         set -Eeuxo pipefail
 
         mkdir _site && cd _site
-
         rclone copy --include 'Gesamtdatenexport_*.json' 'wasabi:mastr-validation-1' . --config ../build/rclone.conf
 
         for f in Gesamtdatenexport_*.json; do
@@ -98,6 +101,8 @@ jobs:
 
     - name: Export to SQLite
       run: |
+        set -Eeuxo pipefail
+
         go build -o import ./cmd/import/main.go
         ./import -export "${{env.EXPORT_FILENAME}}" -spec spec/Gesamtdatenexport.yaml -database build/Marktstammdatenregister.db
         brotli --rm -4 --output=build/Marktstammdatenregister.db.br build/Marktstammdatenregister.db
@@ -108,5 +113,5 @@ jobs:
     #  with:
     #    args: deploy . --config build/fly.toml --dockerfile build/Dockerfile
 
-    - name: Deploy with flyctl
+    - name: Deploy
       run: flyctl deploy . --config build/fly.toml --dockerfile build/Dockerfile
