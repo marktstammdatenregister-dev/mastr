@@ -1,8 +1,8 @@
-# SQLite databases
-*.db
-
-# OSM exports
-*.osm.pbf
+# Build artifacts
+/build/Marktstammdatenregister.db
+/build/Marktstammdatenregister.db.br
+/import
+/validate
 
 # direnv "use nix" cache
-.direnv/
+/.direnv/

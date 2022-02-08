@@ -1,4 +1,4 @@
-name: Validate export
+name: Daily
 on:
   schedule:
   - cron: '0 4 * * MON-FRI' # Every weekday at 04:00
