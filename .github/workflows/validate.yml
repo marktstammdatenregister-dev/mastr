@@ -4,6 +4,7 @@ on:
   - cron: '0 4 * * MON-FRI' # Every weekday at 04:00
   workflow_dispatch:        # Enable manual trigger
 env:
+  DEBIAN_FRONTEND: noninteractive
   SRHT_SITE_OAUTH2_TOKEN: ${{secrets.SRHT_SITE_OAUTH2_TOKEN}}
   RCLONE_CONFIG_WASABI_ACCESS_KEY_ID: ${{secrets.RCLONE_CONFIG_WASABI_ACCESS_KEY_ID}}
   RCLONE_CONFIG_WASABI_SECRET_ACCESS_KEY: ${{secrets.RCLONE_CONFIG_WASABI_SECRET_ACCESS_KEY}}
