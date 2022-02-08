@@ -50,11 +50,9 @@ jobs:
         sudo mv flyctl /usr/bin/flyctl
         rm flyctl.tar.gz
 
-        echo "jq version"
         jq --version
-
-        echo "rclone version"
         rclone --version
+        flyctl version
 
     - name: Validate and upload
       run: |
