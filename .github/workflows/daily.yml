@@ -75,7 +75,7 @@ jobs:
         SHORT_FILENAME="$(echo "${{env.EXPORT_FILENAME}}" | sed -E 's|^(Gesamtdatenexport_.+)_.*_.*.*\.zip$|\1|gp;d')"
 
         go build -o validate ./cmd/validate/main.go
-        ./validate -export "${{env.EXPORT_FILENAME}}" -spec spec/Gesamtdatenexport.yaml -format json >"${SHORT_FILENAME}.json"
+        ./validate -export "${{env.EXPORT_FILENAME}}" -spec spec/Gesamtdatenexport.yaml >"${SHORT_FILENAME}.json"
 
         rclone copy --include "${SHORT_FILENAME}.json" . 'wasabi:mastr-validation-1' --config build/rclone.conf
 
