@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"golang.org/x/text/encoding/unicode"
 	"io"
+	"io/ioutil"
 	"log"
 	"marktstammdatenregister.dev/internal"
 	"marktstammdatenregister.dev/internal/spec"
@@ -31,7 +32,10 @@ func main() {
 
 func validate() error {
 	const defaultOption = "<undefined>"
+	sqliteFile := flag.String("database", defaultOption, "(optional) file name of the SQLite database")
 	exportFileName := flag.String("export", defaultOption, "file name of the export zip file")
+	textReport := flag.String("report-text", "stderr", "(optional) text report output [stdout | stderr | off]")
+	jsonReport := flag.String("report-json", "off", "(optional) json report output [stdout | stderr | off]")
 	specFileName := flag.String("spec", defaultOption, "file name of the export spec")
 	flag.Parse()
 
@@ -43,6 +47,30 @@ func validate() error {
 		if arg == defaultOption {
 			return errMissingOption
 		}
+	}
+
+	// Instantiate report writers.
+	writers := map[string]io.Writer{
+		"stdout": os.Stdout,
+		"stderr": os.Stderr,
+		"off":    ioutil.Discard,
+	}
+	var textWriter, jsonWriter io.Writer
+	textWriter = os.Stderr
+	jsonWriter = ioutil.Discard
+	if *textReport != defaultOption {
+		w, ok := writers[*textReport]
+		if !ok {
+			return fmt.Errorf("invalid output: %s", *textReport)
+		}
+		textWriter = w
+	}
+	if *jsonReport != defaultOption {
+		w, ok := writers[*jsonReport]
+		if !ok {
+			return fmt.Errorf("invalid output: %s", *jsonReport)
+		}
+		jsonWriter = w
 	}
 
 	export, err := spec.DecodeExport(*specFileName)
@@ -60,20 +88,27 @@ func validate() error {
 		}
 	}()
 
-	v := internal.NewValidator(
+	recs := []internal.Recorder{internal.NewValidator(
 		strings.SplitN(*exportFileName, "_", 2)[0],
 		fmt.Sprintf("https://download.marktstammdatenregister.de/%s", *exportFileName),
-		os.Stderr,
-		os.Stdout,
-	)
+		textWriter,
+		jsonWriter,
+	)}
+	if *sqliteFile != defaultOption {
+		w, err := internal.NewSqliteWriter(*sqliteFile)
+		if err != nil {
+			return err
+		}
+		recs = append(recs, w)
+	}
 	dec := unicode.UTF16(unicode.LittleEndian, unicode.IgnoreBOM).NewDecoder()
 	for _, ed := range export {
 		if err := func() error {
-			if err := v.EnterTable(ed.Table); err != nil {
+			if err := enterTable(recs, ed.Table); err != nil {
 				return fmt.Errorf("failed to enter table: %s", err)
 			}
 			defer func() {
-				if err := v.LeaveTable(); err != nil {
+				if err := leaveTable(recs); err != nil {
 					log.Printf("%v", err)
 				}
 			}()
@@ -84,11 +119,11 @@ func validate() error {
 					continue
 				}
 				if err = func() error {
-					if err := v.EnterFile(name); err != nil {
+					if err := enterFile(recs, name); err != nil {
 						return fmt.Errorf("failed to enter file: %s", err)
 					}
 					defer func() {
-						if err := v.LeaveFile(); err != nil {
+						if err := leaveFile(recs); err != nil {
 							log.Printf("%v", err)
 						}
 					}()
@@ -102,7 +137,7 @@ func validate() error {
 							log.Printf("%v", err)
 						}
 					}()
-					_, err = processFile(v, dec.Reader(f), &ed.Table)
+					_, err = processFile(recs, dec.Reader(f), &ed.Table)
 					if err != nil {
 						return fmt.Errorf("failed to validate xml file %s: %w", name, err)
 					}
@@ -116,13 +151,51 @@ func validate() error {
 			return fmt.Errorf("failed to process xml file: %w", err)
 		}
 	}
-	if err := v.Close(); err != nil {
-		return fmt.Errorf("failed to close validator: %w", err)
+	for _, rec := range recs {
+		if err := rec.Close(); err != nil {
+			return fmt.Errorf("failed to close recorder: %w", err)
+		}
 	}
 	return nil
 }
 
-func processFile(rec internal.Recorder, f io.Reader, td *spec.Table) (int, error) {
+func enterTable(recs []internal.Recorder, td spec.Table) error {
+	for _, rec := range recs {
+		if err := rec.EnterTable(td); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func leaveTable(recs []internal.Recorder) error {
+	for _, rec := range recs {
+		if err := rec.LeaveTable(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func enterFile(recs []internal.Recorder, f string) error {
+	for _, rec := range recs {
+		if err := rec.EnterFile(f); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func leaveFile(recs []internal.Recorder) error {
+	for _, rec := range recs {
+		if err := rec.LeaveFile(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func processFile(recs []internal.Recorder, f io.Reader, td *spec.Table) (int, error) {
 	// Construct the buffered XML reader.
 	const bufSize = 4096 * 1024
 	d := xml.NewDecoder(bufio.NewReaderSize(f, bufSize))
@@ -140,8 +213,10 @@ func processFile(rec internal.Recorder, f io.Reader, td *spec.Table) (int, error
 		}
 		i++
 
-		if err := rec.Record(item); err != nil {
-			return i, err
+		for _, rec := range recs {
+			if err := rec.Record(item); err != nil {
+				return i, err
+			}
 		}
 	}
 	return i, nil

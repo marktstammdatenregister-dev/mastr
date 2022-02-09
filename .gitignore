@@ -1,8 +1,7 @@
 # Build artifacts
 /build/Marktstammdatenregister.db
 /build/Marktstammdatenregister.db.br
-/import
-/validate
+/mastr
 
 # direnv "use nix" cache
 /.direnv/
