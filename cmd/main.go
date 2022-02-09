@@ -20,7 +20,7 @@ import (
 var errMissingOption = errors.New("missing mandatory argument")
 
 func main() {
-	err := validate()
+	err := mainWithError()
 	if errors.Is(err, errMissingOption) {
 		flag.PrintDefaults()
 		os.Exit(64)
@@ -30,7 +30,7 @@ func main() {
 	}
 }
 
-func validate() error {
+func mainWithError() error {
 	const defaultOption = "<undefined>"
 	sqliteFile := flag.String("database", defaultOption, "(optional) file name of the SQLite database")
 	exportFileName := flag.String("export", defaultOption, "file name of the export zip file")
