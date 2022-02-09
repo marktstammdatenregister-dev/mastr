@@ -3,7 +3,7 @@ package internal
 import (
 	"encoding/xml"
 	"fmt"
-	"pvdb.de/mastr/internal/spec"
+	"marktstammdatenregister.dev/internal/spec"
 )
 
 const (

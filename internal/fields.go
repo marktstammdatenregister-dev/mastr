@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/graphql-go/graphql"
-	"pvdb.de/mastr/internal/spec"
+	"marktstammdatenregister.dev/internal/spec"
 )
 
 var Location = time.UTC

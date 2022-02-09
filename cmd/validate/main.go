@@ -12,8 +12,8 @@ import (
 	"io"
 	"log"
 	"os"
-	"pvdb.de/mastr/internal"
-	"pvdb.de/mastr/internal/spec"
+	"marktstammdatenregister.dev/internal"
+	"marktstammdatenregister.dev/internal/spec"
 	"sort"
 	"strings"
 )

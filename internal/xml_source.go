@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 	"errors"
 	"io"
-	"pvdb.de/mastr/internal/spec"
+	"marktstammdatenregister.dev/internal/spec"
 )
 
 type XMLSource struct {

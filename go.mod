@@ -1,4 +1,4 @@
-module pvdb.de/mastr
+module marktstammdatenregister.dev
 
 go 1.16
 
