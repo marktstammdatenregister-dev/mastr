@@ -1,26 +1,10 @@
+plugins:
+    datasette-cluster-map:
+        latitude_column: Breitengrad
+        longitude_column: Laengengrad
 databases:
     Marktstammdatenregister:
         tables:
-            EinheitSolar:
-                plugins:
-                    datasette-cluster-map:
-                        latitude_column: Breitengrad
-                        longitude_column: Laengengrad
-            EinheitStromSpeicher:
-                plugins:
-                    datasette-cluster-map:
-                        latitude_column: Breitengrad
-                        longitude_column: Laengengrad
-            EinheitWasser:
-                plugins:
-                    datasette-cluster-map:
-                        latitude_column: Breitengrad
-                        longitude_column: Laengengrad
-            EinheitWind:
-                plugins:
-                    datasette-cluster-map:
-                        latitude_column: Breitengrad
-                        longitude_column: Laengengrad
             Katalogkategorie:
                 label_column: Name
                 # Datasette >0.58.1 fails if 'hidden: true' is set.
