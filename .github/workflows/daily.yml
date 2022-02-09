@@ -1,8 +1,8 @@
 name: Daily
 on:
   schedule:
-  - cron: '0 4 * * MON-FRI' # Every weekday at 04:00
-  workflow_dispatch:        # Enable manual trigger
+  - cron: '0 11 * * MON-FRI' # Every weekday at 11:00, see https://github.com/marktstammdatenregister-dev/feler/issues/28
+  workflow_dispatch:         # Enable manual trigger
 env:
   SRHT_SITE_OAUTH2_TOKEN: ${{secrets.SRHT_SITE_OAUTH2_TOKEN}}
   RCLONE_CONFIG_WASABI_ACCESS_KEY_ID: ${{secrets.RCLONE_CONFIG_WASABI_ACCESS_KEY_ID}}
