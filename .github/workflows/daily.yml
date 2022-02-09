@@ -30,6 +30,9 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-go-
 
+    - name: Build mastr
+      run: go build -o mastr ./cmd/main.go
+
     - name: Install packages
       run: |
         set -Eeuxo pipefail
@@ -68,14 +71,18 @@ jobs:
         axel --quiet --output="${EXPORT_FILENAME}" "${EXPORT_URL}"
 
 
-    - name: Validate export
+    - name: Process export
       run: |
         set -Eeuxo pipefail
 
         SHORT_FILENAME="$(echo "${{env.EXPORT_FILENAME}}" | sed -E 's|^(Gesamtdatenexport_.+)_.*_.*.*\.zip$|\1|gp;d')"
 
-        go build -o validate ./cmd/validate/main.go
-        ./validate -export "${{env.EXPORT_FILENAME}}" -spec spec/Gesamtdatenexport.yaml -format json >"${SHORT_FILENAME}.json"
+        ./mastr \
+          -export "${{env.EXPORT_FILENAME}}" \
+          -spec spec/Gesamtdatenexport.yaml \
+          -database build/Marktstammdatenregister.db \
+          -report-json stdout \
+          >"${SHORT_FILENAME}.json"
 
         rclone copy --include "${SHORT_FILENAME}.json" . 'wasabi:mastr-validation-1' --config build/rclone.conf
 
@@ -91,20 +98,16 @@ jobs:
           mustache "${BASE}.json" ../template/Report.de.html.mustache >"${BASE}.html"
         done
 
-        ls *.html | sort --reverse | jq --raw-input . | jq --slurp '{Reports: . | map({ExportName: (.[:-5]), FileName: .})}' >index.json
+        ls *.html \
+          | sort --reverse \
+          | jq --raw-input . \
+          | jq --slurp '{Reports: . | map({ExportName: (.[:-5]), FileName: .})}' \
+          >index.json
         mustache index.json ../template/Index.de.html.mustache >index.html
 
         curl https://unpkg.com/@picocss/pico@1.4.4/css/pico.min.css >pico.min.css
         tar -cvz *.html pico.min.css >site.tar.gz
         curl --oauth2-bearer "${SRHT_SITE_OAUTH2_TOKEN}" -Fcontent=@site.tar.gz https://pages.sr.ht/publish/curiousleo.srht.site
-
-    - name: Export to SQLite
-      run: |
-        set -Eeuxo pipefail
-
-        go build -o import ./cmd/import/main.go
-        ./import -export "${{env.EXPORT_FILENAME}}" -spec spec/Gesamtdatenexport.yaml -database build/Marktstammdatenregister.db
-        brotli --rm -4 --output=build/Marktstammdatenregister.db.br build/Marktstammdatenregister.db
 
     # TODO: Use this action once https://github.com/superfly/flyctl-actions/issues/16 has been resolved.
     #- name: Deploy
@@ -113,4 +116,8 @@ jobs:
     #    args: deploy . --config build/fly.toml --dockerfile build/Dockerfile
 
     - name: Deploy
-      run: flyctl deploy . --config build/fly.toml --dockerfile build/Dockerfile
+      run: |
+        set -Eeuxo pipefail
+
+        brotli --rm -4 --output=build/Marktstammdatenregister.db.br build/Marktstammdatenregister.db
+        flyctl deploy . --config build/fly.toml --dockerfile build/Dockerfile
