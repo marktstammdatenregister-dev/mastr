@@ -77,7 +77,12 @@ jobs:
 
         SHORT_FILENAME="$(echo "${{env.EXPORT_FILENAME}}" | sed -E 's|^(Gesamtdatenexport_.+)_.*_.*.*\.zip$|\1|gp;d')"
 
-        ./mastr -export "${{env.EXPORT_FILENAME}}" -spec spec/Gesamtdatenexport.yaml -database build/Marktstammdatenregister.db -report-json stdout >"${SHORT_FILENAME}.json"
+        ./mastr \
+          -export "${{env.EXPORT_FILENAME}}" \
+          -spec spec/Gesamtdatenexport.yaml \
+          -database build/Marktstammdatenregister.db \
+          -report-json stdout \
+          >"${SHORT_FILENAME}.json"
         #rclone copy --include "${SHORT_FILENAME}.json" . 'wasabi:mastr-validation-1' --config build/rclone.conf
 
     - name: Update site
@@ -92,7 +97,11 @@ jobs:
           mustache "${BASE}.json" ../template/Report.de.html.mustache >"${BASE}.html"
         done
 
-        ls *.html | sort --reverse | jq --raw-input . | jq --slurp '{Reports: . | map({ExportName: (.[:-5]), FileName: .})}' >index.json
+        ls *.html \
+          | sort --reverse \
+          | jq --raw-input . \
+          | jq --slurp '{Reports: . | map({ExportName: (.[:-5]), FileName: .})}' \
+          >index.json
         mustache index.json ../template/Index.de.html.mustache >index.html
 
         curl https://unpkg.com/@picocss/pico@1.4.4/css/pico.min.css >pico.min.css
