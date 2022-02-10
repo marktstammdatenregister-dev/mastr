@@ -105,8 +105,8 @@ jobs:
         mustache index.json ../template/Index.de.html.mustache >index.html
 
         cd ..
-        tar -cvz . >site.tar.gz
-        curl --oauth2-bearer "${SRHT_SITE_OAUTH2_TOKEN}" -Fcontent=@site.tar.gz https://pages.sr.ht/publish/curiousleo.srht.site
+        tar -cvz . >/tmp/site.tar.gz
+        curl --oauth2-bearer "${SRHT_SITE_OAUTH2_TOKEN}" -Fcontent=@/tmp/site.tar.gz https://pages.sr.ht/publish/curiousleo.srht.site
 
     # TODO: Use this action once https://github.com/superfly/flyctl-actions/issues/16 has been resolved.
     #- name: Deploy
