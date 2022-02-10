@@ -1,4 +1,4 @@
-name: Publish site
+name: Publish website
 on:
   workflow_dispatch:         # Enable manual trigger
 env:
@@ -7,7 +7,7 @@ env:
   RCLONE_CONFIG_WASABI_SECRET_ACCESS_KEY: ${{secrets.RCLONE_CONFIG_WASABI_SECRET_ACCESS_KEY}}
 
 jobs:
-  publish-site:
+  publish-website:
     runs-on: ubuntu-latest
     steps:
 
@@ -31,4 +31,4 @@ jobs:
         rclone --version
 
     - name: Update site
-      run: ./build/ci/publish-site
+      run: ./build/ci/publish-website
