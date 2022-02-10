@@ -116,9 +116,9 @@ jobs:
     #  with:
     #    args: deploy . --config build/fly.toml --dockerfile build/Dockerfile
 
-    - name: Deploy
-      run: |
-        set -Eeuxo pipefail
-
-        brotli --rm -4 --output=build/Marktstammdatenregister.db.br build/Marktstammdatenregister.db
-        flyctl deploy . --config build/fly.toml --dockerfile build/Dockerfile
+    # - name: Deploy
+    #   run: |
+    #     set -Eeuxo pipefail
+    #
+    #     brotli --rm -4 --output=build/Marktstammdatenregister.db.br build/Marktstammdatenregister.db
+    #     flyctl deploy . --config build/fly.toml --dockerfile build/Dockerfile
