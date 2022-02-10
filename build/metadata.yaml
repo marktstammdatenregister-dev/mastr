@@ -57,63 +57,6 @@ databases:
                       and e.EinheitBetriebsstatus = 35
                     order by
                       e.Nettonennleistung desc
-            SolarMonatlichGesamt:
-                title: Monatliche Entwicklung der Nettonennleistung (Solar) in ganz Deutschland
-                hide_sql: true
-                sql: |-
-                    with per_month_started as (
-                      select
-                        substr(Inbetriebnahmedatum, 0, 8) as Monat,
-                        sum(Nettonennleistung) as Leistung
-                      from
-                        EinheitSolar
-                      where
-                        Inbetriebnahmedatum != ''
-                      group by
-                        Monat
-                    ),
-                    per_month_retired as (
-                      select
-                        substr(DatumEndgueltigeStilllegung, 0, 8) as Monat,
-                        sum(Nettonennleistung) as Leistung
-                      from
-                        EinheitSolar
-                      where
-                        DatumEndgueltigeStilllegung != ''
-                      group by
-                        Monat
-                    ),
-                    months as (
-                      select
-                        Monat
-                      from
-                        per_month_started
-                      union
-                      select
-                        Monat
-                      from
-                        per_month_retired
-                    ),
-                    per_month_cumulative as (
-                      select
-                        m.Monat,
-                        sum(s.Leistung - r.Leistung) over (
-                          order by
-                            m.Monat
-                        ) as Leistung,
-                        s.Leistung as Leistung_neuInBetrieb,
-                        r.Leistung as Leistung_stillgelegt
-                      from
-                        months m
-                        left join per_month_started s on (m.Monat = s.Monat)
-                        left join per_month_retired r on (m.Monat = r.Monat)
-                    )
-                    select
-                      *
-                    from
-                      per_month_cumulative
-                    where
-                      Monat > '2010-00';
             WindMonatlichGesamt:
                 title: Monatliche Entwicklung der Nettonennleistung (Wind) in ganz Deutschland
                 hide_sql: true
@@ -171,24 +114,3 @@ databases:
                       per_month_cumulative
                     where
                       Monat > '2010-00';
-            BuergerenergieNachLeistung:
-                title: Bürgerenergie nach Gesamtleistung
-                hide_sql: true
-                sql: |-
-                    select
-                      cast(sum(Nettonennleistung) as integer) as Leistung,
-                      m.Ort,
-                      m.Firmenname,
-                      m.Taetigkeitsbeginn,
-                      count(e.EinheitMastrNummer) as AnzahlEinheit,
-                      m.MastrNummer
-                    from
-                      Marktakteur m
-                      left join EinheitSolar e on e.AnlagenbetreiberMastrNummer = m.MastrNummer
-                    where
-                      m.Firmenname like "%bürger%"
-                      and m.Firmenname not like "%bürgerlich%"
-                    group by
-                      m.MastrNummer
-                    order by
-                      Leistung desc
