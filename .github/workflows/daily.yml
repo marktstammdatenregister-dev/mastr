@@ -10,14 +10,14 @@ env:
   FLY_API_TOKEN: ${{secrets.FLY_API_TOKEN}}
 
 jobs:
-  validate:
+  daily:
     runs-on: ubuntu-latest
     steps:
 
     - name: Install Go
       uses: actions/setup-go@v2
       with:
-        go-version: 1.16.x
+        go-version: 1.17.x
 
     - name: Check out code
       uses: actions/checkout@v2
@@ -25,7 +25,9 @@ jobs:
     - name: Restore cache
       uses: actions/cache@v2
       with:
-        path: ~/go/pkg/mod
+        path: |
+          ~/.cache/go-build
+          ~/go/pkg/mod
         key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
         restore-keys: |
           ${{ runner.os }}-go-
@@ -46,8 +48,6 @@ jobs:
         sudo mv mustache /usr/bin/mustache
         rm mustache.tar.gz
 
-        # superfly/flyctl-actions is broken [1], so install flyctl directly instead.
-        # [1] https://github.com/superfly/flyctl-actions/issues/16
         curl -sSLo flyctl.tar.gz https://github.com/superfly/flyctl/releases/download/v0.0.295/flyctl_0.0.295_Linux_x86_64.tar.gz
         tar -xvzf flyctl.tar.gz
         sudo mv flyctl /usr/bin/flyctl
@@ -70,7 +70,6 @@ jobs:
 
         axel --quiet --output="${EXPORT_FILENAME}" "${EXPORT_URL}"
 
-
     - name: Process export
       run: |
         set -Eeuxo pipefail
@@ -90,8 +89,8 @@ jobs:
       run: |
         set -Eeuxo pipefail
 
-        mkdir _site && cd _site
-        rclone copy --include 'Gesamtdatenexport_*.json' 'wasabi:mastr-validation-1' . --config ../build/rclone.conf
+        mkdir web/validierung && cd web/validierung
+        rclone copy --include 'Gesamtdatenexport_*.json' 'wasabi:mastr-validation-1' . --config ../../build/rclone.conf
 
         for f in Gesamtdatenexport_*.json; do
           BASE="${f%.json}"
@@ -105,15 +104,9 @@ jobs:
           >index.json
         mustache index.json ../template/Index.de.html.mustache >index.html
 
-        curl https://unpkg.com/@picocss/pico@1.4.4/css/pico.min.css >pico.min.css
-        tar -cvz *.html pico.min.css >site.tar.gz
-        curl --oauth2-bearer "${SRHT_SITE_OAUTH2_TOKEN}" -Fcontent=@site.tar.gz https://pages.sr.ht/publish/curiousleo.srht.site
-
-    # TODO: Use this action once https://github.com/superfly/flyctl-actions/issues/16 has been resolved.
-    #- name: Deploy
-    #  uses: superfly/flyctl-actions@1.0
-    #  with:
-    #    args: deploy . --config build/fly.toml --dockerfile build/Dockerfile
+        cd ..
+        tar -cvz . >/tmp/site.tar.gz
+        curl --oauth2-bearer "${SRHT_SITE_OAUTH2_TOKEN}" -Fcontent=@/tmp/site.tar.gz https://pages.sr.ht/publish/marktstammdatenregister.dev
 
     - name: Deploy
       run: |
