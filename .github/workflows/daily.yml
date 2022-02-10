@@ -59,33 +59,34 @@ jobs:
         rclone --version
         flyctl version
 
-    #- name: Download export
-    #  run: |
-    #    set -Eeuxo pipefail
-    #
-    #    EXPORT_URL="$(curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload |
-    #      sed -E 's|^.*(https://download.marktstammdatenregister.de/Gesamtdatenexport_.*\.zip).*$|\1|gp;d')"
-    #    EXPORT_FILENAME="${EXPORT_URL##*/}"
-    #
-    #    # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-environment-variable
-    #    echo "EXPORT_FILENAME=${EXPORT_FILENAME}" >> "${GITHUB_ENV}"
-    #
-    #    axel --quiet --output="${EXPORT_FILENAME}" "${EXPORT_URL}"
-    #
-    #- name: Process export
-    #  run: |
-    #    set -Eeuxo pipefail
-    #
-    #    SHORT_FILENAME="$(echo "${{env.EXPORT_FILENAME}}" | sed -E 's|^(Gesamtdatenexport_.+)_.*_.*.*\.zip$|\1|gp;d')"
-    #
-    #    ./mastr \
-    #      -export "${{env.EXPORT_FILENAME}}" \
-    #      -spec spec/Gesamtdatenexport.yaml \
-    #      -database build/Marktstammdatenregister.db \
-    #      -report-json stdout \
-    #      >"${SHORT_FILENAME}.json"
-    #
-    #    rclone copy --include "${SHORT_FILENAME}.json" . 'wasabi:mastr-validation-1' --config build/rclone.conf
+    - name: Download export
+      run: |
+        set -Eeuxo pipefail
+
+        EXPORT_URL="$(curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload |
+          sed -E 's|^.*(https://download.marktstammdatenregister.de/Gesamtdatenexport_.*\.zip).*$|\1|gp;d')"
+        EXPORT_FILENAME="${EXPORT_URL##*/}"
+
+        # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-environment-variable
+        echo "EXPORT_FILENAME=${EXPORT_FILENAME}" >> "${GITHUB_ENV}"
+
+        axel --quiet --output="${EXPORT_FILENAME}" "${EXPORT_URL}"
+
+
+    - name: Process export
+      run: |
+        set -Eeuxo pipefail
+
+        SHORT_FILENAME="$(echo "${{env.EXPORT_FILENAME}}" | sed -E 's|^(Gesamtdatenexport_.+)_.*_.*.*\.zip$|\1|gp;d')"
+
+        ./mastr \
+          -export "${{env.EXPORT_FILENAME}}" \
+          -spec spec/Gesamtdatenexport.yaml \
+          -database build/Marktstammdatenregister.db \
+          -report-json stdout \
+          >"${SHORT_FILENAME}.json"
+
+        rclone copy --include "${SHORT_FILENAME}.json" . 'wasabi:mastr-validation-1' --config build/rclone.conf
 
     - name: Update site
       run: |
