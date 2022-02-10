@@ -16,7 +16,7 @@ for f in Gesamtdatenexport_*.json; do
   mustache "${BASE}.json" ../template/Report.de.html.mustache >"${BASE}.html"
 done
 
-ls "*.html" |
+find . -type f -name 'Gesamtdatenexport_*.html' -printf '%P\n' |
   sort --reverse |
   jq --raw-input . |
   jq --slurp '{Reports: . | map({ExportName: (.[:-5]), FileName: .})}' \
