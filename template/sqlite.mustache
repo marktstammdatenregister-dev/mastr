@@ -1,6 +1,0 @@
-create table '{{root}}' (
-  {{#fields}}
-  '{{name}}' {{#sqlite}}{{sqlite}}{{/sqlite}}{{^sqlite}}text{{/sqlite}}{{#mandatory}} not null{{/mandatory}}{{#references}} references {{table}}({{column}}) deferrable initially deferred{{/references}},
-  {{/fields}}
-  primary key ('{{primary}}')
-){{#without_rowid}} without rowid{{/without_rowid}};
