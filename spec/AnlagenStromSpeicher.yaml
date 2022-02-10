@@ -14,15 +14,18 @@ fields:
     psql: timestamp
     mandatory: true
   - name: Registrierungsdatum
+    index: true
     xsd: date
     psql: date
     mandatory: true
   - name: NutzbareSpeicherkapazitaet
+    index: true
     xsd: decimal
     psql: real
     sqlite: real
   - name: VerknuepfteEinheitenMaStRNummern
   - name: AnlageBetriebsstatus
+    index: true
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer

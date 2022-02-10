@@ -23,6 +23,7 @@ fields:
       table: Katalogwert
       column: Id
   - name: Datum
+    index: true
     xsd: date
     psql: date
     sqlite: text

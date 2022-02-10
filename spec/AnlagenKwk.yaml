@@ -18,22 +18,27 @@ fields:
     xsd: dateTime
     psql: timestamp
   - name: Inbetriebnahmedatum
+    index: true
     mandatory: true
     xsd: date
     psql: date
   - name: Registrierungsdatum
+    index: true
     xsd: date
     psql: date
     mandatory: true # sometimes missing
   - name: ThermischeNutzleistung
+    index: true
     xsd: decimal
     psql: real
     sqlite: real
   - name: ElektrischeKwkLeistung
+    index: true
     xsd: decimal
     psql: real
     sqlite: real
   - name: AnlageBetriebsstatus
+    index: true
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer

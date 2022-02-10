@@ -8,6 +8,7 @@ fields:
   #   sqlite: text
   #   mandatory: false
   - name: Registrierungsdatum
+    index: true
     xsd: date
     psql: date
     mandatory: true # sometimes missing
@@ -16,6 +17,7 @@ fields:
     psql: timestamp
     mandatory: true
   - name: EegInbetriebnahmedatum
+    index: true
     xsd: date
     psql: date
   - name: EegMaStRNummer
@@ -29,6 +31,7 @@ fields:
     sqlite: integer
     mandatory: true
   - name: InstallierteLeistung
+    index: true
     xsd: decimal
     psql: real
     sqlite: real
@@ -88,6 +91,7 @@ fields:
     sqlite: integer
     mandatory: true
   - name: AnlageBetriebsstatus
+    index: true
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
