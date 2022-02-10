@@ -11,6 +11,8 @@ pkgs.mkShell {
     pv
     rclone
     rlwrap
+    shellcheck
+    shfmt
     sqldiff
     sqlite
     unzip
