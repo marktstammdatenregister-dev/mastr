@@ -90,8 +90,8 @@ jobs:
       run: |
         set -Eeuxo pipefail
 
-        mkdir _site && cd _site
-        rclone copy --include 'Gesamtdatenexport_*.json' 'wasabi:mastr-validation-1' . --config ../build/rclone.conf
+        mkdir web/validierung && cd web/validierung
+        rclone copy --include 'Gesamtdatenexport_*.json' 'wasabi:mastr-validation-1' . --config ../../build/rclone.conf
 
         for f in Gesamtdatenexport_*.json; do
           BASE="${f%.json}"
@@ -105,8 +105,8 @@ jobs:
           >index.json
         mustache index.json ../template/Index.de.html.mustache >index.html
 
-        curl https://unpkg.com/@picocss/pico@1.4.4/css/pico.min.css >pico.min.css
-        tar -cvz *.html pico.min.css >site.tar.gz
+        cd ..
+        tar -cvz . >site.tar.gz
         curl --oauth2-bearer "${SRHT_SITE_OAUTH2_TOKEN}" -Fcontent=@site.tar.gz https://pages.sr.ht/publish/curiousleo.srht.site
 
     # TODO: Use this action once https://github.com/superfly/flyctl-actions/issues/16 has been resolved.
