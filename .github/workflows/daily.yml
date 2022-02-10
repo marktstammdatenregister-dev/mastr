@@ -86,27 +86,7 @@ jobs:
         rclone copy --include "${SHORT_FILENAME}.json" . 'wasabi:mastr-validation-1' --config build/rclone.conf
 
     - name: Update site
-      run: |
-        set -Eeuxo pipefail
-
-        mkdir web/validierung && cd web/validierung
-        rclone copy --include 'Gesamtdatenexport_*.json' 'wasabi:mastr-validation-1' . --config ../../build/rclone.conf
-
-        for f in Gesamtdatenexport_*.json; do
-          BASE="${f%.json}"
-          mustache "${BASE}.json" ../template/Report.de.html.mustache >"${BASE}.html"
-        done
-
-        ls *.html \
-          | sort --reverse \
-          | jq --raw-input . \
-          | jq --slurp '{Reports: . | map({ExportName: (.[:-5]), FileName: .})}' \
-          >index.json
-        mustache index.json ../template/Index.de.html.mustache >index.html
-
-        cd ..
-        tar -cvz . >/tmp/site.tar.gz
-        curl --oauth2-bearer "${SRHT_SITE_OAUTH2_TOKEN}" -Fcontent=@/tmp/site.tar.gz https://pages.sr.ht/publish/marktstammdatenregister.dev
+      run: ./build/ci/publish-site
 
     - name: Deploy
       run: |
