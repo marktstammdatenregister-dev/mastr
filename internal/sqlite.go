@@ -17,6 +17,7 @@ type SqliteWriter struct {
 
 	// Per-table state.
 	conn   *sqlite.Conn
+	td     *spec.Table
 	query  string
 	fields *Fields
 }
@@ -53,6 +54,8 @@ func NewSqliteWriter(db string) (*SqliteWriter, error) {
 
 // EnterTable implements Recorder.
 func (w *SqliteWriter) EnterTable(td spec.Table) error {
+	w.td = &td
+
 	// Generate "create table" statement.
 	tmpl := template.Must(template.New("create").Parse(`
 create table "{{.Element}}" (
@@ -95,6 +98,21 @@ create table "{{.Element}}" (
 // LeaveTable implements Recorder.
 func (w *SqliteWriter) LeaveTable() error {
 	// TODO: Add sanity checks.
+
+	// Create an index for each field with the "Index" flag.
+	table := w.td.Element
+	for _, field := range w.td.Fields {
+		if !field.Index {
+			continue
+		}
+		col := field.Name
+		stmt := fmt.Sprintf(`create index "idx_%s_%s" on "%s"("%s")`, table, col, table, col)
+		if err := sqlitex.Exec(w.conn, stmt, nil); err != nil {
+			return err
+		}
+	}
+
+	w.td = nil
 	w.pool.Put(w.conn)
 	w.conn = nil
 	return nil
@@ -124,7 +142,10 @@ func (w *SqliteWriter) Close() error {
 	if err := func() error {
 		conn := w.pool.Get(nil)
 		defer w.pool.Put(conn)
-		return sqlitex.Exec(conn, "VACUUM", nil)
+		if err := sqlitex.Exec(conn, "analyze", nil); err != nil {
+			return err
+		}
+		return sqlitex.Exec(conn, "vacuum", nil)
 	}(); err != nil {
 		return fmt.Errorf("failed to vacuum: %s", err)
 	}

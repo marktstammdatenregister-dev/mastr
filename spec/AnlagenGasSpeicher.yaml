@@ -17,10 +17,12 @@ fields:
   - name: Speichername
     mandatory: true
   - name: Registrierungsdatum
+    index: true
     xsd: date
     psql: date
     mandatory: true
   - name: AnlageBetriebsstatus
+    index: true
     mandatory: true
     xsd: nonNegativeInteger
     psql: integer

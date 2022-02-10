@@ -41,6 +41,7 @@ fields:
       table: Katalogwert
       column: Id
   - name: Bundesland
+    index: true
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
@@ -72,6 +73,7 @@ fields:
     sqlite: integer
   - name: Adresszusatz
   - name: Ort
+    index: true
     mandatory: true # sometimes missing
   - name: Laengengrad
     xsd: decimal
@@ -84,10 +86,12 @@ fields:
   - name: Registrierungsdatum
   - name: GeplantesInbetriebnahmedatum
   - name: Inbetriebnahmedatum
+    index: true
   - name: DatumEndgueltigeStilllegung
   - name: DatumBeginnVoruebergehendeStilllegung
   - name: DatumWiederaufnahmeBetrieb
   - name: EinheitSystemstatus
+    index: true
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
@@ -95,6 +99,7 @@ fields:
       table: Katalogwert
       column: Id
   - name: EinheitBetriebsstatus
+    index: true
     mandatory: true # sometimes missing
     xsd: nonNegativeInteger
     psql: integer
@@ -140,11 +145,13 @@ fields:
       table: Katalogwert
       column: Id
   - name: Bruttoleistung
+    index: true
     xsd: decimal
     psql: real
     sqlite: real
     mandatory: true
   - name: Nettonennleistung
+    index: true
     xsd: decimal
     psql: real
     sqlite: real
