@@ -48,8 +48,6 @@ jobs:
         sudo mv mustache /usr/bin/mustache
         rm mustache.tar.gz
 
-        # superfly/flyctl-actions is broken [1], so install flyctl directly instead.
-        # [1] https://github.com/superfly/flyctl-actions/issues/16
         curl -sSLo flyctl.tar.gz https://github.com/superfly/flyctl/releases/download/v0.0.295/flyctl_0.0.295_Linux_x86_64.tar.gz
         tar -xvzf flyctl.tar.gz
         sudo mv flyctl /usr/bin/flyctl
@@ -71,7 +69,6 @@ jobs:
         echo "EXPORT_FILENAME=${EXPORT_FILENAME}" >> "${GITHUB_ENV}"
 
         axel --quiet --output="${EXPORT_FILENAME}" "${EXPORT_URL}"
-
 
     - name: Process export
       run: |
@@ -110,12 +107,6 @@ jobs:
         cd ..
         tar -cvz . >/tmp/site.tar.gz
         curl --oauth2-bearer "${SRHT_SITE_OAUTH2_TOKEN}" -Fcontent=@/tmp/site.tar.gz https://pages.sr.ht/publish/marktstammdatenregister.dev
-
-    # TODO: Use this action once https://github.com/superfly/flyctl-actions/issues/16 has been resolved.
-    #- name: Deploy
-    #  uses: superfly/flyctl-actions@1.0
-    #  with:
-    #    args: deploy . --config build/fly.toml --dockerfile build/Dockerfile
 
     - name: Deploy
       run: |
