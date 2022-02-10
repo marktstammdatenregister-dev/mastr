@@ -1,6 +1,6 @@
 module marktstammdatenregister.dev
 
-go 1.16
+go 1.17
 
 require (
 	crawshaw.io/sqlite v0.3.2
