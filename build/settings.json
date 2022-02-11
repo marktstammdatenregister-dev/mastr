@@ -1,5 +1,5 @@
 {
-    "default_page_size": 1000,
+    "default_page_size": 100,
     "max_returned_rows": 10000,
     "sql_time_limit_ms": 5000,
     "suggest_facets": false
