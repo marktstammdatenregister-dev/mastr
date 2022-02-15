@@ -246,6 +246,7 @@ fields:
     sqlite: real
   - name: ZugeordnenteWirkleistungWechselrichter
   - name: SpeMastrNummer
+    index: true
     references:
       table: AnlageStromSpeicher
       column: MaStRNummer
