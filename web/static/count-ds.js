@@ -92,7 +92,7 @@
 			if (a.hostname.replace(/^www\./, '') === location.hostname.replace(/^www\./, ''))
 				loc = a
 		}
-		return location.host + ((loc.pathname + loc.search) || '/')
+		return (loc.pathname + loc.search) || '/'
 	}
 
 	// Run function after DOM is loaded.
@@ -125,7 +125,7 @@
 			return
 		data.rnd = Math.random().toString(36).substr(2, 5)  // Browsers don't always listen to Cache-Control.
 
-		var endpoint = 'https://marktstammdatenregister-dev.goatcounter.com/count'
+		var endpoint = 'https://ds-marktstammdatenregister-dev.goatcounter.com/count'
 		return endpoint + urlencode(data)
 	}
 
