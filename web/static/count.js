@@ -82,14 +82,6 @@
 			console.warn('goatcounter: ' + msg)
 	}
 
-	// Get the endpoint to send requests to.
-	var get_endpoint = function() {
-		var s = document.querySelector('script[data-goatcounter]')
-		if (s && s.dataset.goatcounter)
-			return s.dataset.goatcounter
-		return (goatcounter.endpoint || window.counter)  // counter is for compat; don't use.
-	}
-
 	// Get current path.
 	var get_path = function() {
 		var loc = location,
@@ -100,7 +92,7 @@
 			if (a.hostname.replace(/^www\./, '') === location.hostname.replace(/^www\./, ''))
 				loc = a
 		}
-		return (loc.pathname + loc.search) || '/'
+		return location.host + ((loc.pathname + loc.search) || '/')
 	}
 
 	// Run function after DOM is loaded.
@@ -133,10 +125,7 @@
 			return
 		data.rnd = Math.random().toString(36).substr(2, 5)  // Browsers don't always listen to Cache-Control.
 
-		var endpoint = get_endpoint()
-		if (!endpoint)
-			return warn('no endpoint found')
-
+		var endpoint = 'https://marktstammdatenregister-dev.goatcounter.com/count'
 		return endpoint + urlencode(data)
 	}
 
@@ -196,41 +185,6 @@
 			elem.addEventListener('click', f, false)
 			elem.addEventListener('auxclick', f, false)  // Middle click.
 			elem.dataset.goatcounterBound = 'true'
-		})
-	}
-
-	// Add a "visitor counter" frame or image.
-	window.goatcounter.visit_count = function(opt) {
-		on_load(function() {
-			opt        = opt        || {}
-			opt.type   = opt.type   || 'html'
-			opt.append = opt.append || 'body'
-			opt.path   = opt.path   || get_path()
-			opt.attr   = opt.attr   || {width: '200', height: (opt.no_branding ? '60' : '80')}
-
-			opt.attr['src'] = get_endpoint() + 'er/' + enc(opt.path) + '.' + enc(opt.type) + '?'
-			if (opt.no_branding) opt.attr['src'] += '&no_branding=1'
-			if (opt.style)       opt.attr['src'] += '&style=' + enc(opt.style)
-			if (opt.start)       opt.attr['src'] += '&start=' + enc(opt.start)
-			if (opt.end)         opt.attr['src'] += '&end='   + enc(opt.end)
-
-			var tag = {png: 'img', svg: 'img', html: 'iframe'}[opt.type]
-			if (!tag)
-				return warn('visit_count: unknown type: ' + opt.type)
-
-			if (opt.type === 'html') {
-				opt.attr['frameborder'] = '0'
-				opt.attr['scrolling']   = 'no'
-			}
-
-			var d = document.createElement(tag)
-			for (var k in opt.attr)
-				d.setAttribute(k, opt.attr[k])
-
-			var p = document.querySelector(opt.append)
-			if (!p)
-				return warn('visit_count: append not found: ' + opt.append)
-			p.appendChild(d)
 		})
 	}
 
