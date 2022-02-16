@@ -46,8 +46,8 @@ databases:
                       EinheitMastrNummer,
                       AnlagenbetreiberMastrNummer,
                       EegMaStRNummer,
-                      Laengengrad as longitude,
-                      Breitengrad as latitude
+                      Laengengrad,
+                      Breitengrad
                     from
                       EinheitSolar e
                       join Marktakteur m on e.AnlagenbetreiberMastrNummer = m.MastrNummer
@@ -70,7 +70,7 @@ databases:
                       where
                         Inbetriebnahmedatum != ''
                       group by
-                        substr(Inbetriebnahmedatum, 0, 8)
+                        Monat
                     ),
                     per_month_retired as (
                       select
@@ -81,7 +81,7 @@ databases:
                       where
                         DatumEndgueltigeStilllegung != ''
                       group by
-                        substr(DatumEndgueltigeStilllegung, 0, 8)
+                        Monat
                     ),
                     months as (
                       select
