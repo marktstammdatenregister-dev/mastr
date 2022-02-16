@@ -19,7 +19,7 @@ done
 find . -type f -name 'Gesamtdatenexport_*.html' -printf '%P\n' |
   sort --reverse |
   jq --raw-input . |
-  jq --slurp '{Reports: . | map({ExportName: (.[:-5]), FileName: .})}' \
+  jq --slurp '{Reports: . | map({ExportName: (.[:-5]), FileName: "/validierung/\(.)"})}' \
     >index.json
 mustache index.json ../template/Index.de.html.mustache >index.html
 
