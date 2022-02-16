@@ -3,6 +3,8 @@ source: Marktstammdatenregister
 source_url: https://www.marktstammdatenregister.de/MaStR/Datendownload
 about: Marktstammdatenregister.dev
 about_url: https://marktstammdatenregister.dev
+extra_js_urls:
+- https://marktstammdatenregister.dev/static/count.js
 plugins:
     datasette-cluster-map:
         latitude_column: Breitengrad
