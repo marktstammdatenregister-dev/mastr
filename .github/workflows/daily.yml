@@ -70,6 +70,9 @@ jobs:
 
         axel --quiet --output="${EXPORT_FILENAME}" "${EXPORT_URL}"
 
+        # List compressed files, ordered by timestamp.
+        unzip -l "${EXPORT_FILENAME}" | tail -n +4 | head -n -2 | sort --key 3
+
     - name: Process export
       run: |
         set -Eeuxo pipefail
