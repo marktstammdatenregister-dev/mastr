@@ -1,7 +1,7 @@
 name: Daily
 on:
   schedule:
-  - cron: '0 7 * * MON-FRI'  # Every weekday at 07:00, see https://github.com/marktstammdatenregister-dev/feler/issues/28
+  - cron: '0 4 * * MON-FRI'  # Every weekday at 04:00 UTC (exports seem to finish before 02:00)
   workflow_dispatch:         # Enable manual trigger
 env:
   SRHT_SITE_OAUTH2_TOKEN: ${{secrets.SRHT_SITE_OAUTH2_TOKEN}}
