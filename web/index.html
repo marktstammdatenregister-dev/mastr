@@ -117,6 +117,42 @@
             </article>
         </div>
 
+        <h2 id="Tipps">Tipps</h2>
+        <article>
+            <header>Übersichtskarte: Längen- und Breitengrad</header>
+        </article>
+
+        <h2 id="Technische-Details">Technische Details</h2>
+        <article>
+            <header>Gesamtdatenexport zu SQLite</header>
+            <p>
+            Das Marktstammdatenregister stellt zu Beginn jedes Werktags einen Export des Registers <a href="https://www.marktstammdatenregister.de/MaStR/Datendownload">zum Herunterladen</a> zur Verfügung.
+            Dabei handelt es sich um eine ZIP-Datei, die etwa 150 XML-Dateien beinhaltet. Entpackt benötigt der Export etwa 19 Gigabyte Speicherplatz. (Mehr Details zur <a href="https://github.com/marktstammdatenregister-dev/feler#struktur-der-gesamtdatenexport-datei-4">Struktur der Exportdatei.</a>)
+            <p>
+            Am Morgen jedes Werktags wird dieser Export heruntergeladen, validiert und in eine <a href="https://sqlite.org">SQLite</a>-Datei umgewandelt. Dann wird der Datasette-Container, der hinter <a href="https://ds.marktstammdatenregister.dev">ds.marktstammdatenregister.dev</a> steht, neu ausgerollt. Dieser verwendet dann die neue SQLite-Datei mit den Daten aus dem Export dieses Tages.
+            <p>
+            Der relevante Code für die Umwandlung in SQLite und die Beschreibung des morgendlichen Prozesses liegt auf <a href="https://github.com/marktstammdatenregister-dev/mastr">github.com/marktstammdatenregister-dev/mastr</a>.
+        </article>
+
+        <article>
+            <header>Darstellung mit Datasette</header>
+            <p>
+            Auf <a href="https://ds.marktstammdatenregister.dev">ds.marktstammdatenregister.dev</a> läuft <a href="https://datasette.io">Datasette</a>, ein Werkzeug zum Erkunden und Veröffentlichen von Daten.
+            Von Haus aus ermöglicht Datasette den sicheren Zugriff auf Daten mit SQL. Damit ist es möglich, effizient Daten zu korrelieren und auf dem Server zusammenzufassen, anstatt viele Daten herunterladen zu müssen.
+            <p>
+            Zusätzlich sind einige Datasette-Plugins aktiviert, darunter <a href="https://datasette.io/plugins/datasette-cluster-map">datasette-cluster-map</a> zur Darstellung von Übersichtskarten und <a href="https://datasette.io/plugins/datasette-vega">datasette-vega</a> für einfache Visualisierungen.
+        </article>
+
+        <article>
+            <header>Weitere Zugriffs- und Darstellungsmethoden</header>
+            <p>
+            Datasette ermöglicht den Zugriff auf Daten per CSV und JSON.
+            Damit sind Visualisierungen auch mit externen Werkzeugen möglich.
+            Hier ein Beispiel-Notebook mit Observable: <a href="https://observablehq.com/@curiousleo/solareinheiten-inbetriebnahme">Wie viele Solareinheiten wurden im gegebenen Jahr jeden Tag in Betrieb genommen?</a>
+            <p>
+            Eine experimentelles Plugin ermöglicht den Zugriff per GraphQL, siehe zum Beispiel <a href="https://ds.marktstammdatenregister.dev/graphql/Marktstammdatenregister?query=%7B%0A%20%20EinheitWind(sort%3A%20Inbetriebnahmedatum%2C%20first%3A%2010)%20%7B%0A%20%20%20%20nodes%20%7B%0A%20%20%20%20%20%20EinheitMastrNummer%0A%20%20%20%20%20%20Ort%0A%20%20%20%20%20%20Inbetriebnahmedatum%0A%20%20%20%20%20%20Bruttoleistung%0A%20%20%20%20%20%20Bundesland%20%7B%0A%20%20%20%20%20%20%20%20Wert%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20EinheitSystemstatus%20%7B%0A%20%20%20%20%20%20%20%20Wert%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20EinheitBetriebsstatus%20%7B%0A%20%20%20%20%20%20%20%20Wert%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20Technologie%20%7B%0A%20%20%20%20%20%20%20%20Wert%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20AnlagenbetreiberMastrNummer%20%7B%0A%20%20%20%20%20%20%20%20Firmenname%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D">diese GraphQL-Anfrage</a>.
+        </article>
+
         <footer>
             Leonhard Markert<br/>
             <a class="secondary" href="mailto:kontakt@marktstammdatenregister.dev">kontakt@marktstammdatenregister.dev</a><br/>
