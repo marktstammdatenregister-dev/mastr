@@ -2,5 +2,6 @@
     "default_page_size": 100,
     "max_returned_rows": 1000,
     "sql_time_limit_ms": 10000,
-    "suggest_facets": false
+    "suggest_facets": false,
+    "default_cache_ttl": 3600
 }
