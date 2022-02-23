@@ -1,6 +1,16 @@
-# https://github.com/github/linguist/blob/master/docs/overrides.md#vendored-code
+#
+# Vendored files
+#
+
+# https://sqlite.org/contrib/download/extension-functions.c?get=25
 /build/extension-functions.c linguist-vendored
+
+# https://gc.zgo.at/count.js
 /web/static/count-ds.js linguist-vendored
 
-# https://github.com/github/linguist/blob/master/docs/overrides.md#generated-code
+#
+# Generated files
+#
+
+# niv
 /nix/sources.* linguist-generated
