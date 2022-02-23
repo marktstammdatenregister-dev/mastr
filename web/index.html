@@ -155,8 +155,8 @@
                 </li>
                 <li>
                     <strong>Wie hat sich der Rotordurchmesser von Windkraftanlagen über die Jahre verändert?</strong>
-                    Im Jahr 1990 betrug der Rotordurchmesser im Median 22 Meter, im Jahr 2021 waren es 136 Meter.
-                    <a href="https://ds.marktstammdatenregister.dev/Marktstammdatenregister?sql=select%0D%0A++strftime%28%22%25Y%22%2C+Inbetriebnahmedatum%29+as+Jahr%2C%0D%0A++printf%28%22%25.0f%22%2C+median%28Rotordurchmesser%29%29+as+%22Rotordurchmesser+%28m%29%22%0D%0Afrom%0D%0A++EinheitWind%0D%0Awhere%0D%0A++Jahr+%3E%3D+%221990%22%0D%0Agroup+by%0D%0A++Jahr%0D%0Aorder+by%0D%0A++Jahr&_hide_sql=1#g.mark=line&g.x_column=Jahr&g.x_type=temporal&g.y_column=Rotordurchmesser%20(m)&g.y_type=quantitative">
+                    Im Jahr 1990 betrug der Rotordurchmesser von Windkraftanlagen an Land im Median 22 Meter, im Jahr 2021 waren es 136 Meter. Windkraftanlagen auf See haben längere Rotoren als solche an Land.
+                    <a href="https://ds.marktstammdatenregister.dev/Marktstammdatenregister?sql=select%0D%0A++ifnull%28%0D%0A++++%28%0D%0A++++++select%0D%0A++++++++Wert%0D%0A++++++from%0D%0A++++++++Katalogwert%0D%0A++++++where%0D%0A++++++++Katalogwert.Id+%3D+EinheitWind.Lage%0D%0A++++%29%2C%0D%0A++++%22Land%22%0D%0A++%29+as+Lage%2C%0D%0A++strftime%28%22%25Y%22%2C+Inbetriebnahmedatum%29+as+Jahr%2C%0D%0A++printf%28%22%25.0f%22%2C+median%28Rotordurchmesser%29%29+as+%22Rotordurchmesser+%28m%29%22%0D%0Afrom%0D%0A++EinheitWind%0D%0Awhere%0D%0A++Jahr+%3E%3D+%221990%22%0D%0Agroup+by%0D%0A++Jahr%2C%0D%0A++Seelage&_hide_sql=1#g.mark=line&g.x_column=Jahr&g.x_type=temporal&g.y_column=Rotordurchmesser%20(m)&g.y_type=quantitative&g.color_column=Lage">
                         →&nbsp;Zum&nbspDatensatz
                     </a>
                 </li>
