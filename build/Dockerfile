@@ -11,7 +11,7 @@ RUN apt-get -qq update \
       libsqlite3-dev \
       wget \
  && wget -O sqlitemath.c https://sqlite.org/contrib/download/extension-functions.c?get=25 \
- && gcc -fPIC -shared sqlitemath.c -o libsqlitemath.so -lm \
+ && gcc -fPIC -shared -O3 sqlitemath.c -o libsqlitemath.so -lm \
  && apt-get purge -qq gcc libsqlite3-dev wget \
  && rm -rf /var/lib/apt/lists/*
 
