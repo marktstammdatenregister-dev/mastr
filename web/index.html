@@ -78,6 +78,19 @@
             </a>
         </article>
 
+        <article>
+            <p>
+            Suche hier nach einem <strong>Ort</strong>, um eine Karte der dort registrierten <strong>Photovoltaikanlagen</strong> anzuzeigen:
+            <form action="https://ds.marktstammdatenregister.dev/Marktstammdatenregister/EinheitSolar?_sort_desc=Inbetriebnahmedatum&_sort_desc=Inbetriebnahmedatum&_sort_desc=Inbetriebnahmedatum&_sort_desc=Inbetriebnahmedatum&_sort_desc=Inbetriebnahmedatum&_facet=Gemeinde&_facet=EinheitBetriebsstatus&_facet=Lage&_facet=Nutzungsbereich&_facet=Hauptausrichtung&_facet=HauptausrichtungNeigungswinkel&_sort_desc=Inbetriebnahmedatum">
+                <div class="grid">
+                    <input type="text" name="Ort__exact" id="ort" list="ort-liste" autocomplete="off" placeholder="Ortsname" required title="Ortsnamen bitte vollständig und mit korrekter Groß-/Kleinschreibung eingeben.">
+                    <datalist id="ort-liste"></datalist>
+                    <button type="submit">Karte öffnen</button>
+                </div>
+                <small>Standardmäßig werden nur 1000 Anlagen angezeigt. Klicke <em>load all</em> (unter der Karte), um alle Anlagen anzuzeigen. Für private Photovoltaikanlagen sind keine Koordinaten hinterlegt, deshalb werden sie nicht auf der Karte angezeigt.</small>
+            </form>
+        </article>
+
         <div class="grid">
             <article>
                 <header>
@@ -176,6 +189,36 @@
             <a class="secondary" href="https://github.com/marktstammdatenregister-dev/">github.com/marktstammdatenregister-dev</a>
         </footer>
     </main>
+
+    <script>
+// Inspiriert von https://stephenafamo.com/blog/posts/how-to-create-an-autocomplete-input-with-plain-javascript
+window.addEventListener("load", function () {
+    let ort_input = document.getElementById("ort");
+    ort_input.addEventListener("keyup", function (event) { update_list(event) });
+    window.ort_xhr = new XMLHttpRequest();
+});
+
+function update_list(event) {
+    let input = event.target.value;
+    if (input.length < 1 || input.length > 5) { return; }
+
+    window.ort_xhr.abort();
+    window.ort_xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let response = JSON.parse(this.responseText);
+            let ort_liste = document.getElementById("ort-liste");
+            ort_liste.innerHTML = "";
+            response.forEach(function (item) {
+                let option = document.createElement("option");
+                option.value = item["Ort"];
+                ort_liste.appendChild(option);
+            });
+        }
+    };
+    window.ort_xhr.open("GET", "https://ds.marktstammdatenregister.dev/Marktstammdatenregister.json?sql=with+Orte+as+(%0D%0A++select%0D%0A++++Ort%2C%0D%0A++++count(*)+as+Anzahl%0D%0A++from%0D%0A++++EinheitSolar%0D%0A++where%0D%0A++++Ort+between+%3AOrtPraefix%0D%0A++++and+%3AOrtPraefix+||+%22~%22%0D%0A++group+by%0D%0A++++Ort%0D%0A++order+by%0D%0A++++Anzahl+desc%0D%0A++limit%0D%0A++++100%0D%0A)%0D%0Aselect%0D%0A++Ort%0D%0Afrom%0D%0A++Orte&_shape=array&OrtPraefix=" + input, true);
+    window.ort_xhr.send()
+}
+    </script>
 </body>
 
 </html>
