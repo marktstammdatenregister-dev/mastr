@@ -85,6 +85,7 @@ jobs:
           -database build/Marktstammdatenregister.db \
           -report-json stdout \
           >"${SHORT_FILENAME}.json"
+        ls -lh build/Marktstammdatenregister.db
 
         rclone copy --include "${SHORT_FILENAME}.json" . 'wasabi:mastr-validation-1' --config build/rclone.conf
 
@@ -96,4 +97,6 @@ jobs:
         set -Eeuxo pipefail
 
         brotli --rm -4 --output=build/Marktstammdatenregister.db.br build/Marktstammdatenregister.db
+        ls -lh build/Marktstammdatenregister.db.br
+
         flyctl deploy . --config build/fly.toml --dockerfile build/Dockerfile
