@@ -2,8 +2,22 @@
 # Run datasette.
 #
 FROM docker.io/datasetteproject/datasette:0.60.1@sha256:c2f93ba54eb49e299dd98180de0a8ca3cc1da0df05425a8e32f04be59e64362d
+WORKDIR /work
+
+# Build libsqlitemath.so.
 RUN apt-get -qq update \
- && apt-get -qq install \
+ && apt-get -qq --no-install-recommends install \
+      gcc \
+      libsqlite3-dev \
+      wget \
+ && wget -O sqlitemath.c https://sqlite.org/contrib/download/extension-functions.c?get=25 \
+ && gcc -fPIC -shared sqlitemath.c -o libsqlitemath.so -lm \
+ && apt-get purge -qq gcc libsqlite3-dev wget \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install dependencies.
+RUN apt-get -qq update \
+ && apt-get -qq --no-install-recommends install \
       brotli \
       dumb-init \
  && rm -rf /var/lib/apt/lists/*
@@ -14,7 +28,6 @@ RUN pip install \
       datasette-vega \
  && true
 
-WORKDIR /work
 RUN groupadd -r datasette && useradd --no-log-init -r -g datasette datasette
 RUN chown datasette:datasette .
 USER datasette:datasette
@@ -45,4 +58,4 @@ ENTRYPOINT ["dumb-init", "--"]
 EXPOSE 8080
 
 # Use "." as the configuration directory. This loads *.db, metadata.yaml, settings.json, etc.
-CMD ["sh", "-c", "brotli --rm --decompress --no-copy-stat *.br && datasette --port=8080 --host=0.0.0.0 --cors --immutable Marktstammdatenregister.sqlite3 ."]
+CMD ["sh", "-c", "brotli --rm --decompress --no-copy-stat *.br && datasette --port=8080 --host=0.0.0.0 --load-extension ./libsqlitemath.so --cors --immutable Marktstammdatenregister.sqlite3 ."]
