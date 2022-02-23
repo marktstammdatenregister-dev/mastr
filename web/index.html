@@ -33,7 +33,7 @@
             <ul>
                 <li>
                     <hgroup>
-                        <h1>Markt<wbr/>stamm<wbr/>daten<wbr/>register.dev</h1>
+                        <h1>Markt<wbr/>stamm<wbr/>daten<wbr/>register<wbr/>.dev</h1>
                         <h2>Flexibler Zugriff auf öffentliche Daten zum deutschen Strom- und Gasmarkt.</h2>
                     </hgroup>
                 </li>
@@ -69,7 +69,7 @@
 
         <h2 id="Beispiele">Beispiele</h2>
         <article>
-            <header><strong>Eröffnungsbilanz Klimaschutz</strong> nachvollziehen</header>
+            <header><strong>Eröffnungsbilanz Klimaschutz</strong> nachvollziehen <a href="https://youtu.be/SgRJkASrvWI"><strong>→&nbsp;Video</strong></a></header>
             <p>
             In diesem Video vollziehen wir die Daten der Grafik <em>Ausbau Wind und Photovoltaik</em> in der am 13. Januar 2022 veröffentlichten <em>Eröffnungsbilanz Klimaschutz</em> nach:
             <p>
@@ -82,7 +82,7 @@
             <article>
                 <header>
                     Windkraft in Bayern
-                    <a href="https://ds.marktstammdatenregister.dev/Marktstammdatenregister?sql=select%0D%0A++EinheitMastrNummer%2C%0D%0A++Ort%2C%0D%0A++Laengengrad%2C%0D%0A++Breitengrad%2C%0D%0A++Inbetriebnahmedatum%2C%0D%0A++EinheitSystemstatus%2C%0D%0A++EinheitBetriebsstatus%2C%0D%0A++Bruttoleistung%2C%0D%0A++Nettonennleistung%2C%0D%0A++NameWindpark%2C%0D%0A++EegMaStRNummer%0D%0Afrom%0D%0A++EinheitWind%0D%0Awhere%0D%0A++%22Bundesland%22+%3D+%28%0D%0A++++select%0D%0A++++++Id%0D%0A++++from%0D%0A++++++Katalogwert%0D%0A++++where%0D%0A++++++Wert+%3D+%3ABundesland%0D%0A++++++and+KatalogKategorieId+%3D+101%0D%0A++%29%0D%0A++and+%22Inbetriebnahmedatum%22+between+%3AAbInbetriebnahmedatum%0D%0A++and+%3ABisInbetriebnahmedatum%0D%0Aorder+by%0D%0A++Inbetriebnahmedatum+desc&BisInbetriebnahmedatum=2021-12-31&AbInbetriebnahmedatum=2010-01-01&Bundesland=Bayern#g.mark=bar&g.x_column=Inbetriebnahmedatum&g.x_type=temporal-bin&g.y_column=Nettonennleistung&g.y_type=quantitative">
+                    <a href="https://ds.marktstammdatenregister.dev/Marktstammdatenregister?sql=select%0D%0A++EinheitMastrNummer%2C%0D%0A++Ort%2C%0D%0A++Laengengrad%2C%0D%0A++Breitengrad%2C%0D%0A++Inbetriebnahmedatum%2C%0D%0A++EinheitSystemstatus%2C%0D%0A++EinheitBetriebsstatus%2C%0D%0A++Bruttoleistung%2C%0D%0A++Nettonennleistung%2C%0D%0A++NameWindpark%2C%0D%0A++EegMaStRNummer%0D%0Afrom%0D%0A++EinheitWind%0D%0Awhere%0D%0A++%22Bundesland%22+%3D+%28%0D%0A++++select%0D%0A++++++Id%0D%0A++++from%0D%0A++++++Katalogwert%0D%0A++++where%0D%0A++++++Wert+%3D+%3ABundesland%0D%0A++++++and+KatalogKategorieId+%3D+101%0D%0A++%29%0D%0A++and+%22Inbetriebnahmedatum%22+between+%3AAbInbetriebnahmedatum%0D%0A++and+%3ABisInbetriebnahmedatum%0D%0Aorder+by%0D%0A++Inbetriebnahmedatum+desc&BisInbetriebnahmedatum=2021-12-31&AbInbetriebnahmedatum=2010-01-01&Bundesland=Bayern&_hide_sql=1#g.mark=bar&g.x_column=Inbetriebnahmedatum&g.x_type=temporal-bin&g.y_column=Nettonennleistung&g.y_type=quantitative">
                         <strong>→&nbsp;Datensatz</strong>
                     </a>
                 </header>
@@ -124,19 +124,19 @@
         </div>
 
         <article>
-            <header>SQL-Beispiele zur <strong>Technologie erneuerbarer Energien</strong></header>
+            <header>Informationen zur <strong>Technologie erneuerbarer Energien</strong></header>
             <ul>
                 <li>
                     <strong>Wie hat sich die Bruttoleistung von Photovoltaikmodulen über die Jahre verändert?</strong>
                     Der Median der Bruttoleistung eines Photovoltaikmoduls ist von 53 Watt im Jahr 1990 auf 355 Watt im Jahr 2021 angestiegen.
-                    <a href="https://ds.marktstammdatenregister.dev/Marktstammdatenregister?sql=select%0D%0A++strftime%28%22%25Y%22%2C+Inbetriebnahmedatum%29+as+Jahr%2C%0D%0A++printf%28%22%25.0f%22%2C+median%28Bruttoleistung+%2F+AnzahlModule%29+*+1000%29+as+%22Bruttoleistung+per+Modul+%28W%29%22%0D%0Afrom%0D%0A++EinheitSolar%0D%0Awhere%0D%0A++Jahr+%3E%3D+%221990%22%0D%0Agroup+by%0D%0A++Jahr%0D%0Aorder+by%0D%0A++Jahr#g.mark=line&g.x_column=Jahr&g.x_type=temporal&g.y_column=Bruttoleistung%20per%20Modul%20(W)&g.y_type=quantitative">
+                    <a href="https://ds.marktstammdatenregister.dev/Marktstammdatenregister?sql=select%0D%0A++strftime%28%22%25Y%22%2C+Inbetriebnahmedatum%29+as+Jahr%2C%0D%0A++printf%28%22%25.0f%22%2C+median%28Bruttoleistung+%2F+AnzahlModule%29+*+1000%29+as+%22Bruttoleistung+per+Modul+%28W%29%22%0D%0Afrom%0D%0A++EinheitSolar%0D%0Awhere%0D%0A++Jahr+%3E%3D+%221990%22%0D%0Agroup+by%0D%0A++Jahr%0D%0Aorder+by%0D%0A++Jahr&_hide_sql=1#g.mark=line&g.x_column=Jahr&g.x_type=temporal&g.y_column=Bruttoleistung%20per%20Modul%20(W)&g.y_type=quantitative">
                         →&nbsp;Zum&nbspDatensatz
                     </a>
                 </li>
                 <li>
                     <strong>Wie hat sich der Rotordurchmesser von Windkraftanlagen über die Jahre verändert?</strong>
                     Im Jahr 1990 betrug der Rotordurchmesser im Median 22 Meter, im Jahr 2021 waren es 136 Meter.
-                    <a href="https://ds.marktstammdatenregister.dev/Marktstammdatenregister?sql=select%0D%0A++strftime%28%22%25Y%22%2C+Inbetriebnahmedatum%29+as+Jahr%2C%0D%0A++printf%28%22%25.0f%22%2C+median%28Rotordurchmesser%29%29+as+%22Rotordurchmesser+%28m%29%22%0D%0Afrom%0D%0A++EinheitWind%0D%0Awhere%0D%0A++Jahr+%3E%3D+%221990%22%0D%0Agroup+by%0D%0A++Jahr%0D%0Aorder+by%0D%0A++Jahr#g.mark=line&g.x_column=Jahr&g.x_type=temporal&g.y_column=Rotordurchmesser%20(m)&g.y_type=quantitative">
+                    <a href="https://ds.marktstammdatenregister.dev/Marktstammdatenregister?sql=select%0D%0A++strftime%28%22%25Y%22%2C+Inbetriebnahmedatum%29+as+Jahr%2C%0D%0A++printf%28%22%25.0f%22%2C+median%28Rotordurchmesser%29%29+as+%22Rotordurchmesser+%28m%29%22%0D%0Afrom%0D%0A++EinheitWind%0D%0Awhere%0D%0A++Jahr+%3E%3D+%221990%22%0D%0Agroup+by%0D%0A++Jahr%0D%0Aorder+by%0D%0A++Jahr&_hide_sql=1#g.mark=line&g.x_column=Jahr&g.x_type=temporal&g.y_column=Rotordurchmesser%20(m)&g.y_type=quantitative">
                         →&nbsp;Zum&nbspDatensatz
                     </a>
                 </li>
@@ -144,12 +144,12 @@
         </article>
 
         <article>
-            <header>SQL-Beispiele zum <strong>Marktstammdatenregister</strong></header>
+            <header>Informationen zum <strong>Marktstammdatenregister</strong></header>
             <ul>
                 <li>
                     <strong>Wann wurden Photovoltaikanlagen in Betrieb genommen und wann wurden sie registriert?</strong>
                     Die Registrierung hinkt noch hinterher. Auch im Jahr 2022 wurden noch Photovoltaikanlagen registriert, die schon 2010 in Betrieb gegangen sind.
-                    <a href="https://ds.marktstammdatenregister.dev/Marktstammdatenregister?sql=select%0D%0A++strftime%28%22%25Y%22%2C+Registrierungsdatum%29+as+Registrierungsjahr%2C%0D%0A++strftime%28%22%25Y%22%2C+Inbetriebnahmedatum%29+as+Inbetriebnahmejahr%2C%0D%0A++count%28*%29+as+Einheiten%0D%0Afrom%0D%0A++EinheitSolar%0D%0Awhere%0D%0A++Inbetriebnahmejahr+%3E%3D+%222000%22%0D%0Agroup+by%0D%0A++Registrierungsjahr%2C%0D%0A++Inbetriebnahmejahr%0D%0Aorder+by%0D%0A++Registrierungsjahr+desc%2C%0D%0A++Inbetriebnahmejahr+desc#g.mark=bar&g.x_column=Registrierungsjahr&g.x_type=ordinal&g.y_column=Einheiten&g.y_type=quantitative">
+                    <a href="https://ds.marktstammdatenregister.dev/Marktstammdatenregister?sql=select%0D%0A++strftime%28%22%25Y%22%2C+Registrierungsdatum%29+as+Registrierungsjahr%2C%0D%0A++strftime%28%22%25Y%22%2C+Inbetriebnahmedatum%29+as+Inbetriebnahmejahr%2C%0D%0A++count%28*%29+as+Einheiten%0D%0Afrom%0D%0A++EinheitSolar%0D%0Awhere%0D%0A++Inbetriebnahmejahr+%3E%3D+%222000%22%0D%0Agroup+by%0D%0A++Registrierungsjahr%2C%0D%0A++Inbetriebnahmejahr%0D%0Aorder+by%0D%0A++Registrierungsjahr+desc%2C%0D%0A++Inbetriebnahmejahr+desc&_hide_sql=1#g.mark=bar&g.x_column=Registrierungsjahr&g.x_type=ordinal&g.y_column=Einheiten&g.y_type=quantitative">
                         →&nbsp;Zum&nbspDatensatz
                     </a>
                 </li>
@@ -163,7 +163,7 @@
                 <li>
                     <strong>Welche Werte hat der Systemstatus bei Windenergieeinheiten?</strong>
                     Alle Windenergieeinheiten (und auch alle anderen Arten von Einheiten) sind als <em>Aktiviert</em> markiert.
-                    <a href="https://ds.marktstammdatenregister.dev/Marktstammdatenregister?sql=select%0D%0A++Status.Name+as+EinheitSystemstatus%2C%0D%0A++count%28EinheitMastrNummer%29+as+Anzahl%0D%0Afrom%0D%0A++%28select+Id%2C+Wert+as+Name+from+Katalogwert+where+KatalogKategorieId+%3D+19%29+as+Status%0D%0A++left+join+EinheitWind+on+EinheitSystemstatus+%3D+Status.Id%0D%0Agroup+by%0D%0A++Status.Id">
+                    <a href="https://ds.marktstammdatenregister.dev/Marktstammdatenregister?sql=select%0D%0A++Status.Name+as+EinheitSystemstatus%2C%0D%0A++count%28EinheitMastrNummer%29+as+Anzahl%0D%0Afrom%0D%0A++%28select+Id%2C+Wert+as+Name+from+Katalogwert+where+KatalogKategorieId+%3D+19%29+as+Status%0D%0A++left+join+EinheitWind+on+EinheitSystemstatus+%3D+Status.Id%0D%0Agroup+by%0D%0A++Status.Id&_hide_sql=1">
                         →&nbsp;Zum&nbspDatensatz
                     </a>
                 </li>
