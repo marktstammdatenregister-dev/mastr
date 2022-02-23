@@ -2,5 +2,6 @@
 
 !/build/Dockerfile
 !/build/Marktstammdatenregister.db.br
+!/build/extension-functions.c
 !/build/metadata.yaml
 !/build/settings.json
