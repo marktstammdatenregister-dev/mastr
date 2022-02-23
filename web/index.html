@@ -81,13 +81,20 @@
         <article>
             <p>
             Suche hier nach einem <strong>Ort</strong>, um eine Karte der dort registrierten <strong>Photovoltaikanlagen</strong> anzuzeigen:
-            <form action="https://ds.marktstammdatenregister.dev/Marktstammdatenregister/EinheitSolar?_sort_desc=Inbetriebnahmedatum&_sort_desc=Inbetriebnahmedatum&_sort_desc=Inbetriebnahmedatum&_sort_desc=Inbetriebnahmedatum&_sort_desc=Inbetriebnahmedatum&_facet=Gemeinde&_facet=EinheitBetriebsstatus&_facet=Lage&_facet=Nutzungsbereich&_facet=Hauptausrichtung&_facet=HauptausrichtungNeigungswinkel&_sort_desc=Inbetriebnahmedatum">
+            <form action="https://ds.marktstammdatenregister.dev/Marktstammdatenregister/EinheitSolar">
                 <div class="grid">
                     <input type="text" name="Ort__exact" id="ort" list="ort-liste" autocomplete="off" placeholder="Ortsname" required title="Ortsnamen bitte vollständig und mit korrekter Groß-/Kleinschreibung eingeben.">
                     <datalist id="ort-liste"></datalist>
                     <button type="submit">Karte öffnen</button>
                 </div>
                 <small>Standardmäßig werden 1000 Anlagen angezeigt. Klicke <em>load all</em> (unter der Karte), um alle Anlagen anzuzeigen. Für private Photovoltaikanlagen sind keine Koordinaten hinterlegt, deshalb werden sie nicht auf der Karte angezeigt.</small>
+                <input type="hidden" name="_sort_desc" value="Inbetriebnahmedatum">
+                <input type="hidden" name="_facet" value="EinheitBetriebsstatus">
+                <input type="hidden" name="_facet" value="Gemeinde">
+                <input type="hidden" name="_facet" value="Hauptausrichtung">
+                <input type="hidden" name="_facet" value="HauptausrichtungNeigungswinkel">
+                <input type="hidden" name="_facet" value="Lage">
+                <input type="hidden" name="_facet" value="Nutzungsbereich">
             </form>
         </article>
 
