@@ -1,0 +1,3 @@
+# https://github.com/github/linguist/blob/master/docs/overrides.md#vendored-code
+/build/extension-functions.c linguist-vendored
+/web/static/count-ds.js linguist-vendored
