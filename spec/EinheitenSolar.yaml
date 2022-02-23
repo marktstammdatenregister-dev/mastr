@@ -98,7 +98,6 @@ fields:
       table: Katalogwert
       column: Id
   - name: EinheitBetriebsstatus
-    index: true
     mandatory: true # sometimes missing
     xsd: nonNegativeInteger
     psql: integer
