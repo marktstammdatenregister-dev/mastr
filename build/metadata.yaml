@@ -1,33 +1,31 @@
 title: Marktstammdatenregister
-source: Marktstammdatenregister
-source_url: https://www.marktstammdatenregister.de/MaStR/Datendownload
 about: Marktstammdatenregister.dev
 about_url: https://marktstammdatenregister.dev
 extra_js_urls:
-- https://marktstammdatenregister.dev/static/count-ds.js
+  - https://marktstammdatenregister.dev/static/count-ds.js
 plugins:
-    datasette-cluster-map:
-        latitude_column: Breitengrad
-        longitude_column: Laengengrad
+  datasette-cluster-map:
+    latitude_column: Breitengrad
+    longitude_column: Laengengrad
 databases:
-    Marktstammdatenregister:
-        description_html: |
-            <details>
-                <summary>Was ist das Marktstammdatenregister?</summary>
-                <p>Das <a href="https://www.marktstammdatenregister.de">Marktstammdatenregister</a> ist das Register für den deutschen Strom- und Gasmarkt. Es wird von der Bundesnetzagentur geführt.</p>
-            </details>
-            <details>
-                <summary>Was bedeuten die Tabellen und Spalten?</summary>
-                <p>Die Tabellen und Spalten sind in der <a href="https://www.marktstammdatenregister.de/MaStRHilfe/files/gesamtdatenexport/Dokumentation%20MaStR%20Gesamtdatenexport.pdf">Dokumentation</a> beschrieben.
-            </details>
-        tables:
-            Katalogkategorie:
-                label_column: Name
-                # Datasette >0.58.1 fails if 'hidden: true' is set.
-                #hidden: true
-            Katalogwert:
-                label_column: Wert
-                # Datasette >0.58.1 fails if 'hidden: true' is set.
-                #hidden: true
-            sqlite_stat1:
-                hidden: true
+  Marktstammdatenregister:
+    description_html: |
+      <details>
+          <summary>Was ist das Marktstammdatenregister?</summary>
+          <p>Das <a href="https://www.marktstammdatenregister.de">Marktstammdatenregister</a> ist das Register für den deutschen Strom- und Gasmarkt. Es wird von der Bundesnetzagentur geführt.</p>
+      </details>
+      <details>
+          <summary>Was bedeuten die Tabellen und Spalten?</summary>
+          <p>Die Tabellen und Spalten sind in der <a href="https://www.marktstammdatenregister.de/MaStRHilfe/files/gesamtdatenexport/Dokumentation%20MaStR%20Gesamtdatenexport.pdf">Dokumentation</a> beschrieben.
+      </details>
+    tables:
+      Katalogkategorie:
+        label_column: Name
+        # Datasette >0.58.1 fails if 'hidden: true' is set.
+        #hidden: true
+      Katalogwert:
+        label_column: Wert
+        # Datasette >0.58.1 fails if 'hidden: true' is set.
+        #hidden: true
+      sqlite_stat1:
+        hidden: true
