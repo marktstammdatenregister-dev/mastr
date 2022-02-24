@@ -195,6 +195,9 @@ fields:
       table: EinheitGenehmigung
       column: GenMastrNummer
   - name: ZugeordneteWirkleistungWechselrichter
+    xsd: decimal
+    psql: real
+    sqlite: real
   - name: GemeinsamerWechselrichterMitSpeicher
     xsd: nonNegativeInteger
     psql: integer

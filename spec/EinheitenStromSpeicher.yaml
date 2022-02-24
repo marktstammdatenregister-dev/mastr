@@ -244,6 +244,9 @@ fields:
     psql: real
     sqlite: real
   - name: ZugeordnenteWirkleistungWechselrichter
+    xsd: decimal
+    psql: real
+    sqlite: real
   - name: SpeMastrNummer
     index: true
     references:
