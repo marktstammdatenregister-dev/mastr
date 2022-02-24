@@ -91,9 +91,6 @@ jobs:
 
         rclone copy --include "${SHORT_FILENAME}.json" . 'wasabi:mastr-validation-1' --config build/rclone.conf
 
-    - name: Update site
-      run: ./build/ci/publish-website
-
     - name: Deploy
       run: |
         set -Eeuxo pipefail
