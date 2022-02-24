@@ -40,7 +40,7 @@ jobs:
         set -Eeuxo pipefail
 
         sudo apt-get -qq update
-        sudo apt-get -qq install axel brotli jq rclone
+        sudo apt-get -qq install axel brotli rclone
 
         # ruby-mustache does not handle zero as an empty value for the purpose of {#IntValue}...{/IntValue} blocks.
         # https://github.com/cbroglie/mustache/releases
@@ -55,22 +55,31 @@ jobs:
         sudo mv flyctl /usr/bin/flyctl
         rm flyctl.tar.gz
 
-        jq --version
+        # https://github.com/mikefarah/yq/releases
+        sudo curl -sSLo /usr/bin/yq https://github.com/mikefarah/yq/releases/download/v4.20.2/yq_linux_amd64
+
         rclone --version
         flyctl version
+        yq --version
 
     - name: Download export
       run: |
         set -Eeuxo pipefail
 
-        EXPORT_URL="$(curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload |
+        export EXPORT_URL="$(curl -sSL https://www.marktstammdatenregister.de/MaStR/Datendownload |
           sed -E 's|^.*(https://download.marktstammdatenregister.de/Gesamtdatenexport_.*\.zip).*$|\1|gp;d')"
         EXPORT_FILENAME="${EXPORT_URL##*/}"
+        export SHORT_FILENAME="$(echo "${EXPORT_FILENAME}" | sed -E 's|^(Gesamtdatenexport_.+)_.*_.*.*\.zip$|\1|gp;d')"
 
         # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-environment-variable
         echo "EXPORT_FILENAME=${EXPORT_FILENAME}" >> "${GITHUB_ENV}"
+        echo "SHORT_FILENAME=${SHORT_FILENAME}" >> "${GITHUB_ENV}"
+
+        # Show source of data on every Datasette page.
+        yq eval --inplace '.source = strenv(SHORT_FILENAME) | .source_url = strenv(EXPORT_URL)' build/metadata.yaml
 
         axel --quiet --output="${EXPORT_FILENAME}" "${EXPORT_URL}"
+        ls -lh "${EXPORT_FILENAME}"
 
         # List compressed files, ordered by timestamp.
         unzip -l "${EXPORT_FILENAME}" | tail -n +4 | head -n -2 | sort --key 3
@@ -79,17 +88,15 @@ jobs:
       run: |
         set -Eeuxo pipefail
 
-        SHORT_FILENAME="$(echo "${{env.EXPORT_FILENAME}}" | sed -E 's|^(Gesamtdatenexport_.+)_.*_.*.*\.zip$|\1|gp;d')"
-
         ./mastr \
           -export "${{env.EXPORT_FILENAME}}" \
           -spec spec/Gesamtdatenexport.yaml \
           -database build/Marktstammdatenregister.db \
           -report-json stdout \
-          >"${SHORT_FILENAME}.json"
+          >"${{env.SHORT_FILENAME}}.json"
         ls -lh build/Marktstammdatenregister.db
 
-        rclone copy --include "${SHORT_FILENAME}.json" . 'wasabi:mastr-validation-1' --config build/rclone.conf
+        rclone copy --include "${{env.SHORT_FILENAME}}.json" . 'wasabi:mastr-validation-1' --config build/rclone.conf
 
     - name: Deploy
       run: |
