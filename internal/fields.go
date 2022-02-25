@@ -6,7 +6,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/graphql-go/graphql"
 	"marktstammdatenregister.dev/internal/spec"
 )
 
@@ -97,25 +96,4 @@ func (f *Fields) ScanDest() []interface{} {
 		}
 	}
 	return dest
-}
-
-func (f *Fields) GraphqlType(name string) (graphql.Output, error) {
-	sqlitety, ok := f.sqlitety[name]
-	if !ok {
-		return nil, fmt.Errorf("field %s not found", name)
-	}
-	return graphqlType(sqlitety), nil
-}
-
-func graphqlType(sqlitety string) graphql.Output {
-	switch sqlitety {
-	case "integer":
-		return graphql.Int
-	case "real":
-		return graphql.Float
-	case "text":
-		return graphql.String
-	default:
-		return graphql.String
-	}
 }
