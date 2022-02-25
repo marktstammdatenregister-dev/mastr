@@ -160,7 +160,7 @@ func (v *Validator) EnterFile(f string) error {
 func (v *Validator) LeaveFile() error {
 	s := v.fileState
 
-	// Sanity check: there be file specific state.
+	// Sanity check: there should be file specific state.
 	if s == nil {
 		return fmt.Errorf("not processing a file, did you forget to call EnterFile()?")
 	}
