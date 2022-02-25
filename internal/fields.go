@@ -41,22 +41,6 @@ func (f *Fields) Record(item map[string]string) ([]interface{}, error) {
 	result := make([]interface{}, n, n)
 	for name, value := range item {
 		switch f.sqlitety[name] {
-		//case "boolean":
-		//	v := &pgtype.Bool{}
-		//	if err := v.Set(value); err != nil {
-		//		return result, err
-		//	}
-		//	result[f.fields[name]] = v
-		//case "date":
-		//	ts, err := time.ParseInLocation("2006-01-02", value, Location)
-		//	if err != nil {
-		//		return result, err
-		//	}
-		//	v := &pgtype.Date{}
-		//	if err := v.Set(ts); err != nil {
-		//		return result, err
-		//	}
-		//	result[f.fields[name]] = v
 		case "integer":
 			if value == "" {
 				result[f.fields[name]] = nil
@@ -79,16 +63,6 @@ func (f *Fields) Record(item map[string]string) ([]interface{}, error) {
 			result[f.fields[name]] = v
 		case "text", "":
 			result[f.fields[name]] = value
-		//case "timestamp":
-		//	ts, err := time.ParseInLocation("2006-01-02T15:04:05.9999999", value, Location)
-		//	if err != nil {
-		//		return result, err
-		//	}
-		//	v := &pgtype.Timestamp{}
-		//	if err := v.Set(ts); err != nil {
-		//		return result, err
-		//	}
-		//	result[f.fields[name]] = v
 		default:
 			return nil, fmt.Errorf("unknown SQLite type: %s", f.sqlitety[name])
 		}
@@ -145,10 +119,3 @@ func graphqlType(sqlitety string) graphql.Output {
 		return graphql.String
 	}
 }
-
-/*
-
-When reading XML to SQLite: turn map[string]string into []interface{}
-When serving SQLite as GraphQL: turn []interface{} into map[string]&graphql.Field ?
-
-*/
