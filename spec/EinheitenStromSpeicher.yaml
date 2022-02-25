@@ -91,7 +91,6 @@ fields:
   - name: DatumBeginnVoruebergehendeStilllegung
   - name: DatumWiederaufnahmeBetrieb
   - name: EinheitSystemstatus
-    index: true
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
