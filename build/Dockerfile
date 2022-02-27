@@ -33,10 +33,6 @@ RUN curl -sSL https://github.com/DarthSim/hivemind/releases/download/v1.1.0/hive
     | gunzip - >/usr/bin/hivemind \
  && chmod +x /usr/bin/hivemind
 
-#RUN groupadd -r datasette && useradd --no-log-init -r -g datasette datasette
-#RUN chown datasette:datasette .
-#USER datasette:datasette
-
 # The database files are renamed to .sqlite3 on purpose.
 #
 # The only way I can find in the documentation to load settings from a file is to use "Configuration
