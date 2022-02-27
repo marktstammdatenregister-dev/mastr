@@ -1,0 +1,64 @@
+# Mostly copied from:
+# https://github.com/fly-apps/fly-varnish#verifying-that-caching-works
+
+vcl 4.0;
+
+backend default {
+  .host = "localhost";
+  .port = "9090";
+  .probe = {
+      .url = "/Marktstammdatenregister?sql=select+%22up%22";
+      .interval = 10s;
+  }
+}
+
+# TODO: Consider removing from here ...
+sub vcl_recv {
+    unset req.http.x-cache;
+}
+
+sub vcl_hit {
+    set req.http.x-cache = "hit";
+}
+
+sub vcl_miss {
+    set req.http.x-cache = "miss";
+}
+
+sub vcl_pass {
+    set req.http.x-cache = "pass";
+}
+
+sub vcl_pipe {
+    set req.http.x-cache = "pipe uncacheable";
+}
+
+sub vcl_synth {
+    set req.http.x-cache = "synth synth";
+    set resp.http.x-cache = req.http.x-cache;
+}
+
+sub vcl_deliver {
+    if (obj.uncacheable) {
+        set req.http.x-cache = req.http.x-cache + " uncacheable" ;
+    } else {
+        set req.http.x-cache = req.http.x-cache + " cached" ;
+    }
+    set resp.http.x-cache = req.http.x-cache;
+}
+# ... to here. This stuff is 100% for debugging purposes.
+
+# We only serve static content. Cache everything effectively forever! Note that
+# the service is currently restarted every weekday morning, so the maximum
+# uptime is Friday morning to Monday morning (three days).
+#
+# We set this here because Datasette does not set "Cache-control: max-age" on
+# static files even when the default_cache_ttl setting is set explicitly.
+#
+# TODO: Consider caching status 400, which Datasette uses for timeouts. Those
+# are the most expensive queries.
+sub vcl_backend_response {
+    if (beresp.status == 200 || beresp.status == 404) {
+        set beresp.ttl = 4d;
+    }
+}
