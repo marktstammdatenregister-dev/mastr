@@ -57,6 +57,9 @@ sub vcl_deliver {
 #
 # TODO: Consider caching status 400, which Datasette uses for timeouts. Those
 # are the most expensive queries.
+#
+# TODO: Consider do_gzip:
+# https://varnish-cache.org/docs/7.0/users-guide/compression.html#compressing-content-if-backends-don-t
 sub vcl_backend_response {
     if (beresp.status == 200 || beresp.status == 404) {
         set beresp.ttl = 4d;
