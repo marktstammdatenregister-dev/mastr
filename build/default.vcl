@@ -12,9 +12,14 @@ backend default {
   }
 }
 
-# TODO: Consider removing from here ...
+# TODO: Consider removing all the "x-cache" stuff from here ...
 sub vcl_recv {
     unset req.http.x-cache;
+
+    # Don't store entire SQLite database in cache; respect "no-cache" pragma header.
+    if (req.url == "/Marktstammdatenregister.db" || req.http.Pragma ~ "no-cache") {
+        return(pass);
+    }
 }
 
 sub vcl_hit {
@@ -48,12 +53,16 @@ sub vcl_deliver {
 }
 # ... to here. This stuff is 100% for debugging purposes.
 
-# We only serve static content. Cache everything effectively forever! Note that
-# the service is currently restarted every weekday morning, so the maximum
-# uptime is Friday morning to Monday morning (three days).
+# We only serve static content. Cache everything! Note that the service is
+# currently restarted every weekday morning, so the maximum uptime is Friday
+# morning to Monday morning (three days).
+#
+# Since TTL is respected by browser too, we don't want to overdo it with the
+# max-age.
 #
 # We set this here because Datasette does not set "Cache-control: max-age" on
-# static files even when the default_cache_ttl setting is set explicitly.
+# static files even when the default_cache_ttl setting is set explicitly:
+# https://github.com/simonw/datasette/issues/1645
 #
 # TODO: Consider caching status 400, which Datasette uses for timeouts. Those
 # are the most expensive queries.
@@ -62,6 +71,7 @@ sub vcl_deliver {
 # https://varnish-cache.org/docs/7.0/users-guide/compression.html#compressing-content-if-backends-don-t
 sub vcl_backend_response {
     if (beresp.status == 200 || beresp.status == 404) {
-        set beresp.ttl = 4d;
+        set beresp.ttl = 3h;
     }
+
 }
