@@ -105,4 +105,4 @@ jobs:
         brotli --rm -4 --output=build/Marktstammdatenregister.db.br build/Marktstammdatenregister.db
         ls -lh build/Marktstammdatenregister.db.br
 
-        flyctl deploy . --config build/fly.toml --dockerfile build/Dockerfile
+        flyctl deploy . --config config/fly.toml --dockerfile build/Dockerfile
