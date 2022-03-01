@@ -16,6 +16,10 @@ backend default {
 sub vcl_recv {
     unset req.http.x-cache;
 
+    # Cookies stop Varnish from caching the page. We don't use cookies, so
+    # cookies are only ever set by accident.
+    unset req.http.Cookie;
+
     # Don't store entire SQLite database in cache; respect "no-cache" pragma header.
     if (req.url == "/Marktstammdatenregister.db" || req.http.Pragma ~ "no-cache") {
         return(pass);
