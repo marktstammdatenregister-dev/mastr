@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+set -eu
+
+brotli --rm --decompress --no-copy-stat *.br
+datasette --port=9090 --host=0.0.0.0 --load-extension ./libsqlitefunctions.so --cors --immutable Marktstammdatenregister.sqlite3 .

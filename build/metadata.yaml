@@ -1,8 +1,6 @@
 title: Marktstammdatenregister
 about: Marktstammdatenregister.dev
 about_url: https://marktstammdatenregister.dev
-extra_js_urls:
-  - https://marktstammdatenregister.dev/static/count-ds.js
 plugins:
   datasette-cluster-map:
     latitude_column: Breitengrad

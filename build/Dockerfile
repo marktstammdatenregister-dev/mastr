@@ -19,7 +19,9 @@ RUN apt-get -qq update \
 RUN apt-get -qq update \
  && apt-get -qq --no-install-recommends install \
       brotli \
-      dumb-init \
+      curl \
+      gzip \
+      varnish \
  && rm -rf /var/lib/apt/lists/*
 # https://github.com/curiousleo/datasette-leaflet-geojson/archive/1e402abeb77192e0b8d51504b46055f1e1b4cf4d.tar.gz
 RUN pip install \
@@ -27,10 +29,9 @@ RUN pip install \
       datasette-graphql \
       datasette-vega \
  && true
-
-RUN groupadd -r datasette && useradd --no-log-init -r -g datasette datasette
-RUN chown datasette:datasette .
-USER datasette:datasette
+RUN curl -sSL https://github.com/DarthSim/hivemind/releases/download/v1.1.0/hivemind-v1.1.0-linux-amd64.gz \
+    | gunzip - >/usr/bin/hivemind \
+ && chmod +x /usr/bin/hivemind
 
 # The database files are renamed to .sqlite3 on purpose.
 #
@@ -51,11 +52,13 @@ USER datasette:datasette
 # "db" so they are not picked up and listed as databases as a result of using "Configuration
 # directory mode".
 COPY ./build/Marktstammdatenregister.db.br ./Marktstammdatenregister.sqlite3.br
+COPY ./build/Procfile .
+COPY ./build/datasette .
+COPY ./build/default.vcl .
 COPY ./build/metadata.yaml .
 COPY ./build/settings.json .
+COPY ./build/varnish .
 
-ENTRYPOINT ["dumb-init", "--"]
 EXPOSE 8080
 
-# Use "." as the configuration directory. This loads *.db, metadata.yaml, settings.json, etc.
-CMD ["sh", "-c", "brotli --rm --decompress --no-copy-stat *.br && datasette --port=8080 --host=0.0.0.0 --load-extension ./libsqlitefunctions.so --cors --immutable Marktstammdatenregister.sqlite3 ."]
+CMD hivemind

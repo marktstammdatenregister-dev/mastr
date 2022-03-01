@@ -2,6 +2,10 @@
 
 !/build/Dockerfile
 !/build/Marktstammdatenregister.db.br
+!/build/Procfile
+!/build/datasette
+!/build/default.vcl
 !/build/extension-functions.c
 !/build/metadata.yaml
 !/build/settings.json
+!/build/varnish
