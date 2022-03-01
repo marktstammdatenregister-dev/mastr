@@ -18,6 +18,7 @@ sub vcl_recv {
 
     # Cookies stop Varnish from caching the page. We don't use cookies, so
     # cookies are only ever set by accident.
+    # https://varnish-cache.org/docs/7.0/users-guide/increasing-your-hitrate.html#cookies
     unset req.http.Cookie;
 
     # Don't store entire SQLite database in cache; respect "no-cache" pragma header.
