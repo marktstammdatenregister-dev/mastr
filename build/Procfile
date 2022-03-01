@@ -1,2 +1,2 @@
-datasette: ./datasette.sh
-varnish: ./varnish.sh
+datasette: ./datasette
+varnish: ./varnish
