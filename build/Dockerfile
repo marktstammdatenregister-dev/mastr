@@ -54,10 +54,10 @@ RUN curl -sSL https://github.com/DarthSim/hivemind/releases/download/v1.1.0/hive
 COPY ./build/Marktstammdatenregister.db.br ./Marktstammdatenregister.sqlite3.br
 COPY ./build/Procfile .
 COPY ./build/datasette.sh .
+COPY ./build/default.vcl .
+COPY ./build/metadata.yaml .
+COPY ./build/settings.json .
 COPY ./build/varnish.sh .
-COPY ./config/default.vcl .
-COPY ./config/metadata.yaml .
-COPY ./config/settings.json .
 
 EXPOSE 8080
 

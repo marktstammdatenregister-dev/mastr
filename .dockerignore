@@ -4,8 +4,8 @@
 !/build/Marktstammdatenregister.db.br
 !/build/Procfile
 !/build/datasette.sh
+!/build/default.vcl
 !/build/extension-functions.c
+!/build/metadata.yaml
+!/build/settings.json
 !/build/varnish.sh
-!/config/default.vcl
-!/config/metadata.yaml
-!/config/settings.json
