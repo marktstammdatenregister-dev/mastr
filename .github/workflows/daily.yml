@@ -96,7 +96,7 @@ jobs:
           >"${{env.SHORT_FILENAME}}.json"
         ls -lh build/Marktstammdatenregister.db
 
-        rclone copy --include "${{env.SHORT_FILENAME}}.json" . 'wasabi:mastr-validation-1' --config build/rclone.conf
+        rclone copy --include "${{env.SHORT_FILENAME}}.json" . 'wasabi:mastr-validation-1' --config config/rclone.conf
 
     - name: Deploy
       run: |
