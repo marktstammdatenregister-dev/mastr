@@ -57,7 +57,7 @@ sub vcl_deliver {
 # currently restarted every weekday morning, so the maximum uptime is Friday
 # morning to Monday morning (three days).
 #
-# Since TTL is respected by browser too, we don't want to overdo it with the
+# Since TTL is respected by browsers too, we don't want to overdo it with the
 # max-age.
 #
 # We set this here because Datasette does not set "Cache-control: max-age" on
@@ -71,6 +71,6 @@ sub vcl_deliver {
 # https://varnish-cache.org/docs/7.0/users-guide/compression.html#compressing-content-if-backends-don-t
 sub vcl_backend_response {
     if (beresp.status == 200 || beresp.status == 404) {
-        set beresp.ttl = 3h;
+        set beresp.ttl = 1h;
     }
 }
