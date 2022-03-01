@@ -73,5 +73,4 @@ sub vcl_backend_response {
     if (beresp.status == 200 || beresp.status == 404) {
         set beresp.ttl = 3h;
     }
-
 }
