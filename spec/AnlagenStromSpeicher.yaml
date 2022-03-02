@@ -6,18 +6,14 @@ fields:
   # defaults:
   #   xsd: string
   #   sqlite: text
-  #   mandatory: false
   - name: MaStRNummer
-    mandatory: true
   - name: DatumLetzteAktualisierung
     xsd: dateTime
     psql: timestamp
-    mandatory: true
   - name: Registrierungsdatum
     index: true
     xsd: date
     psql: date
-    mandatory: true
   - name: NutzbareSpeicherkapazitaet
     index: true
     xsd: decimal
@@ -29,7 +25,6 @@ fields:
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
-    mandatory: true
     references:
       table: Katalogwert
       column: Id

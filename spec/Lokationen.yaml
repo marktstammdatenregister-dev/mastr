@@ -6,15 +6,12 @@ fields:
   # defaults:
   #   xsd: string
   #   sqlite: text
-  #   mandatory: false
   - name: DatumLetzteAktualisierung
     xsd: dateTime
     psql: timestamp
   - name: MastrNummer
-    mandatory: true
   - name: NameDerTechnischenLokation
   - name: Lokationtyp
-    mandatory: true
   - name: VerknuepfteEinheitenMaStRNummern
   - name: NetzanschlusspunkteMaStRNummern
 ---

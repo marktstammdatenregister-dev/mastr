@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"sort"
 
 	"marktstammdatenregister.dev/internal/spec"
 )
@@ -37,16 +36,8 @@ type ExportReport struct {
 
 type FileReport struct {
 	FileName   string
-	NumMissing int
 	NumBroken  int
-	Missing    []MissingReport
 	Broken     []BrokenReport
-}
-
-type MissingReport struct {
-	FieldName      string
-	Example        string
-	NumOccurrences int
 }
 
 type BrokenReport struct {
@@ -60,7 +51,6 @@ type BrokenReport struct {
 type fileState struct {
 	index   int
 	report  FileReport
-	missing map[string]missing
 }
 
 type duplicate struct {
@@ -80,11 +70,6 @@ type broken struct {
 	targetColumn  string
 	targetKey     string
 	referenceFile string
-}
-
-type missing struct {
-	firstKey string
-	count    int
 }
 
 func NewValidator(exportName, url string, textWriter, jsonWriter io.Writer) *Validator {
@@ -145,11 +130,9 @@ func (v *Validator) EnterFile(f string) error {
 	v.fileState = &fileState{
 		report: FileReport{
 			FileName: f,
-			Missing:  make([]MissingReport, 0),
 			Broken:   make([]BrokenReport, 0),
 		},
 		index:   len(v.files) - 1,
-		missing: make(map[string]missing),
 	}
 
 	fmt.Fprintln(v.textWriter, f)
@@ -163,26 +146,6 @@ func (v *Validator) LeaveFile() error {
 	// Sanity check: there should be file specific state.
 	if s == nil {
 		return fmt.Errorf("not processing a file, did you forget to call EnterFile()?")
-	}
-
-	// Report missing fields.
-	v.reportMissing(s.missing, v.td.Element, v.td.Primary)
-
-	// Format missing fields for report.
-	cols := make([]string, 0)
-	for col, _ := range s.missing {
-		cols = append(cols, col)
-	}
-	sort.Strings(cols)
-
-	for _, col := range cols {
-		m := s.missing[col]
-		s.report.Missing = append(s.report.Missing, MissingReport{
-			FieldName:      col,
-			Example:        m.firstKey,
-			NumOccurrences: m.count,
-		})
-		s.report.NumMissing += m.count
 	}
 
 	// Append to the report.
@@ -214,22 +177,6 @@ func (v *Validator) Record(item map[string]string) error {
 		v.errCount++
 	}
 	keys[key] = s.index
-
-	// Check for mandatory fields. Reported in LeaveFile.
-	for _, field := range td.Fields {
-		if !field.Mandatory {
-			continue
-		}
-		if _, ok := item[field.Name]; !ok {
-			if _, ok := s.missing[field.Name]; !ok {
-				s.missing[field.Name] = missing{firstKey: item[td.Primary], count: 0}
-			}
-			m := s.missing[field.Name]
-			m.count++
-			s.missing[field.Name] = m
-			v.errCount++
-		}
-	}
 
 	// Check for broken references.
 	for _, field := range td.Fields {
@@ -306,16 +253,4 @@ func (v *Validator) reportDuplicate(dup duplicate) {
 
 func (v *Validator) reportBroken(brk broken) {
 	fmt.Fprintf(v.textWriter, "- broken: %s(%s=%s).%s references %s.%s=%s, which is missing\n", brk.table, brk.primary, brk.key, brk.column, brk.targetTable, brk.targetColumn, brk.targetKey)
-}
-
-func (v *Validator) reportMissing(mis map[string]missing, table string, primary string) {
-	cols := make([]string, 0)
-	for col, _ := range mis {
-		cols = append(cols, col)
-	}
-	sort.Strings(cols)
-	for _, col := range cols {
-		m := mis[col]
-		fmt.Fprintf(v.textWriter, "- missing: %s.%s is mandatory but missing (%d times, e.g. %s=%s)\n", table, col, m.count, primary, m.firstKey)
-	}
 }

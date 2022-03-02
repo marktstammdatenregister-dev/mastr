@@ -7,12 +7,9 @@ fields:
   # defaults:
   #   xsd: string
   #   sqlite: text
-  #   mandatory: false
   - name: Id
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
-    mandatory: true
   - name: Name
-    mandatory: true
 ---

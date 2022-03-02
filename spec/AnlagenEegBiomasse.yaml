@@ -6,30 +6,24 @@ fields:
   # defaults:
   #   xsd: string
   #   sqlite: text
-  #   mandatory: false
   - name: Registrierungsdatum
     index: true
     xsd: date
     psql: date
-    mandatory: true # sometimes missing
   - name: DatumLetzteAktualisierung
     xsd: dateTime
     psql: timestamp
-    mandatory: true
   - name: EegInbetriebnahmedatum
     index: true
     xsd: date
     psql: date
   - name: EegMaStRNummer
-    mandatory: true
   - name: AnlagenschluesselEeg
   - name: AnlagenkennzifferAnlagenregister
-    mandatory: true # sometimes missing
   - name: AnlagenkennzifferAnlagenregister_nv
     xsd: boolean
     psql: boolean
     sqlite: integer
-    mandatory: true
   - name: InstallierteLeistung
     index: true
     xsd: decimal
@@ -40,7 +34,6 @@ fields:
     psql: boolean
     sqlite: integer
   - name: AusschreibungZuschlag
-    mandatory: true # sometimes missing
     xsd: boolean
     psql: boolean
     sqlite: integer
@@ -71,31 +64,26 @@ fields:
     xsd: decimal
     psql: real
     sqlite: real
-    mandatory: true # sometimes missing
   - name: BiogasGaserzeugungskapazitaet_nv
     xsd: boolean
     psql: boolean
     sqlite: integer
-    mandatory: true
   - name: BiogasHoechstbemessungsleistung
     xsd: decimal
     psql: real
     sqlite: real
   - name: BiomethanErstmaligerEinsatz
-    mandatory: true # sometimes missing
     xsd: date
     psql: date
   - name: BiomethanErstmaligerEinsatz_nv
     xsd: boolean
     psql: boolean
     sqlite: integer
-    mandatory: true
   - name: AnlageBetriebsstatus
     index: true
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
-    mandatory: true
     references:
       table: Katalogwert
       column: Id

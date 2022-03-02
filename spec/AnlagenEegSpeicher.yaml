@@ -6,21 +6,17 @@ fields:
   # defaults:
   #   xsd: string
   #   sqlite: text
-  #   mandatory: false
   - name: Registrierungsdatum
     index: true
     xsd: date
     psql: date
-    mandatory: true # sometimes missing
   - name: DatumLetzteAktualisierung
     xsd: dateTime
     psql: timestamp
-    mandatory: true
   - name: EegInbetriebnahmedatum
     index: true
     xsd: date
     psql: date
   - name: EegMaStRNummer
-    mandatory: true
   - name: VerknuepfteEinheitenMaStRNummern
 ---

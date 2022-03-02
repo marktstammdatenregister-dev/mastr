@@ -6,46 +6,38 @@ fields:
   # defaults:
   #   xsd: string
   #   sqlite: text
-  #   mandatory: false
   - name: Registrierungsdatum
     index: true
     xsd: date
     psql: date
-    mandatory: true
   - name: DatumLetzteAktualisierung
     xsd: dateTime
     psql: timestamp
-    mandatory: true
   - name: EegInbetriebnahmedatum
     index: true
     xsd: date
     psql: date
   - name: EegMaStRNummer
-    mandatory: true
   - name: InanspruchnahmeZahlungNachEeg
     xsd: boolean
     psql: boolean
     sqlite: integer
   - name: AnlagenschluesselEeg
   - name: AnlagenkennzifferAnlagenregister
-    mandatory: true # sometimes missing
   - name: AnlagenkennzifferAnlagenregister_nv
     xsd: boolean
     psql: boolean
     sqlite: integer
-    mandatory: true
   - name: InstallierteLeistung
     index: true
     xsd: decimal
     psql: real
     sqlite: real
   - name: RegistrierungsnummerPvMeldeportal
-    mandatory: true # sometimes missing
   - name: RegistrierungsnummerPvMeldeportal_nv
     xsd: boolean
     psql: boolean
     sqlite: integer
-    mandatory: true
   - name: MieterstromZugeordnet
     xsd: boolean
     psql: boolean
@@ -73,7 +65,6 @@ fields:
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
-    mandatory: true
     references:
       table: Katalogwert
       column: Id

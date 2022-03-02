@@ -6,24 +6,18 @@ fields:
   # defaults:
   #   xsd: string
   #   sqlite: text
-  #   mandatory: false
   - name: MaStRNummer
-    mandatory: true
   - name: DatumLetzteAktualisierung
     xsd: dateTime
     psql: timestamp
     sqlite: text
-    mandatory: true
   - name: Speichername
-    mandatory: true
   - name: Registrierungsdatum
     index: true
     xsd: date
     psql: date
-    mandatory: true
   - name: AnlageBetriebsstatus
     index: true
-    mandatory: true
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer

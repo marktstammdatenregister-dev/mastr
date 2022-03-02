@@ -7,19 +7,15 @@ fields:
   # defaults:
   #   xsd: string
   #   sqlite: text
-  #   mandatory: false
   - name: Id
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
-    mandatory: true
   - name: Wert
-    mandatory: true
   - name: KatalogKategorieId
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
-    mandatory: true
     references:
       table: Katalogkategorie
       column: Id
