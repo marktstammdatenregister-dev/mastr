@@ -13,11 +13,11 @@ fields:
     sqlite: text
   - name: Speichername
   - name: Registrierungsdatum
-    index: true
+    #index: true
     xsd: date
     psql: date
   - name: AnlageBetriebsstatus
-    index: true
+    #index: true
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer

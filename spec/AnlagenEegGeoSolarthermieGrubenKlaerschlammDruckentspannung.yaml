@@ -7,14 +7,14 @@ fields:
   #   xsd: string
   #   sqlite: text
   - name: Registrierungsdatum
-    index: true
+    #index: true
     xsd: date
     psql: date
   - name: DatumLetzteAktualisierung
     xsd: dateTime
     psql: timestamp
   - name: EegInbetriebnahmedatum
-    index: true
+    #index: true
     xsd: date
     psql: date
   - name: EegMastrNummer
@@ -25,12 +25,12 @@ fields:
     psql: boolean
     sqlite: integer
   - name: InstallierteLeistung
-    index: true
+    #index: true
     xsd: decimal
     psql: real
     sqlite: real
   - name: AnlageBetriebsstatus
-    index: true
+    #index: true
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer

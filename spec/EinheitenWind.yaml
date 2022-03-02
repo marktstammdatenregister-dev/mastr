@@ -130,7 +130,7 @@ fields:
     psql: real
     sqlite: real
   - name: Nettonennleistung
-    index: true
+    #index: true
     xsd: decimal
     psql: real
     sqlite: real

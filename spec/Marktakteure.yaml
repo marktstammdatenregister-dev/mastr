@@ -57,7 +57,7 @@ fields:
   - name: Ort
     index: true
   - name: Bundesland
-    index: true
+    #index: true
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
@@ -102,7 +102,7 @@ fields:
     psql: boolean
     sqlite: integer
   - name: Taetigkeitsbeginn
-    index: true
+    #index: true
     xsd: date
     psql: date
     sqlite: text
@@ -117,7 +117,7 @@ fields:
     psql: boolean
     sqlite: integer
   - name: Taetigkeitsende
-    index: true
+    #index: true
     xsd: date
     psql: date
     sqlite: text
