@@ -62,7 +62,6 @@ create table "{{.Element}}" (
 	{{range .Fields -}}
 		"{{.Name}}"
 		{{- with .Sqlite}} {{.}}{{else}} text{{end}}
-		{{- /* {{- if .Mandatory}} not null{{end}} ["mandatory" fields are frequently missing] */ -}}
 		{{- with .References}} references "{{.Table}}"("{{.Column}}"){{end}},
 	{{end -}}
 	primary key ("{{.Primary}}")

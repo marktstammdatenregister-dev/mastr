@@ -7,19 +7,14 @@ fields:
   # defaults:
   #   xsd: string
   #   sqlite: text
-  #   mandatory: false
   - name: Id
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
-    mandatory: true
   - name: Yeic
-    mandatory: true
   - name: BilanzierungsgebietNetzanschlusspunkt
-    mandatory: true
   - name: RegelzoneNetzanschlusspunkt
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
-    mandatory: true
 ---

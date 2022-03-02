@@ -16,7 +16,6 @@ type Reference struct {
 
 type Field struct {
 	Name       string     `yaml:"name"`
-	Mandatory  bool       `yaml:"mandatory"`
 	Index      bool       `yaml:"index"`
 	Xsd        string     `yaml:"xsd"`
 	Sqlite     string     `yaml:"sqlite"`

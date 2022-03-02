@@ -6,17 +6,13 @@ fields:
   # defaults:
   #   xsd: string
   #   sqlite: text
-  #   mandatory: false
   - name: NetzanschlusspunktMastrNummer
-    mandatory: true
   - name: NetzanschlusspunktBezeichnung
   - name: LetzteAenderung
-    mandatory: true
     xsd: dateTime
     psql: timestamp
     sqlite: text
   - name: LokationMaStRNummer
-    mandatory: true # sometimes missing
     references:
       table: Lokation
       column: MastrNummer
@@ -78,7 +74,6 @@ fields:
       table: Katalogwert
       column: Id
   - name: NetzMaStRNummer
-    mandatory: true
     references:
       table: Netz
       column: MastrNummer

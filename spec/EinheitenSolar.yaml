@@ -6,14 +6,11 @@ fields:
   # defaults:
   #   xsd: string
   #   sqlite: text
-  #   mandatory: false
   - name: EinheitMastrNummer
-    mandatory: true
   - name: DatumLetzteAktualisierung
     xsd: dateTime
     psql: timestamp
     sqlite: text
-    mandatory: true
   - name: LokationMaStRNummer
     references:
       table: Lokation
@@ -22,12 +19,10 @@ fields:
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
-    mandatory: true
   - name: NetzbetreiberpruefungDatum
     xsd: date
     psql: date
   - name: AnlagenbetreiberMastrNummer
-    mandatory: true # sometimes missing
     references:
       table: Marktakteur
       column: MastrNummer
@@ -35,7 +30,6 @@ fields:
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
-    mandatory: true
     references:
       table: Katalogwert
       column: Id
@@ -51,7 +45,6 @@ fields:
   - name: Gemeinde
   - name: Gemeindeschluessel
   - name: Postleitzahl
-    mandatory: true
   - name: Gemarkung
   - name: FlurFlurstuecknummern
   - name: Strasse
@@ -60,9 +53,7 @@ fields:
     psql: boolean
     sqlite: integer
   - name: Hausnummer
-    mandatory: true # sometimes missing
   - name: Hausnummer_nv
-    mandatory: true # sometimes missing
     xsd: boolean
     psql: boolean
     sqlite: integer
@@ -73,7 +64,6 @@ fields:
   - name: Adresszusatz
   - name: Ort
     index: true
-    mandatory: true # sometimes missing
   - name: Laengengrad
     xsd: decimal
     psql: real
@@ -97,7 +87,6 @@ fields:
       table: Katalogwert
       column: Id
   - name: EinheitBetriebsstatus
-    mandatory: true # sometimes missing
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
@@ -117,19 +106,14 @@ fields:
     xsd: date
     psql: date
   - name: NameStromerzeugungseinheit
-    mandatory: true
   - name: Weic
-    mandatory: true # sometimes missing
   - name: Weic_nv
     xsd: boolean
     psql: boolean
     sqlite: integer
-    mandatory: true
   - name: WeicDisplayName
   - name: Kraftwerksnummer
-    mandatory: true # sometimes missing
   - name: Kraftwerksnummer_nv
-    mandatory: true
     xsd: boolean
     psql: boolean
     sqlite: integer
@@ -137,7 +121,6 @@ fields:
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
-    mandatory: true
     references:
       table: Katalogwert
       column: Id
@@ -146,13 +129,11 @@ fields:
     xsd: decimal
     psql: real
     sqlite: real
-    mandatory: true
   - name: Nettonennleistung
     index: true
     xsd: decimal
     psql: real
     sqlite: real
-    mandatory: true
   - name: AnschlussAnHoechstOderHochSpannung
     xsd: boolean
     psql: boolean
@@ -271,7 +252,6 @@ fields:
       table: Katalogwert
       column: Id
   - name: EegMaStRNummer
-    mandatory: true # sometimes missing
     references:
       table: AnlageEegSolar
       column: EegMaStRNummer

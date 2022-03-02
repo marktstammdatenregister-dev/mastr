@@ -6,14 +6,11 @@ fields:
   # defaults:
   #   xsd: string
   #   sqlite: text
-  #   mandatory: false
   - name: DatumLetzteAktualisierung
-    mandatory: true
     xsd: dateTime
     psql: timestamp
     sqlite: text
   - name: MastrNummer
-    mandatory: true
   - name: Sparte
     xsd: nonNegativeInteger
     psql: integer
@@ -22,17 +19,14 @@ fields:
       table: Katalogwert
       column: Id
   - name: KundenAngeschlossen
-    mandatory: true
     xsd: boolean
     psql: boolean
     sqlite: integer
   - name: GeschlossenesVerteilnetz
-    mandatory: true
     xsd: boolean
     psql: boolean
     sqlite: integer
   - name: Bezeichnung
-    mandatory: true
   - name: Marktgebiet
     xsd: nonNegativeInteger
     psql: integer

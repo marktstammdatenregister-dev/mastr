@@ -6,11 +6,8 @@ fields:
   # defaults:
   #   xsd: string
   #   sqlite: text
-  #   mandatory: false
   - name: MastrNummer
-    mandatory: true
   - name: DatumLetzeAktualisierung
-    mandatory: true # sometimes missing
     xsd: dateTime
     psql: timestamp
     sqlite: text
@@ -19,7 +16,6 @@ fields:
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
-    mandatory: true
     references:
       table: Katalogwert
       column: Id
@@ -29,7 +25,6 @@ fields:
     index: true
   - name: Marktfunktion
     index: true
-    mandatory: true
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
@@ -53,9 +48,7 @@ fields:
   - name: Region
   - name: Strasse
   - name: Hausnummer
-    mandatory: true # sometimes missing
   - name: Hausnummer_nv
-    mandatory: true # sometimes missing
     xsd: boolean
     psql: boolean
     sqlite: integer
@@ -74,30 +67,22 @@ fields:
   - name: Netz
   - name: Nuts2
   - name: Email
-    mandatory: true # sometimes missing
   - name: Telefon
-    mandatory: true # sometimes missing
   - name: Fax
-    mandatory: true # sometimes missing
   - name: Fax_nv
-    mandatory: true # sometimes missing
     xsd: boolean
     psql: boolean
     sqlite: integer
   - name: Webseite
-    mandatory: true # sometimes missing
   - name: Webseite_nv
-    mandatory: true # sometimes missing
     xsd: boolean
     psql: boolean
     sqlite: integer
   - name: Registergericht
-    mandatory: true # sometimes missing
     xsd: nonNegativeInteger
     psql: integer
     sqlite: integer
   - name: Registergericht_nv
-    mandatory: true # sometimes missing
     xsd: boolean
     psql: boolean
     sqlite: integer
@@ -107,9 +92,7 @@ fields:
     psql: boolean
     sqlite: integer
   - name: Registernummer
-    mandatory: true # sometimes missing
   - name: Registernummer_nv
-    mandatory: true # sometimes missing
     xsd: boolean
     psql: boolean
     sqlite: integer
@@ -124,34 +107,26 @@ fields:
     psql: date
     sqlite: text
   - name: AcerCode
-    mandatory: true # sometimes missing
   - name: AcerCode_nv
-    mandatory: true # sometimes missing
     xsd: boolean
     psql: boolean
     sqlite: integer
   - name: Umsatzsteueridentifikationsnummer
-    mandatory: true # sometimes missing
   - name: Umsatzsteueridentifikationsnummer_nv
-    mandatory: true # sometimes missing
     xsd: boolean
     psql: boolean
     sqlite: integer
   - name: Taetigkeitsende
     index: true
-    mandatory: true # sometimes missing
     xsd: date
     psql: date
     sqlite: text
   - name: Taetigkeitsende_nv
-    mandatory: true # sometimes missing
     xsd: boolean
     psql: boolean
     sqlite: integer
   - name: BundesnetzagenturBetriebsnummer
-    mandatory: true # sometimes missing
   - name: BundesnetzagenturBetriebsnummer_nv
-    mandatory: true # sometimes missing
     xsd: boolean
     psql: boolean
     sqlite: integer

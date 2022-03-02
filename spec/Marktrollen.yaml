@@ -6,33 +6,25 @@ fields:
   # defaults:
   #   xsd: string
   #   sqlite: text
-  #   mandatory: false
   - name: MarktakteurMastrNummer
-    mandatory: true
     references:
       table: Marktakteur
       column: Id
   - name: DatumLetzteAktualisierung
-    mandatory: true
     xsd: dateTime
     psql: timestamp
     sqlite: text
   - name: MastrNummer
-    mandatory: true
   - name: Marktrolle
-    mandatory: true
   - name: BundesnetzagenturBetriebsnummer
   - name: BundesnetzagenturBetriebsnummer_nv
-    mandatory: true
     xsd: boolean
     psql: boolean
     sqlite: integer
   - name: Marktpartneridentifikationsnummer
   - name: Marktpartneridentifikationsnummer_nv
-    mandatory: true
     xsd: boolean
     psql: boolean
     sqlite: integer
   - name: KontaktdatenMarktrolle
-    mandatory: true
 ---
