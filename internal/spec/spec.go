@@ -52,6 +52,21 @@ func DecodeTable(fileName string) (*Table, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	// Check that field names are unique and primary is a field.
+	fields := map[string]struct{}{}
+	primary := false
+	for _, f := range table.Fields {
+		if _, ok := fields[f.Name]; ok {
+			return nil, fmt.Errorf("field name %s duplicated", f.Name)
+		}
+		fields[f.Name] = struct{}{}
+		primary = primary || (f.Name == table.Primary)
+	}
+	if !primary {
+		return nil, fmt.Errorf("primary field %s is not in the list of fields", table.Primary)
+	}
+
 	return &table, nil
 }
 
