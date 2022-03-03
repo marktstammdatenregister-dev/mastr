@@ -88,12 +88,14 @@ func mainWithError() error {
 		}
 	}()
 
-	recs := []internal.Recorder{internal.NewValidator(
-		strings.SplitN(*exportFileName, "_", 2)[0],
-		fmt.Sprintf("https://download.marktstammdatenregister.de/%s", *exportFileName),
-		textWriter,
-		jsonWriter,
-	)}
+	recs := []internal.Recorder{
+		internal.NewUnusedTracker(r.File, textWriter),
+		internal.NewValidator(
+			strings.SplitN(*exportFileName, "_", 2)[0],
+			fmt.Sprintf("https://download.marktstammdatenregister.de/%s", *exportFileName),
+			textWriter,
+			jsonWriter,
+		)}
 	if *sqliteFile != defaultOption {
 		w, err := internal.NewSqliteWriter(*sqliteFile)
 		if err != nil {
