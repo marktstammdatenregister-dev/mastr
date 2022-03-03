@@ -1,0 +1,15 @@
+---
+root: Einheitentypen
+element: Einheitentyp
+primary: Id
+without_rowid: true
+fields:
+  # defaults:
+  #   xsd: string
+  #   sqlite: text
+  - name: Id
+    xsd: nonNegativeInteger
+    psql: integer
+    sqlite: integer
+  - name: Wert
+---
