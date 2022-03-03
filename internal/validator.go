@@ -239,9 +239,9 @@ func (v *Validator) Close() error {
 	}
 
 	if v.errCount == 0 {
-		fmt.Fprintln(v.textWriter, "SUCCESS")
+		fmt.Fprintln(v.textWriter, "No validation errors.")
 	} else {
-		fmt.Fprintf(v.textWriter, "FAILURE: %d error(s) found\n", v.errCount)
+		fmt.Fprintf(v.textWriter, "%d validation error(s) found.\n", v.errCount)
 	}
 
 	return nil
