@@ -15,6 +15,7 @@ pkgs.mkShell {
     shfmt
     sqldiff
     sqlite
+    sqlite-analyzer
     unzip
   ];
 }
