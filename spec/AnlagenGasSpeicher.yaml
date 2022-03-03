@@ -2,6 +2,7 @@
 root: AnlagenGasSpeicher
 element: AnlageGasSpeicher
 primary: MaStRNummer
+without_rowid: true
 fields:
   # defaults:
   #   xsd: string

@@ -65,8 +65,7 @@ create table "{{.Element}}" (
 		{{- with .References}} references "{{.Table}}"("{{.Column}}"){{end}},
 	{{end -}}
 	primary key ("{{.Primary}}")
-)
-	`))
+) {{- if .WithoutRowId}} without rowid {{- end}}`))
 	var stmt bytes.Buffer
 	if err := tmpl.Execute(&stmt, td); err != nil {
 		return fmt.Errorf("failed to execute sql template: %w", err)

@@ -2,6 +2,7 @@
 root: AnlagenEegWasser
 element: AnlageEegWasser
 primary: EegMaStRNummer
+without_rowid: true
 fields:
   # defaults:
   #   xsd: string
