@@ -17,7 +17,7 @@ fields:
     #index: true
     xsd: date
     psql: date
-  - name: EegMastrNummer
+  - name: EegMaStRNummer
   - name: AnlagenschluesselEeg
   - name: AnlagenkennzifferAnlagenregister
   - name: AnlagenkennzifferAnlagenregister_nv
