@@ -24,10 +24,11 @@ type Field struct {
 }
 
 type Table struct {
-	Root    string  `yaml:"root"`
-	Element string  `yaml:"element"`
-	Primary string  `yaml:"primary"`
-	Fields  []Field `yaml:"fields"`
+	Root         string  `yaml:"root"`
+	Element      string  `yaml:"element"`
+	Primary      string  `yaml:"primary"`
+	WithoutRowId bool    `yaml:"without_rowid"`
+	Fields       []Field `yaml:"fields"`
 }
 
 type ExportDescriptor struct {
