@@ -2,6 +2,7 @@
 root: Marktrollen
 element: Marktrolle
 primary: MastrNummer
+without_rowid: true
 fields:
   # defaults:
   #   xsd: string

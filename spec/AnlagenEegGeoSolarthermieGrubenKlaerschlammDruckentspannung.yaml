@@ -2,6 +2,7 @@
 root: AnlagenEegGeoSolarthermieGrubenKlaerschlammDruckentspannung
 element: AnlageEegGeoSolarthermieGrubenKlaerschlammDruckentspannung
 primary: EegMaStRNummer
+without_rowid: true
 fields:
   # defaults:
   #   xsd: string
