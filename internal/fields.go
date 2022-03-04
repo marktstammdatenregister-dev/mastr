@@ -3,13 +3,11 @@ package internal
 import (
 	"fmt"
 	"strconv"
-	"time"
 
 	"marktstammdatenregister.dev/internal/spec"
 )
 
 var (
-	Location       = time.UTC
 	unknownXsdType = "don't know how to handle XSD type '%s'"
 	xsd2sqliteType = map[string]string{
 		"nonNegativeInteger": "integer",

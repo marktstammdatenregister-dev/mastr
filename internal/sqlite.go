@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"text/template"
-	"time"
 
 	"crawshaw.io/sqlite"
 	"crawshaw.io/sqlite/sqlitex"
@@ -26,12 +25,6 @@ var _ Recorder = (*SqliteWriter)(nil)
 var _ io.Closer = (*SqliteWriter)(nil)
 
 func NewSqliteWriter(db string) (*SqliteWriter, error) {
-	location, err := time.LoadLocation("Europe/Berlin")
-	if err != nil {
-		return nil, fmt.Errorf("failed to load location data: %w", err)
-	}
-	Location = location
-
 	pool, err := sqlitex.Open(db, 0, 1)
 	if err != nil {
 		return nil, err
