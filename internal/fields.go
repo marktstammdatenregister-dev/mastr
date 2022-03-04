@@ -8,21 +8,41 @@ import (
 	"marktstammdatenregister.dev/internal/spec"
 )
 
-var Location = time.UTC
+var (
+	Location       = time.UTC
+	unknownXsdType = "don't know how to handle XSD type '%s'"
+	xsd2sqliteType = map[string]string{
+		"nonNegativeInteger": "integer",
+		"boolean":            "integer",
+		"decimal":            "real",
+		"date":               "text",
+		"dateTime":           "text",
+		"":                   "text",
+	}
+)
 
-type Fields struct {
-	fields   map[string]uint
-	sqlitety map[string]string
+func Xsd2SqliteType(xsd string) (string, bool) {
+	typ, ok := xsd2sqliteType[xsd]
+	return typ, ok
 }
 
-func NewFields(fields []spec.Field) *Fields {
+type Fields struct {
+	fields map[string]uint
+	typ    map[string]string
+}
+
+func NewFields(fields []spec.Field) (*Fields, error) {
 	f := make(map[string]uint)
 	t := make(map[string]string)
 	for i, field := range fields {
+		typ, ok := Xsd2SqliteType(field.Xsd)
+		if !ok {
+			return nil, fmt.Errorf(unknownXsdType, field.Xsd)
+		}
 		f[field.Name] = uint(i)
-		t[field.Name] = field.Sqlite
+		t[field.Name] = typ
 	}
-	return &Fields{fields: f, sqlitety: t}
+	return &Fields{fields: f, typ: t}, nil
 }
 
 func (f *Fields) Header() []string {
@@ -38,7 +58,7 @@ func (f *Fields) Record(item map[string]string) ([]interface{}, error) {
 	n := len(f.fields)
 	result := make([]interface{}, n, n)
 	for name, value := range item {
-		switch f.sqlitety[name] {
+		switch f.typ[name] {
 		case "integer":
 			if value == "" {
 				result[f.fields[name]] = nil
@@ -62,7 +82,7 @@ func (f *Fields) Record(item map[string]string) ([]interface{}, error) {
 		case "text", "":
 			result[f.fields[name]] = value
 		default:
-			return nil, fmt.Errorf("unknown SQLite type: %s", f.sqlitety[name])
+			return nil, fmt.Errorf(unknownXsdType, f.typ[name])
 		}
 	}
 	return result, nil

@@ -61,18 +61,47 @@ func NewSqliteWriter(db string) (*SqliteWriter, error) {
 func (w *SqliteWriter) EnterTable(td spec.Table) error {
 	w.td = &td
 
+	type Col struct {
+		Name       string
+		Typ        string
+		References *spec.Reference
+	}
+	type Schema struct {
+		Name         string
+		Primary      string
+		WithoutRowId bool
+		Cols         []Col
+	}
+	cols := make([]Col, len(td.Fields))
+	for i, f := range td.Fields {
+		typ, ok := Xsd2SqliteType(f.Xsd)
+		if !ok {
+			return fmt.Errorf(unknownXsdType, f.Xsd)
+		}
+		cols[i] = Col{
+			Name:       f.Name,
+			Typ:        typ,
+			References: f.References,
+		}
+	}
+
 	// Generate "create table" statement.
 	tmpl := template.Must(template.New("create").Parse(`
-create table "{{.Element}}" (
-	{{range .Fields -}}
+create table "{{.Name}}" (
+	{{range .Cols -}}
 		"{{.Name}}"
-		{{- with .Sqlite}} {{.}}{{else}} text{{end}}
+		{{- .Typ -}}
 		{{- with .References}} references "{{.Table}}"("{{.Column}}"){{end}},
 	{{end -}}
 	primary key ("{{.Primary}}")
 ) {{- if .WithoutRowId}} without rowid {{- end}}`))
 	var stmt bytes.Buffer
-	if err := tmpl.Execute(&stmt, td); err != nil {
+	if err := tmpl.Execute(&stmt, Schema{
+		Name:         td.Element,
+		Primary:      td.Primary,
+		WithoutRowId: td.WithoutRowId,
+		Cols:         cols,
+	}); err != nil {
 		return fmt.Errorf("failed to execute sql template: %w", err)
 	}
 
@@ -81,7 +110,12 @@ create table "{{.Element}}" (
 		return fmt.Errorf("failed to execute create table statement: %w", err)
 	}
 
-	w.fields = NewFields(td.Fields)
+	fields, err := NewFields(td.Fields)
+	if err != nil {
+		return err
+	}
+	w.fields = fields
+
 	headers := w.fields.Header()
 	columns := headers[0]
 	placeholders := "?"

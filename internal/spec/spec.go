@@ -18,8 +18,6 @@ type Field struct {
 	Name       string     `yaml:"name"`
 	Index      bool       `yaml:"index"`
 	Xsd        string     `yaml:"xsd"`
-	Sqlite     string     `yaml:"sqlite"`
-	Psql       string     `yaml:"psql"`
 	References *Reference `yaml:"references,omitempty"`
 }
 
