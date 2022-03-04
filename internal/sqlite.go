@@ -104,22 +104,12 @@ func (w *SqliteWriter) LeaveTable() error {
 
 	// Create an index for each field with the "Index" flag.
 	table := w.td.Element
-	primary := w.td.Primary
 	for _, field := range w.td.Fields {
 		if !field.Index {
 			continue
 		}
 		col := field.Name
-
-		var stmt string
-		if w.td.WithoutRowId {
-			stmt = fmt.Sprintf(`create index "idx_%s_%s" on "%s"("%s")`, table, col, table, col)
-		} else {
-			// For tables not "without rowid", include the primary
-			// key in the index. This makes it cheaper to join on
-			// the primary key.
-			stmt = fmt.Sprintf(`create index "idx_%s_%s" on "%s"("%s", "%s")`, table, col, table, col, primary)
-		}
+		stmt := fmt.Sprintf(`create index "idx_%s_%s" on "%s"("%s")`, table, col, table, col)
 		if err := sqlitex.Exec(w.conn, stmt, nil); err != nil {
 			return err
 		}
