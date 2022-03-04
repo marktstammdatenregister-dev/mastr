@@ -8,6 +8,7 @@ plugins:
   datasette-block-robots:
     disallow:
       - "/Marktstammdatenregister/"
+      - "/graphql"
 databases:
   Marktstammdatenregister:
     description_html: |
