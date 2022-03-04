@@ -3,15 +3,10 @@ root: Netzanschlusspunkte
 element: Netzanschlusspunkt
 primary: NetzanschlusspunktMastrNummer
 fields:
-  # defaults:
-  #   xsd: string
-  #   sqlite: text
   - name: NetzanschlusspunktMastrNummer
   - name: NetzanschlusspunktBezeichnung
   - name: LetzteAenderung
     xsd: dateTime
-    psql: timestamp
-    sqlite: text
   - name: LokationMaStRNummer
     references:
       table: Lokation
@@ -19,57 +14,37 @@ fields:
   - name: NameDerTechnischenLokation
   - name: Lokationtyp
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
   - name: Messlokation
   - name: Spannungsebene
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: Nettoengpassleistung
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: BilanzierungsgebietNetzanschlusspunkId
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Bilanzierungsgebiet
       column: Id
   - name: Netzanschlusskapazitaet
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: Marktgebiet
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: MaximaleEinspeiseleistung
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: MaximaleAusspeiseleistung
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: Gasqualitaet
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: RegelzoneNetzanschlusspunkt
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id

@@ -3,28 +3,19 @@ root: AnlagenStromSpeicher
 element: AnlageStromSpeicher
 primary: MaStRNummer
 fields:
-  # defaults:
-  #   xsd: string
-  #   sqlite: text
   - name: MaStRNummer
   - name: DatumLetzteAktualisierung
     xsd: dateTime
-    psql: timestamp
   - name: Registrierungsdatum
     index: true
     xsd: date
-    psql: date
   - name: NutzbareSpeicherkapazitaet
     index: true
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: VerknuepfteEinheitenMaStRNummern
   - name: AnlageBetriebsstatus
     index: true
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id

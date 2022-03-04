@@ -4,18 +4,11 @@ element: Katalogwert
 primary: Id
 without_rowid: true
 fields:
-  # defaults:
-  #   xsd: string
-  #   sqlite: text
   - name: Id
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
   - name: Wert
   - name: KatalogKategorieId
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogkategorie
       column: Id

@@ -3,40 +3,28 @@ root: EinheitenKernkraft # docs say EineitenKernkraft
 element: EinheitKernkraft # docs say EineitKernkraft
 primary: EinheitMastrNummer
 fields:
-  # defaults:
-  #   xsd: string
-  #   sqlite: text
   - name: EinheitMastrNummer
   - name: DatumLetzteAktualisierung
     xsd: dateTime
-    psql: timestamp
-    sqlite: text
   - name: LokationMaStRNummer
     references:
       table: Lokation
       column: MastrNummer
   - name: NetzbetreiberpruefungStatus
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
   - name: NetzbetreiberpruefungDatum
     xsd: date
-    psql: date
   - name: AnlagenbetreiberMastrNummer
     references:
       table: Marktakteur
       column: MastrNummer
   - name: Land
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: Bundesland
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
@@ -49,27 +37,17 @@ fields:
   - name: Strasse
   - name: StrasseNichtGefunden
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Hausnummer
   - name: Hausnummer_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: HausnummerNichtGefunden
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Adresszusatz
   - name: Ort
   - name: Laengengrad
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: Breitengrad
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: Registrierungsdatum
   - name: GeplantesInbetriebnahmedatum
   - name: Inbetriebnahmedatum
@@ -78,93 +56,59 @@ fields:
   - name: DatumWiederaufnahmeBetrieb
   - name: EinheitSystemstatus
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: EinheitBetriebsstatus
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: BestandsanlageMastrNummer
   - name: NichtVorhandenInMigriertenEinheiten
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: AltAnlagenbentreiberMastrNummer
   - name: DatumDesBetreiberwechsels
     xsd: date
-    psql: date
   - name: DatumRegistrierungDesBetreiberwechsels
     xsd: date
-    psql: date
   - name: NameStromerzeugungseinheit
   - name: Weic
   - name: Weic_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: WeicDisplayName
   - name: Kraftwerksnummer
   - name: Kraftwerksnummer_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Energietraeger
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: Bruttoleistung
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: Nettonennleistung
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: AnschlussAnHoechstOderHochSpannung
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Schwarzstartfaehigkeit
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Inselbetriebsfaehigkeit
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Einsatzverantwortlicher
   - name: FernsteuerbarkeitNb
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: FernsteuerbarkeitDv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: FernsteuerbarkeitDr
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Einspeisungsart
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: PraequalifiziertFuerRegelenergie
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: GenMastrNummer
     references:
       table: EinheitGenehmigung
@@ -173,8 +117,6 @@ fields:
   - name: NameKraftwerksblock
   - name: Technologie
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id

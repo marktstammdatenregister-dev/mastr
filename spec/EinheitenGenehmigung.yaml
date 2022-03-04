@@ -3,48 +3,29 @@ root: EinheitenGenehmigung # docs say Eineiten
 element: EinheitGenehmigung # docs say Eineit
 primary: GenMastrNummer
 fields:
-  # defaults:
-  #   xsd: string
-  #   sqlite: text
   - name: GenMastrNummer
   - name: DatumLetzteAktualisierung
     xsd: dateTime
-    psql: timestamp
-    sqlite: text
   - name: Art
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: Datum
     index: true
     xsd: date
-    psql: date
-    sqlite: text
   - name: Behoerde
   - name: Aktenzeichen
   - name: Frist
     xsd: date
-    psql: date
-    sqlite: text
   - name: Frist_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: WasserrechtsNummer
   - name: WasserrechtAblaufdatum
     xsd: date
-    psql: date
-    sqlite: text
   - name: WasserrechtAblaufdatum_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Registrierungsdatum
     xsd: date
-    psql: date
-    sqlite: text
   - name: VerknuepfteEinheitenMaStRNummern
 ---

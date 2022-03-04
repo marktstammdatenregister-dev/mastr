@@ -3,68 +3,43 @@ root: AnlagenEegSolar
 element: AnlageEegSolar
 primary: EegMaStRNummer
 fields:
-  # defaults:
-  #   xsd: string
-  #   sqlite: text
   - name: Registrierungsdatum
     index: true
     xsd: date
-    psql: date
   - name: DatumLetzteAktualisierung
     xsd: dateTime
-    psql: timestamp
   - name: EegInbetriebnahmedatum
     index: true
     xsd: date
-    psql: date
   - name: EegMaStRNummer
   - name: InanspruchnahmeZahlungNachEeg
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: AnlagenschluesselEeg
   - name: AnlagenkennzifferAnlagenregister
   - name: AnlagenkennzifferAnlagenregister_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: InstallierteLeistung
     index: true
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: RegistrierungsnummerPvMeldeportal
   - name: RegistrierungsnummerPvMeldeportal_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: MieterstromZugeordnet
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: MieterstromRegistrierungsdatum
     xsd: date
-    psql: date
   - name: MieterstromMeldedatum # Not mentioned in the documentation
     xsd: date
-    psql: date
   - name: MieterstromErsteZuordnungZuschlag
     xsd: date
-    psql: date
   - name: AusschreibungZuschlag
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: ZugeordneteGebotsmenge
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: Zuschlagsnummer
   - name: AnlageBetriebsstatus
     index: true
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
