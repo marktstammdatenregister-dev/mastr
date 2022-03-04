@@ -35,9 +35,9 @@ type ExportReport struct {
 }
 
 type FileReport struct {
-	FileName   string
-	NumBroken  int
-	Broken     []BrokenReport
+	FileName  string
+	NumBroken int
+	Broken    []BrokenReport
 }
 
 type BrokenReport struct {
@@ -49,8 +49,8 @@ type BrokenReport struct {
 }
 
 type fileState struct {
-	index   int
-	report  FileReport
+	index  int
+	report FileReport
 }
 
 type duplicate struct {
@@ -132,7 +132,7 @@ func (v *Validator) EnterFile(f string) error {
 			FileName: f,
 			Broken:   make([]BrokenReport, 0),
 		},
-		index:   len(v.files) - 1,
+		index: len(v.files) - 1,
 	}
 
 	fmt.Fprintln(v.textWriter, f)
