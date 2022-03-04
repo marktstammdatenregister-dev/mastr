@@ -89,8 +89,7 @@ func (w *SqliteWriter) EnterTable(td spec.Table) error {
 	tmpl := template.Must(template.New("create").Parse(`
 create table "{{.Name}}" (
 	{{range .Cols -}}
-		"{{.Name}}"
-		{{- .Typ -}}
+		"{{.Name}}" {{.Typ -}}
 		{{- with .References}} references "{{.Table}}"("{{.Column}}"){{end}},
 	{{end -}}
 	primary key ("{{.Primary}}")
