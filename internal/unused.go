@@ -19,7 +19,7 @@ type UnusedTracker struct {
 	unparsedFiles map[string]struct{}
 }
 
-//var _ Recorder = (*UnusedTracker)(nil)
+var _ Recorder = (*UnusedTracker)(nil)
 
 func NewUnusedTracker(files []*zip.File, textWriter io.Writer) *UnusedTracker {
 	unparsedFiles := make(map[string]struct{})
