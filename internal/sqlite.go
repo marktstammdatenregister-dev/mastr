@@ -46,6 +46,11 @@ func NewSqliteWriter(db string) (*SqliteWriter, error) {
 	sqlitex.Exec(conn, "PRAGMA synchronous=OFF", nil)
 	sqlitex.Exec(conn, "PRAGMA locking_mode=EXCLUSIVE", nil)
 
+	// We want to mark fields that are intended to be foreign keys as such,
+	// but the source data contains references to missing entries. So turn
+	// off foreign key constraints.
+	sqlitex.Exec(conn, "PRAGMA foreign_keys=OFF", nil)
+
 	return &SqliteWriter{
 		pool:  pool,
 		query: "not a valid SQL query!",
