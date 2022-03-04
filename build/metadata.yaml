@@ -6,12 +6,8 @@ plugins:
     latitude_column: Breitengrad
     longitude_column: Laengengrad
   datasette-block-robots:
-    literal : |-
-      User-agent: *
-      Disallow: /*.json
-      Disallow: /*.csv
-      Disallow: /*.db
-      Disallow: /*?
+    disallow:
+      - "/Marktstammdatenregister/"
 databases:
   Marktstammdatenregister:
     description_html: |
