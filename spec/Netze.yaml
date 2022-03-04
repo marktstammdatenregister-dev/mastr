@@ -4,34 +4,21 @@ element: Netz
 primary: MastrNummer
 without_rowid: true
 fields:
-  # defaults:
-  #   xsd: string
-  #   sqlite: text
   - name: DatumLetzteAktualisierung
     xsd: dateTime
-    psql: timestamp
-    sqlite: text
   - name: MastrNummer
   - name: Sparte
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: KundenAngeschlossen
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: GeschlossenesVerteilnetz
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Bezeichnung
   - name: Marktgebiet
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id

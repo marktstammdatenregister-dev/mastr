@@ -3,40 +3,26 @@ root: AnlagenKwk
 element: AnlageKwk
 primary: KwkMastrNummer
 fields:
-  # defaults:
-  #   xsd: string
-  #   sqlite: text
   - name: KwkMastrNummer
   - name: AusschreibungZuschlag
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Zuschlagnummer
   - name: DatumLetzteAktualisierung
     xsd: dateTime
-    psql: timestamp
   - name: Inbetriebnahmedatum
     index: true
     xsd: date
-    psql: date
   - name: Registrierungsdatum
     index: true
     xsd: date
-    psql: date
   - name: ThermischeNutzleistung
     index: true
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: ElektrischeKwkLeistung
     index: true
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: AnlageBetriebsstatus
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id

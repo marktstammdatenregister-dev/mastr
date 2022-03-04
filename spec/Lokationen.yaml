@@ -4,12 +4,8 @@ element: Lokation
 primary: MastrNummer
 without_rowid: true
 fields:
-  # defaults:
-  #   xsd: string
-  #   sqlite: text
   - name: DatumLetzteAktualisierung
     xsd: dateTime
-    psql: timestamp
   - name: MastrNummer
   - name: NameDerTechnischenLokation
   - name: Lokationtyp

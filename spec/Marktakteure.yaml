@@ -3,19 +3,12 @@ root: Marktakteure
 element: Marktakteur
 primary: MastrNummer
 fields:
-  # defaults:
-  #   xsd: string
-  #   sqlite: text
   - name: MastrNummer
   - name: DatumLetzeAktualisierung
     xsd: dateTime
-    psql: timestamp
-    sqlite: text
   - name: Personenart
     index: true
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
@@ -26,13 +19,9 @@ fields:
   - name: Marktfunktion
     index: true
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
   - name: Rechtsform
     index: true
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
@@ -40,8 +29,6 @@ fields:
   - name: Marktrollen
   - name: Land
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
@@ -50,8 +37,6 @@ fields:
   - name: Hausnummer
   - name: Hausnummer_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Adresszusatz
   - name: Postleitzahl
   - name: Ort
@@ -59,8 +44,6 @@ fields:
   - name: Bundesland
     #index: true
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
@@ -71,135 +54,81 @@ fields:
   - name: Fax
   - name: Fax_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Webseite
   - name: Webseite_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Registergericht
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
   - name: Registergericht_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: RegistergerichtAusland
   - name: RegistergerichtAusland_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Registernummer
   - name: Registernummer_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: RegisternummerAusland
   - name: RegisternummerAusland_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Taetigkeitsbeginn
     #index: true
     xsd: date
-    psql: date
-    sqlite: text
   - name: AcerCode
   - name: AcerCode_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Umsatzsteueridentifikationsnummer
   - name: Umsatzsteueridentifikationsnummer_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Taetigkeitsende
     #index: true
     xsd: date
-    psql: date
-    sqlite: text
   - name: Taetigkeitsende_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: BundesnetzagenturBetriebsnummer
   - name: BundesnetzagenturBetriebsnummer_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: LandAnZustelladresse
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
   - name: PostleitzahlAnZustelladresse
   - name: OrtAnZustelladresse
   - name: StrasseAnZustelladresse
   - name: HausnummerAnZustelladresse
   - name: HausnummerAnZustelladresse_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: AdresszusatzAnZustelladresse
   - name: Kmu
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: TelefonnummerVMav
   - name: EmailVMav
   - name: RegistrierungsdatumMarktakteur
     xsd: dateTime
-    psql: timestamp
-    sqlite: text
   - name: HauptwirtdschaftszweigAbteilung
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: HauptwirtdschaftszweigGruppe
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: HauptwirtdschaftszweigAbschnitt
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: Direktvermarktungsunternehmen
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: BelieferungVonLetztverbrauchernStrom
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: BelieferungHaushaltskundenStrom
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Gasgrosshaendler
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Stromgrosshaendler
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: BelieferungVonLetztverbrauchernGas
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: BelieferungHaushaltskundenGas
     xsd: boolean
-    psql: boolean
-    sqlite: integer
 ---

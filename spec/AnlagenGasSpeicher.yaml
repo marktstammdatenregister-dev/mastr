@@ -4,24 +4,16 @@ element: AnlageGasSpeicher
 primary: MaStRNummer
 without_rowid: true
 fields:
-  # defaults:
-  #   xsd: string
-  #   sqlite: text
   - name: MaStRNummer
   - name: DatumLetzteAktualisierung
     xsd: dateTime
-    psql: timestamp
-    sqlite: text
   - name: Speichername
   - name: Registrierungsdatum
     #index: true
     xsd: date
-    psql: date
   - name: AnlageBetriebsstatus
     #index: true
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id

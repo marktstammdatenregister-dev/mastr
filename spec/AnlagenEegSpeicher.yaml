@@ -4,20 +4,14 @@ element: AnlageEegSpeicher
 primary: EegMaStRNummer
 without_rowid: true
 fields:
-  # defaults:
-  #   xsd: string
-  #   sqlite: text
   - name: Registrierungsdatum
     index: true
     xsd: date
-    psql: date
   - name: DatumLetzteAktualisierung
     xsd: dateTime
-    psql: timestamp
   - name: EegInbetriebnahmedatum
     index: true
     xsd: date
-    psql: date
   - name: EegMaStRNummer
   - name: VerknuepfteEinheitenMaStRNummern
 ---

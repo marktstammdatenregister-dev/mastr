@@ -3,82 +3,48 @@ root: AnlagenEegWind
 element: AnlageEegWind
 primary: EegMaStRNummer
 fields:
-  # defaults:
-  #   xsd: string
-  #   sqlite: text
   - name: Registrierungsdatum
     index: true
     xsd: date
-    psql: date
   - name: DatumLetzteAktualisierung
     xsd: dateTime
-    psql: timestamp
   - name: EegInbetriebnahmedatum
     index: true
     xsd: date
-    psql: date
   - name: EegMaStRNummer
   - name: AnlagenkennzifferAnlagenregister
   - name: AnlagenkennzifferAnlagenregister_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: AnlagenschluesselEeg
   - name: PrototypAnlage
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: PilotAnlage
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: InstallierteLeistung
     index: true
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: VerhaeltnisErtragsschaetzungReferenzertrag
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: VerhaeltnisErtragsschaetzungReferenzertrag_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: VerhaeltnisReferenzertragErtrag5Jahre
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: VerhaeltnisReferenzertragErtrag5Jahre_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: VerhaeltnisReferenzertragErtrag10Jahre
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: VerhaeltnisReferenzertragErtrag10Jahre_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: VerhaeltnisReferenzertragErtrag15Jahre
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: VerhaeltnisReferenzertragErtrag15Jahre_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: AusschreibungZuschlag
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Zuschlagsnummer
   - name: AnlageBetriebsstatus
     index: true
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id

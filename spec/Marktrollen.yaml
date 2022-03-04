@@ -4,28 +4,19 @@ element: Marktrolle
 primary: MastrNummer
 without_rowid: true
 fields:
-  # defaults:
-  #   xsd: string
-  #   sqlite: text
   - name: MarktakteurMastrNummer
     references:
       table: Marktakteur
       column: Id
   - name: DatumLetzteAktualisierung
     xsd: dateTime
-    psql: timestamp
-    sqlite: text
   - name: MastrNummer
   - name: Marktrolle
   - name: BundesnetzagenturBetriebsnummer
   - name: BundesnetzagenturBetriebsnummer_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Marktpartneridentifikationsnummer
   - name: Marktpartneridentifikationsnummer_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: KontaktdatenMarktrolle
 ---

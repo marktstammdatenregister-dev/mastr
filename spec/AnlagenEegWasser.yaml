@@ -4,37 +4,25 @@ element: AnlageEegWasser
 primary: EegMaStRNummer
 without_rowid: true
 fields:
-  # defaults:
-  #   xsd: string
-  #   sqlite: text
   - name: Registrierungsdatum
     #index: true
     xsd: date
-    psql: date
   - name: DatumLetzteAktualisierung
     xsd: dateTime
-    psql: timestamp
   - name: EegInbetriebnahmedatum
     #index: true
     xsd: date
-    psql: date
   - name: EegMaStRNummer
   - name: AnlagenschluesselEeg
   - name: AnlagenkennzifferAnlagenregister
   - name: AnlagenkennzifferAnlagenregister_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: InstallierteLeistung
     #index: true
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: AnlageBetriebsstatus
     #index: true
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id

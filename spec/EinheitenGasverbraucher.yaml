@@ -3,40 +3,28 @@ root: EinheitenGasverbraucher # docs say EineitenGasVerbraucher
 element: EinheitGasverbraucher # docs say EineitGasVerbraucher
 primary: EinheitMastrNummer
 fields:
-  # defaults:
-  #   xsd: string
-  #   sqlite: text
   - name: EinheitMastrNummer
   - name: DatumLetzteAktualisierung
     xsd: dateTime
-    psql: timestamp
-    sqlite: text
   - name: LokationMaStRNummer
     references:
       table: Lokation
       column: MastrNummer
   - name: NetzbetreiberpruefungStatus
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
   - name: NetzbetreiberpruefungDatum
     xsd: date
-    psql: date
   - name: AnlagenbetreiberMastrNummer
     references:
       table: Marktakteur
       column: MastrNummer
   - name: Land
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: Bundesland
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
@@ -49,27 +37,17 @@ fields:
   - name: Strasse
   - name: StrasseNichtGefunden
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Hausnummer
   - name: Hausnummer_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: HausnummerNichtGefunden
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Adresszusatz
   - name: Ort
   - name: Laengengrad
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: Breitengrad
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: Registrierungsdatum
   - name: GeplantesInbetriebnahmedatum
   - name: Inbetriebnahmedatum
@@ -78,39 +56,27 @@ fields:
   - name: DatumWiederaufnahmeBetrieb
   - name: EinheitSystemstatus
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: EinheitBetriebsstatus
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: BestandsanlageMastrNummer
   - name: NichtVorhandenInMigriertenEinheiten
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: AltAnlagenbentreiberMastrNummer
   - name: DatumDesBetreiberwechsels
     xsd: date
-    psql: date
   - name: DatumRegistrierungDesBetreiberwechsels
     xsd: date
-    psql: date
   - name: NameGasverbrauchsseinheit
   - name: MaximaleGasbezugsleistung
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: EinheitDientDerStromerzeugung
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: GenMastrNummer
     references:
       table: EinheitGenehmigung

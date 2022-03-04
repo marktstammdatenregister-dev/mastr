@@ -3,41 +3,29 @@ root: EinheitenSolar
 element: EinheitSolar
 primary: EinheitMastrNummer
 fields:
-  # defaults:
-  #   xsd: string
-  #   sqlite: text
   - name: EinheitMastrNummer
   - name: DatumLetzteAktualisierung
     xsd: dateTime
-    psql: timestamp
-    sqlite: text
   - name: LokationMaStRNummer
     references:
       table: Lokation
       column: MastrNummer
   - name: NetzbetreiberpruefungStatus
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
   - name: NetzbetreiberpruefungDatum
     xsd: date
-    psql: date
   - name: AnlagenbetreiberMastrNummer
     references:
       table: Marktakteur
       column: MastrNummer
   - name: Land
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: Bundesland
     index: true
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
@@ -50,28 +38,18 @@ fields:
   - name: Strasse
   - name: StrasseNichtGefunden
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Hausnummer
   - name: Hausnummer_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: HausnummerNichtGefunden
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Adresszusatz
   - name: Ort
     index: true
   - name: Laengengrad
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: Breitengrad
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: Registrierungsdatum
   - name: GeplantesInbetriebnahmedatum
   - name: Inbetriebnahmedatum
@@ -81,173 +59,113 @@ fields:
   - name: DatumWiederaufnahmeBetrieb
   - name: EinheitSystemstatus
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: EinheitBetriebsstatus
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: BestandsanlageMastrNummer
   - name: NichtVorhandenInMigriertenEinheiten
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: AltAnlagenbentreiberMastrNummer
   - name: DatumDesBetreiberwechsels
     xsd: date
-    psql: date
   - name: DatumRegistrierungDesBetreiberwechsels
     xsd: date
-    psql: date
   - name: NameStromerzeugungseinheit
   - name: Weic
   - name: Weic_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: WeicDisplayName
   - name: Kraftwerksnummer
   - name: Kraftwerksnummer_nv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Energietraeger
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: Bruttoleistung
     index: true
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: Nettonennleistung
     #index: true
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: AnschlussAnHoechstOderHochSpannung
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Schwarzstartfaehigkeit
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Inselbetriebsfaehigkeit
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Einsatzverantwortlicher
   - name: FernsteuerbarkeitNb
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: FernsteuerbarkeitDv
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: FernsteuerbarkeitDr
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Einspeisungsart
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: PraequalifiziertFuerRegelenergie
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: GenMastrNummer
     references:
       table: EinheitGenehmigung
       column: GenMastrNummer
   - name: ZugeordneteWirkleistungWechselrichter
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: GemeinsamerWechselrichterMitSpeicher
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: AnzahlModule
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
   - name: Lage
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: Leistungsbegrenzung
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: EinheitlicheAusrichtungUndNeigungswinkel
     xsd: boolean
-    psql: boolean
-    sqlite: integer
   - name: Hauptausrichtung
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: HauptausrichtungNeigungswinkel
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: Nebenausrichtung
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: NebenausrichtungNeigungswinkel
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
   - name: InAnspruchGenommeneFlaeche
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: ArtDerFlaecheIds
   - name: InAnspruchGenommeneAckerflaeche
     xsd: decimal
-    psql: real
-    sqlite: real
   - name: Nutzungsbereich
     xsd: nonNegativeInteger
-    psql: integer
-    sqlite: integer
     references:
       table: Katalogwert
       column: Id
