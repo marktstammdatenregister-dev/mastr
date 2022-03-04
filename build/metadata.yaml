@@ -5,6 +5,9 @@ plugins:
   datasette-cluster-map:
     latitude_column: Breitengrad
     longitude_column: Laengengrad
+  datasette-block-robots:
+    disallow:
+      - "/Marktstammdatenregister/"
 databases:
   Marktstammdatenregister:
     description_html: |

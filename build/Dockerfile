@@ -25,6 +25,7 @@ RUN apt-get -qq update \
  && rm -rf /var/lib/apt/lists/*
 # https://github.com/curiousleo/datasette-leaflet-geojson/archive/1e402abeb77192e0b8d51504b46055f1e1b4cf4d.tar.gz
 RUN pip install \
+      datasette-block-robots \
       datasette-cluster-map \
       datasette-graphql \
       datasette-vega \
