@@ -71,10 +71,12 @@ jobs:
           sed -E 's|^.*(https://download.marktstammdatenregister.de/Gesamtdatenexport_.*\.zip).*$|\1|gp;d')"
         EXPORT_FILENAME="${EXPORT_URL##*/}"
         export SHORT_FILENAME="$(echo "${EXPORT_FILENAME}" | sed -E 's|^(Gesamtdatenexport_.+)_.*_.*.*\.zip$|\1|gp;d')"
+        export DATE="$(echo "${EXPORT_FILENAME}" | sed -E 's|^Gesamtdatenexport_(\d{8})_.*_.*.*\.zip$|\1|gp;d')"
 
         # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-environment-variable
         echo "EXPORT_FILENAME=${EXPORT_FILENAME}" >> "${GITHUB_ENV}"
         echo "SHORT_FILENAME=${SHORT_FILENAME}" >> "${GITHUB_ENV}"
+        echo "DATE=${DATE}" >> "${GITHUB_ENV}"
 
         # Show source of data on every Datasette page.
         yq eval --inplace '.source = strenv(SHORT_FILENAME) | .source_url = strenv(EXPORT_URL)' build/metadata.yaml
@@ -98,6 +100,24 @@ jobs:
         ls -lh build/Marktstammdatenregister.db
 
         rclone copy --include "${{env.SHORT_FILENAME}}.json" . 'wasabi:mastr-validation-1' --config build/rclone.conf
+
+    - name: Update stat
+      uses: actions/checkout@v3
+      with:
+        repository: marktstammdatenregister-dev/stat
+        path: stat
+      run: |
+        set -Eeuxo pipefail
+
+        pushd stat
+        ./stat ../build/Marktstammdatenregister.db "${{env.DATE}}" | tee --append stat.json
+
+        git config user.name mastrbot
+        git config user.email bot@marktstammdatenregister.dev
+        git add stat.json
+        git commit -m 'Update stat.json'
+        git push
+        popd
 
     - name: Deploy
       run: |
