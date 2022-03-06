@@ -101,11 +101,13 @@ jobs:
 
         rclone copy --include "${{env.SHORT_FILENAME}}.json" . 'wasabi:mastr-validation-1' --config build/rclone.conf
 
-    - name: Update stat
+    - name: Check out stat
       uses: actions/checkout@v3
       with:
         repository: marktstammdatenregister-dev/stat
         path: stat
+
+    - name: Update stat
       run: |
         set -Eeuxo pipefail
 
