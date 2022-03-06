@@ -1,8 +1,9 @@
 name: Daily
 on:
-  schedule:
-  - cron: '0 4 * * MON-FRI'  # Every weekday at 04:00 UTC (exports seem to finish before 02:00)
-  workflow_dispatch:         # Enable manual trigger
+  # Every day at 04:00 UTC (exports seem to finish before 02:00)
+  schedule: [{cron: '0 4 * * *'}]
+  # Enable manual trigger
+  workflow_dispatch:
 env:
   SRHT_SITE_OAUTH2_TOKEN: ${{secrets.SRHT_SITE_OAUTH2_TOKEN}}
   RCLONE_CONFIG_WASABI_ACCESS_KEY_ID: ${{secrets.RCLONE_CONFIG_WASABI_ACCESS_KEY_ID}}
