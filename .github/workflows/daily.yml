@@ -114,8 +114,8 @@ jobs:
         pushd stat
         ./stat ../build/Marktstammdatenregister.db "${{env.DATE}}" | tee --append stat.json
 
-        git config user.name mastrbot
-        git config user.email bot@marktstammdatenregister.dev
+        git config user.name github-actions
+        git config user.email github-actions@github.com
         git add stat.json
         git commit -m 'Update stat.json'
         git push
