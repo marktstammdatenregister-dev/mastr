@@ -158,7 +158,9 @@ fields:
   - name: EegMaStRNummer
   - name: EegAnlagentyp
     xsd: nonNegativeInteger
-    #references: Katalogwerte(Id) # seems to be 8 (Kernenergie) a lot of the time?
+    references:
+      table: Einheitentyp
+      column: Id
   - name: Technologie
     xsd: nonNegativeInteger
     references:
