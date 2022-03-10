@@ -18,6 +18,8 @@
 - AnlagenEegGeoSolarthermieGrubenKlaerschlammDruckentspannung.yaml
 - AnlagenKwk.yaml
 
+- Einheitentypen.yaml
+
 - EinheitenGenehmigung.yaml
 - EinheitenWind.yaml
 - EinheitenSolar.yaml
@@ -31,5 +33,3 @@
 - EinheitenGasErzeuger.yaml
 - EinheitenGasSpeicher.yaml
 - EinheitenGasverbraucher.yaml
-
-- Einheitentypen.yaml
