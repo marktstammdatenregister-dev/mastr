@@ -21,8 +21,8 @@ sub vcl_recv {
     # https://varnish-cache.org/docs/7.0/users-guide/increasing-your-hitrate.html#cookies
     unset req.http.Cookie;
 
-    # Don't store entire SQLite database in cache; respect "no-cache" pragma header.
-    if (req.url == "/Marktstammdatenregister.db" || req.http.Pragma ~ "no-cache") {
+    # Respect "no-cache" pragma header.
+    if (req.http.Pragma ~ "no-cache") {
         return(pass);
     }
 }
