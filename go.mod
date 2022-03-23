@@ -1,6 +1,6 @@
 module marktstammdatenregister.dev
 
-go 1.17
+go 1.18
 
 require (
 	crawshaw.io/sqlite v0.3.2
@@ -9,6 +9,6 @@ require (
 )
 
 require (
-	github.com/kr/pretty v0.1.0 // indirect
-	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
+	github.com/kr/pretty v0.3.0 // indirect
+	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 )

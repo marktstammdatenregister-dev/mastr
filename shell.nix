@@ -4,7 +4,7 @@ pkgs.mkShell {
     axel
     brotli
     flyctl
-    go
+    go_1_18
     libxml2
     mustache-go
     niv
