@@ -13,4 +13,4 @@
 /nix/sources.* linguist-generated
 
 # go mod
-/go.sum
+/go.sum linguist-generated
