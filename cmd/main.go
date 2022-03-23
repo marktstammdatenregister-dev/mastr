@@ -90,7 +90,7 @@ func mainWithError() error {
 
 	exportName, _, found := strings.Cut(*exportFileName, "_")
 	if !found {
-		return fmt.Errorf("export file name did not contain an underscore")
+		return fmt.Errorf("export file name '%s' does not contain an underscore", *exportFileName)
 	}
 	recs := []internal.Recorder{
 		internal.NewUnusedTracker(r.File, textWriter),
