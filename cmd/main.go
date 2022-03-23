@@ -88,10 +88,14 @@ func mainWithError() error {
 		}
 	}()
 
+	exportName, _, found := strings.Cut(*exportFileName, "_")
+	if !found {
+		return fmt.Errorf("export file name did not contain an underscore")
+	}
 	recs := []internal.Recorder{
 		internal.NewUnusedTracker(r.File, textWriter),
 		internal.NewValidator(
-			strings.SplitN(*exportFileName, "_", 2)[0],
+			exportName,
 			fmt.Sprintf("https://download.marktstammdatenregister.de/%s", *exportFileName),
 			textWriter,
 			jsonWriter,
