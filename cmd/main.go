@@ -13,6 +13,8 @@ import (
 	"log"
 	"marktstammdatenregister.dev/internal"
 	"marktstammdatenregister.dev/internal/spec"
+	"net/http"
+	_ "net/http/pprof"
 	"os"
 	"strings"
 )
@@ -31,6 +33,10 @@ func main() {
 }
 
 func mainWithError() error {
+	go func() {
+		log.Println(http.ListenAndServe("localhost:6060", nil))
+	}()
+
 	const defaultOption = "<undefined>"
 	sqliteFile := flag.String("database", defaultOption, "(optional) file name of the SQLite database")
 	exportFileName := flag.String("export", defaultOption, "file name of the export zip file")
