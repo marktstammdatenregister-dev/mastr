@@ -32,6 +32,7 @@ fields:
   - name: Landkreis
   - name: Gemeinde
   - name: Gemeindeschluessel
+    index: true
   - name: Postleitzahl
   - name: Gemarkung
   - name: FlurFlurstuecknummern
