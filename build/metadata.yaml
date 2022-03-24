@@ -29,5 +29,3 @@ databases:
         label_column: Wert
         # Datasette >0.58.1 fails if 'hidden: true' is set.
         #hidden: true
-      sqlite_stat1:
-        hidden: true
