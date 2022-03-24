@@ -9,7 +9,7 @@ RUN gcc -fPIC -shared -O3 extension-functions.c -o libsqlitefunctions.so -lm
 #
 # Run datasette.
 #
-FROM docker.io/datasetteproject/datasette:0.60.1@sha256:c2f93ba54eb49e299dd98180de0a8ca3cc1da0df05425a8e32f04be59e64362d
+FROM docker.io/datasetteproject/datasette:0.61.1@sha256:cca7d450d320f8f99ffbbbc4ec382c745f1a5a9fe3626f0ab781866f8f12a3d4
 WORKDIR /work
 
 # Install dependencies.
