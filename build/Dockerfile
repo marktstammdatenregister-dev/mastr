@@ -1,19 +1,21 @@
 #
-# Run datasette.
+# Build libsqlitefunctions.so
 #
-FROM docker.io/datasetteproject/datasette:0.60.1@sha256:c2f93ba54eb49e299dd98180de0a8ca3cc1da0df05425a8e32f04be59e64362d
-
+FROM docker.io/library/gcc:11@sha256:26266bcdd63c3fe07fd78bba692ed116d59696bdf1cf589ba0f33d5425c8d081 AS gccbuild
 WORKDIR /work
-
-# Build libsqlitefunctions.so.
 COPY ./build/extension-functions.c .
 RUN apt-get -qq update \
  && apt-get -qq --no-install-recommends install \
-      gcc \
       libsqlite3-dev \
  && gcc -fPIC -shared -O3 extension-functions.c -o libsqlitefunctions.so -lm \
- && apt-get purge -qq gcc libsqlite3-dev \
+ && apt-get purge -qq libsqlite3-dev \
  && rm -rf /var/lib/apt/lists/*
+
+#
+# Run datasette.
+#
+FROM docker.io/datasetteproject/datasette:0.60.1@sha256:c2f93ba54eb49e299dd98180de0a8ca3cc1da0df05425a8e32f04be59e64362d
+WORKDIR /work
 
 # Install dependencies.
 RUN apt-get -qq update \
@@ -34,6 +36,7 @@ RUN curl -sSL https://github.com/DarthSim/hivemind/releases/download/v1.1.0/hive
     | gunzip - >/usr/bin/hivemind \
  && chmod +x /usr/bin/hivemind
 
+COPY --from=gccbuild /work/libsqlitefunctions.so .
 # The database files are renamed to .sqlite3 on purpose.
 #
 # The only way I can find in the documentation to load settings from a file is to use "Configuration
