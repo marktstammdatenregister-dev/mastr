@@ -4,12 +4,7 @@
 FROM docker.io/library/gcc:11@sha256:26266bcdd63c3fe07fd78bba692ed116d59696bdf1cf589ba0f33d5425c8d081 AS gccbuild
 WORKDIR /work
 COPY ./build/extension-functions.c .
-RUN apt-get -qq update \
- && apt-get -qq --no-install-recommends install \
-      libsqlite3-dev \
- && gcc -fPIC -shared -O3 extension-functions.c -o libsqlitefunctions.so -lm \
- && apt-get purge -qq libsqlite3-dev \
- && rm -rf /var/lib/apt/lists/*
+RUN gcc -fPIC -shared -O3 extension-functions.c -o libsqlitefunctions.so -lm
 
 #
 # Run datasette.
