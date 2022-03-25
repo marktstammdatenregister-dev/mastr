@@ -124,3 +124,9 @@ jobs:
         ls -lh build/Marktstammdatenregister.db.br
 
         flyctl deploy . --config build/fly.toml --dockerfile build/Dockerfile
+
+    - name: Upload SQLite file to storage
+      run: |
+        set -Eeuxo pipefail
+
+        rclone copy --include Marktstammdatenregister.db build/ 'wasabi:mastr-backup' --config build/rclone.conf
