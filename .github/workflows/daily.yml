@@ -41,7 +41,7 @@ jobs:
         set -Eeuxo pipefail
 
         sudo apt-get -qq update
-        sudo apt-get -qq install axel brotli rclone
+        sudo apt-get -qq install axel brotli pigz rclone
 
         # ruby-mustache does not handle zero as an empty value for the purpose of {#IntValue}...{/IntValue} blocks.
         # https://github.com/cbroglie/mustache/releases
@@ -129,4 +129,5 @@ jobs:
       run: |
         set -Eeuxo pipefail
 
-        rclone copy --include Marktstammdatenregister.db build/ 'wasabi:mastr-backup' --config build/rclone.conf
+        pigz build/Marktstammdatenregister.db
+        rclone copy --include Marktstammdatenregister.db.gz build/ 'wasabi:mastr-backup' --config build/rclone.conf
