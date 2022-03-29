@@ -1,4 +1,3 @@
----
 root: AnlagenGasSpeicher
 element: AnlageGasSpeicher
 primary: MaStRNummer
@@ -18,4 +17,3 @@ fields:
       table: Katalogwert
       column: Id
   - name: VerknuepfteEinheitenMaStRNummern
----

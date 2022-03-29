@@ -1,4 +1,3 @@
----
 root: Bilanzierungsgebiete
 element: Bilanzierungsgebiet
 primary: Id
@@ -10,4 +9,3 @@ fields:
   - name: BilanzierungsgebietNetzanschlusspunkt
   - name: RegelzoneNetzanschlusspunkt
     xsd: nonNegativeInteger
----

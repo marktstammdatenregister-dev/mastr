@@ -1,4 +1,3 @@
----
 root: Marktakteure
 element: Marktakteur
 primary: MastrNummer
@@ -131,4 +130,3 @@ fields:
     xsd: boolean
   - name: BelieferungHaushaltskundenGas
     xsd: boolean
----

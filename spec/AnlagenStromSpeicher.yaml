@@ -1,4 +1,3 @@
----
 root: AnlagenStromSpeicher
 element: AnlageStromSpeicher
 primary: MaStRNummer
@@ -19,4 +18,3 @@ fields:
     references:
       table: Katalogwert
       column: Id
----

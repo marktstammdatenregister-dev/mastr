@@ -1,4 +1,3 @@
----
 root: Netze
 element: Netz
 primary: MastrNummer
@@ -22,4 +21,3 @@ fields:
     references:
       table: Katalogwert
       column: Id
----

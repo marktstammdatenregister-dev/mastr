@@ -1,4 +1,3 @@
----
 root: EinheitenSolar
 element: EinheitSolar
 primary: EinheitMastrNummer
@@ -174,4 +173,3 @@ fields:
     references:
       table: AnlageEegSolar
       column: EegMaStRNummer
----

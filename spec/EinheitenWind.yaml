@@ -1,4 +1,3 @@
----
 root: EinheitenWind
 element: EinheitWind
 primary: EinheitMastrNummer
@@ -178,4 +177,3 @@ fields:
     references:
       table: AnlageEegWind
       column: EegMaStRNummer
----

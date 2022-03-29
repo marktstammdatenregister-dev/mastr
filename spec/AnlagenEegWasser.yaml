@@ -1,4 +1,3 @@
----
 root: AnlagenEegWasser
 element: AnlageEegWasser
 primary: EegMaStRNummer
@@ -28,4 +27,3 @@ fields:
       column: Id
   - name: ErtuechtigungIds
   - name: VerknuepfteEinheitenMaStRNummern
----
