@@ -1,4 +1,3 @@
----
 root: EinheitenGasverbraucher # docs say EineitenGasVerbraucher
 element: EinheitGasverbraucher # docs say EineitGasVerbraucher
 primary: EinheitMastrNummer
@@ -82,4 +81,3 @@ fields:
       table: EinheitGenehmigung
       column: GenMastrNummer
   - name: VerknuepfteEinheitenMaStRNummern
----

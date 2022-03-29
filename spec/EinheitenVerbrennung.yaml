@@ -1,4 +1,3 @@
----
 root: EinheitenVerbrennung # docs say EineitenVerbrennung
 element: EinheitVerbrennung # docs say EineitVerbrennung
 primary: EinheitMastrNummer
@@ -172,4 +171,3 @@ fields:
     references:
       table: Katalogwert
       column: Id
----

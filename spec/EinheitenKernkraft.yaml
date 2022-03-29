@@ -1,4 +1,3 @@
----
 root: EinheitenKernkraft # docs say EineitenKernkraft
 element: EinheitKernkraft # docs say EineitKernkraft
 primary: EinheitMastrNummer
@@ -120,4 +119,3 @@ fields:
     references:
       table: Katalogwert
       column: Id
----

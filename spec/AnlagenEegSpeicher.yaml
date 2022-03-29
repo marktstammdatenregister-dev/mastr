@@ -1,4 +1,3 @@
----
 root: AnlagenEegSpeicher
 element: AnlageEegSpeicher
 primary: EegMaStRNummer
@@ -14,4 +13,3 @@ fields:
     xsd: date
   - name: EegMaStRNummer
   - name: VerknuepfteEinheitenMaStRNummern
----

@@ -8,6 +8,7 @@ pkgs.mkShell {
     libxml2
     mustache-go
     niv
+    pigz
     pv
     rclone
     rlwrap

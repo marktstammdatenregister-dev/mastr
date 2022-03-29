@@ -1,4 +1,3 @@
----
 root: Netzanschlusspunkte
 element: Netzanschlusspunkt
 primary: NetzanschlusspunktMastrNummer
@@ -52,4 +51,3 @@ fields:
     references:
       table: Netz
       column: MastrNummer
----

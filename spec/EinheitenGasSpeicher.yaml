@@ -1,4 +1,3 @@
----
 root: EinheitenGasSpeicher # docs say Eineiten
 element: EinheitGasSpeicher # docs say Eineit
 primary: EinheitMastrNummer
@@ -97,4 +96,3 @@ fields:
     references:
       table: AnlageGasSpeicher
       column: MaStRNummer
----

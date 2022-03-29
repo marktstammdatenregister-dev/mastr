@@ -1,4 +1,3 @@
----
 root: Lokationen
 element: Lokation
 primary: MastrNummer
@@ -11,4 +10,3 @@ fields:
   - name: Lokationtyp
   - name: VerknuepfteEinheitenMaStRNummern
   - name: NetzanschlusspunkteMaStRNummern
----

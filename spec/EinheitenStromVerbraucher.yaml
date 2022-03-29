@@ -1,4 +1,3 @@
----
 root: EinheitenStromVerbraucher
 element: EinheitStromVerbraucher
 primary: EinheitMastrNummer
@@ -87,4 +86,3 @@ fields:
     references:
       table: Katalogwert
       column: Id
----

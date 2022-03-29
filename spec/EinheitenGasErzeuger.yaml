@@ -1,4 +1,3 @@
----
 root: EinheitenGasErzeuger # docs say Eineiten
 element: EinheitGasErzeuger # docs say Eineit
 primary: EinheitMastrNummer
@@ -89,4 +88,3 @@ fields:
     references:
       table: EinheitGenehmigung
       column: GenMastrNummer
----

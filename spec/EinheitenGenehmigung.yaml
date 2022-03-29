@@ -1,4 +1,3 @@
----
 root: EinheitenGenehmigung # docs say Eineiten
 element: EinheitGenehmigung # docs say Eineit
 primary: GenMastrNummer
@@ -28,4 +27,3 @@ fields:
   - name: Registrierungsdatum
     xsd: date
   - name: VerknuepfteEinheitenMaStRNummern
----
