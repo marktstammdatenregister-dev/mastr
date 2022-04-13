@@ -18,7 +18,7 @@ databases:
       </details>
       <details>
           <summary>Was bedeuten die Tabellen und Spalten?</summary>
-          <p>Die Tabellen und Spalten sind in der <a href="https://www.marktstammdatenregister.de/MaStRHilfe/files/gesamtdatenexport/Dokumentation%20MaStR%20Gesamtdatenexport.pdf">Dokumentation</a> beschrieben.
+          <p>Die Tabellen und Spalten sind unter <i>Beschreibung des Exports</i> auf der Seite <a href="https://www.marktstammdatenregister.de/MaStR/Datendownload">Datendownload</a> beschrieben.
       </details>
     tables:
       Katalogkategorie:
