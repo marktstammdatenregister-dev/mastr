@@ -1,13 +1,17 @@
 #
 # Build libsqlitefunctions.so
 #
-FROM docker.io/library/gcc:11@sha256:26266bcdd63c3fe07fd78bba692ed116d59696bdf1cf589ba0f33d5425c8d081 AS gccbuild
+# https://hub.docker.com/_/gcc?tab=tags
+#
+FROM docker.io/library/gcc:11@sha256:7e68daa92728bbb415cd66d3825357d67db65032baa36e3c631c80dad461bab2 AS gccbuild
 WORKDIR /work
 COPY ./build/extension-functions.c .
 RUN gcc -fPIC -shared -O3 extension-functions.c -o libsqlitefunctions.so -lm
 
 #
 # Run datasette.
+#
+# https://hub.docker.com/r/datasetteproject/datasette/tags
 #
 FROM docker.io/datasetteproject/datasette:0.61.1@sha256:cca7d450d320f8f99ffbbbc4ec382c745f1a5a9fe3626f0ab781866f8f12a3d4
 WORKDIR /work
@@ -27,6 +31,7 @@ RUN pip install \
       datasette-graphql \
       datasette-vega \
  && true
+# https://github.com/DarthSim/hivemind/releases
 RUN curl -sSL https://github.com/DarthSim/hivemind/releases/download/v1.1.0/hivemind-v1.1.0-linux-amd64.gz \
     | gunzip - >/usr/bin/hivemind \
  && chmod +x /usr/bin/hivemind
