@@ -33,6 +33,7 @@ fields:
   - name: Gemeindeschluessel
     index: true
   - name: Postleitzahl
+    index: true
   - name: Gemarkung
   - name: FlurFlurstuecknummern
   - name: Strasse
