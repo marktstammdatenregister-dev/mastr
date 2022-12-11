@@ -15,10 +15,11 @@ type Reference struct {
 }
 
 type Field struct {
-	Name       string     `yaml:"name"`
-	Index      bool       `yaml:"index"`
-	Xsd        string     `yaml:"xsd"`
-	References *Reference `yaml:"references,omitempty"`
+	Name        string     `yaml:"name"`
+	Index       bool       `yaml:"index"`
+	Xsd         string     `yaml:"xsd"`
+	Description string     `yaml:"description"`
+	References  *Reference `yaml:"references,omitempty"`
 }
 
 type Table struct {
@@ -26,6 +27,7 @@ type Table struct {
 	Element      string  `yaml:"element"`
 	Primary      string  `yaml:"primary"`
 	WithoutRowId bool    `yaml:"without_rowid"`
+	Description  string  `yaml:"description"`
 	Fields       []Field `yaml:"fields"`
 }
 

@@ -1,45 +1,66 @@
 root: AnlagenEegSolar
 element: AnlageEegSolar
 primary: EegMaStRNummer
+description: Alle öffentlichen Daten für eine Anlage der Art „EEG-Solar“.
 fields:
   - name: Registrierungsdatum
     index: true
     xsd: date
+    description: Registrierungsdatum der EEG-Anlage
   - name: DatumLetzteAktualisierung
     xsd: dateTime
+    description: Datum der letzten Aktualisierung an diesem Objekt
   - name: EegInbetriebnahmedatum
     index: true
     xsd: date
+    description: Inbetriebnahmedatum der EEG-Anlage
   - name: EegMaStRNummer
+    description: MaStR-Nummer der Anlage
   - name: InanspruchnahmeZahlungNachEeg
     xsd: boolean
+    description: Werden oder wurden für die Solaranlage Zahlungen Netzbetreibers in Anspruch genommen?
   - name: AnlagenschluesselEeg
+    description: Vom Netzbetreiber vergebene Kennziffer zur Identifikation der EEG-Anlage
   - name: AnlagenkennzifferAnlagenregister
+    description: Anlagenkennziffer aus der Registrierungsbestätigung des Anlagenregister
   - name: AnlagenkennzifferAnlagenregister_nv
     xsd: boolean
+    description: Anlagenkennziffer aus der Registrierungsbestätigung des Anlagenregister. Nicht-vorhanden Flag
   - name: InstallierteLeistung
     index: true
     xsd: decimal
+    description: Installierte Nettonennleistung (in kWh peak) der EEG-Anlage
   - name: RegistrierungsnummerPvMeldeportal
+    description: Durch die Bundesagentur vergeben Nummer bei der Registrierung im PV- Meldeportal
   - name: RegistrierungsnummerPvMeldeportal_nv
     xsd: boolean
+    description: Durch die Bundesagentur vergeben Nummer bei der Registrierung im PV- Meldeportal. Nicht- vorhanden Flag
   - name: MieterstromZugeordnet
     xsd: boolean
+    description: Gibt an, ob die Solaranlage Veräußerungsform des Mieterstromzuschlags zugeordnet wurde
   - name: MieterstromRegistrierungsdatum
     xsd: date
+    description: Datum, an dem die Anlage erstmalig der Veräußerungsform des Mieterstromzuschlags zugeordnet worden ist.
   - name: MieterstromMeldedatum # Not mentioned in the documentation
     xsd: date
+    description: "-- nicht dokumentiert --"
   - name: MieterstromErsteZuordnungZuschlag
     xsd: date
+    description: Datum, an dem die Anlage erstmalig der Veräußerungsform des Mieterstromzuschlags zugeordnet worden ist.
   - name: AusschreibungZuschlag
     xsd: boolean
+    description: Angabe ob für die EEG- Anlage Im Rahmen des Ausschreibungsverfahren der Bundesnetzagentur ein Zuschlag erlangt wurde
   - name: ZugeordneteGebotsmenge
     xsd: decimal
+    description: Bezuschlagte Gebotsmenge, die der EEG-Anlage zugeordnet wurde
   - name: Zuschlagsnummer
+    description: Von der Bundesnetzagentur im Rahmen des Ausschreibungsverfahrens vergebene Nummern (Mehrfachnennung möglich)
   - name: AnlageBetriebsstatus
     index: true
     xsd: nonNegativeInteger
+    description: "Betriebsstatus der Anlage, welche sich aus den zugeordneten Einheiten ergibt. Katalogkategorie: Anlagenbetriebsstatus"
     references:
       table: Katalogwert
       column: Id
   - name: VerknuepfteEinheitenMaStRNummern
+    description: Liste von MaStR Nummern mit den verknüpften Stromerzeugern
