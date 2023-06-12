@@ -13,3 +13,8 @@ fields:
     xsd: date
   - name: EegMaStRNummer
   - name: VerknuepfteEinheitenMaStRNummern
+  - name: AnlagenschluesselEeg
+  - name: AusschreibungZuschlag
+    xsd: boolean
+  - name: ZugeordneteGebotsmenge
+    xsd: decimal

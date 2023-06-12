@@ -1,5 +1,5 @@
-root: EinheitenGeoSolarthermieGrubenKlaerschlammDruckentspannung # docs say EineitenGeoSolarthermieGrubenKlaerschlammDruckentspannung
-element: EinheitGeoSolarthermieGrubenKlaerschlammDruckentspannung # docs say EineitGeoSolarthermieGrubenKlaerschlammDruckentspannung
+root: EinheitenGeothermieGrubengasDruckentspannung
+element: EinheitGeothermieGrubengasDruckentspannung # docs say EinheitenGeothermieGrubengasDruckentspannung
 primary: EinheitMastrNummer
 fields:
   - name: EinheitMastrNummer
@@ -119,7 +119,7 @@ fields:
       column: Id
   - name: EegMaStRNummer
     references:
-      table: AnlageEegGeoSolarthermieGrubenKlaerschlammDruckentspannung
+      table: AnlageEegGeothermieGrubengasDruckentspannung
       column: EegMaStRNummer
   - name: KwkMaStRNummer
     references:

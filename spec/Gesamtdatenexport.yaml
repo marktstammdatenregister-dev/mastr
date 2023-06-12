@@ -2,11 +2,13 @@
 - Katalogkategorien.yaml
 - Katalogwerte.yaml
 - Bilanzierungsgebiete.yaml
+- Ertuechtigungen.yaml
+- GeloeschteUndDeaktivierteEinheiten.yaml
 - Lokationen.yaml
 - Marktakteure.yaml
 - Marktrollen.yaml
-- Netze.yaml
 - Netzanschlusspunkte.yaml
+- Netze.yaml
 
 - AnlagenStromSpeicher.yaml
 - AnlagenGasSpeicher.yaml
@@ -15,7 +17,7 @@
 - AnlagenEegBiomasse.yaml
 - AnlagenEegWasser.yaml
 - AnlagenEegSpeicher.yaml
-- AnlagenEegGeoSolarthermieGrubenKlaerschlammDruckentspannung.yaml
+- AnlagenEegGeothermieGrubengasDruckentspannung.yaml
 - AnlagenKwk.yaml
 
 - Einheitentypen.yaml
@@ -25,7 +27,7 @@
 - EinheitenSolar.yaml
 - EinheitenBiomasse.yaml
 - EinheitenWasser.yaml
-- EinheitenGeoSolarthermieGrubenKlaerschlammDruckentspannung.yaml
+- EinheitenGeothermieGrubengasDruckentspannung.yaml
 - EinheitenVerbrennung.yaml
 - EinheitenKernkraft.yaml
 - EinheitenStromSpeicher.yaml

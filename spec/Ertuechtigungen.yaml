@@ -1,0 +1,27 @@
+root: Ertuechtigungen
+element: Ertuechtigungen # docs say Ertuechtigung
+primary: Id
+fields:
+  - name: Id
+    xsd: nonNegativeInteger
+  - name: DatumLetzteAktualisierung
+    xsd: dateTime
+  - name: EegMastrNummer
+  - name: Ertuechtigungensart
+    xsd: nonNegativeInteger
+    references:
+      table: Katalogwert
+      column: Id
+  - name: ErtuechtigungIstZulassungspflichtig
+    xsd: boolean
+  - name: Leistungserhoehung
+    xsd: decimal
+  - name: WiederinbetriebnahmeDatum
+    xsd: dateTime
+  - name: Einheittyp
+    xsd: nonNegativeInteger
+  - name: EinheitSystemstatus
+    xsd: nonNegativeInteger
+    references:
+      table: Katalogwert
+      column: Id
