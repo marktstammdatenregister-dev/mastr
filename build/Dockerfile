@@ -1,9 +1,9 @@
 #
 # Build libsqlitefunctions.so
 #
-# https://hub.docker.com/_/gcc?tab=tags
+# https://hub.docker.com/_/gcc/tags
 #
-FROM docker.io/library/gcc:11@sha256:7e68daa92728bbb415cd66d3825357d67db65032baa36e3c631c80dad461bab2 AS gccbuild
+FROM docker.io/library/gcc:11@sha256:fa7b658c4efbb5a70ede3601462f3d3d6364374194b5a052811944d4dac83ee2
 WORKDIR /work
 COPY ./build/extension-functions.c .
 RUN gcc -fPIC -shared -O3 extension-functions.c -o libsqlitefunctions.so -lm
@@ -13,7 +13,7 @@ RUN gcc -fPIC -shared -O3 extension-functions.c -o libsqlitefunctions.so -lm
 #
 # https://hub.docker.com/r/datasetteproject/datasette/tags
 #
-FROM docker.io/datasetteproject/datasette:0.61.1@sha256:cca7d450d320f8f99ffbbbc4ec382c745f1a5a9fe3626f0ab781866f8f12a3d4
+FROM docker.io/datasetteproject/datasette:0.64.3@sha256:72bab468aa7f95af02964811114ef66236b8cc0511dccdd806c581ed0ad67fee
 WORKDIR /work
 
 # Install dependencies.
