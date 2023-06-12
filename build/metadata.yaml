@@ -1,6 +1,8 @@
 title: Marktstammdatenregister
 about: Marktstammdatenregister.dev
 about_url: https://marktstammdatenregister.dev
+license: dl-de/by-2-0
+license_url: https://www.govdata.de/dl-de/by-2-0
 plugins:
   datasette-cluster-map:
     latitude_column: Breitengrad
