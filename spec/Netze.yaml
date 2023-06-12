@@ -21,3 +21,4 @@ fields:
     references:
       table: Katalogwert
       column: Id
+  - name: Bundesland # string of comma separated Katalogwert.Id values

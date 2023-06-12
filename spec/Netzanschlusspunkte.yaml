@@ -51,3 +51,5 @@ fields:
     references:
       table: Netz
       column: MastrNummer
+  - name: NochInPlanung
+    xsd: boolean

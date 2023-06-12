@@ -1,5 +1,5 @@
-root: AnlagenEegGeoSolarthermieGrubenKlaerschlammDruckentspannung
-element: AnlageEegGeoSolarthermieGrubenKlaerschlammDruckentspannung
+root: AnlagenEegGeothermieGrubengasDruckentspannung
+element: AnlageEegGeothermieGrubengasDruckentspannung # docs say AnlagenEegGeothermieGrubengasDruckentspannung
 primary: EegMaStRNummer
 without_rowid: true
 fields:

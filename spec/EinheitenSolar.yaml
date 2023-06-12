@@ -170,6 +170,8 @@ fields:
     references:
       table: Katalogwert
       column: Id
+  - name: Buergerenergie
+    xsd: decimal
   - name: EegMaStRNummer
     references:
       table: AnlageEegSolar
