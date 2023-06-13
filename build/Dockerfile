@@ -1,9 +1,9 @@
 #
 # Build libsqlitefunctions.so
 #
-# https://hub.docker.com/_/gcc?tab=tags
+# https://hub.docker.com/_/gcc/tags
 #
-FROM docker.io/library/gcc:11@sha256:7e68daa92728bbb415cd66d3825357d67db65032baa36e3c631c80dad461bab2 AS gccbuild
+FROM docker.io/library/gcc:11@sha256:e02641c9f2d067ab8f05192fc6662f4c491b5979655f69cf5a6389eb39bbebea AS gccbuild
 WORKDIR /work
 COPY ./build/extension-functions.c .
 RUN gcc -fPIC -shared -O3 extension-functions.c -o libsqlitefunctions.so -lm
@@ -13,7 +13,7 @@ RUN gcc -fPIC -shared -O3 extension-functions.c -o libsqlitefunctions.so -lm
 #
 # https://hub.docker.com/r/datasetteproject/datasette/tags
 #
-FROM docker.io/datasetteproject/datasette:0.61.1@sha256:cca7d450d320f8f99ffbbbc4ec382c745f1a5a9fe3626f0ab781866f8f12a3d4
+FROM docker.io/datasetteproject/datasette:0.64.3@sha256:72bab468aa7f95af02964811114ef66236b8cc0511dccdd806c581ed0ad67fee
 WORKDIR /work
 
 # Install dependencies.
@@ -53,9 +53,9 @@ COPY --from=gccbuild /work/libsqlitefunctions.so .
 # as a mutable database.
 #
 # To avoid Datasette listing the databases twice, we give the SQLite files a file ending other than
-# "db" so they are not picked up and listed as databases as a result of using "Configuration
-# directory mode".
-COPY ./build/Marktstammdatenregister.db.br ./Marktstammdatenregister.sqlite3.br
+# "db" and "sqlite3" so they are not picked up and listed as databases as a result of using
+# "Configuration directory mode".
+COPY ./build/Marktstammdatenregister.db.br ./Marktstammdatenregister.sqlite3db.br
 COPY ./build/Procfile .
 COPY ./build/datasette .
 COPY ./build/default.vcl .
