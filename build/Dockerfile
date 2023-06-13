@@ -53,9 +53,9 @@ COPY --from=gccbuild /work/libsqlitefunctions.so .
 # as a mutable database.
 #
 # To avoid Datasette listing the databases twice, we give the SQLite files a file ending other than
-# "db" so they are not picked up and listed as databases as a result of using "Configuration
-# directory mode".
-COPY ./build/Marktstammdatenregister.db.br ./Marktstammdatenregister.sqlite3.br
+# "db" and "sqlite3" so they are not picked up and listed as databases as a result of using
+# "Configuration directory mode".
+COPY ./build/Marktstammdatenregister.db.br ./Marktstammdatenregister.sqlite3db.br
 COPY ./build/Procfile .
 COPY ./build/datasette .
 COPY ./build/default.vcl .
