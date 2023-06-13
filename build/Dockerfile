@@ -3,7 +3,7 @@
 #
 # https://hub.docker.com/_/gcc/tags
 #
-FROM docker.io/library/gcc:11@sha256:7e68daa92728bbb415cd66d3825357d67db65032baa36e3c631c80dad461bab2 AS gccbuild
+FROM docker.io/library/gcc:11@sha256:e02641c9f2d067ab8f05192fc6662f4c491b5979655f69cf5a6389eb39bbebea AS gccbuild
 WORKDIR /work
 COPY ./build/extension-functions.c .
 RUN gcc -fPIC -shared -O3 extension-functions.c -o libsqlitefunctions.so -lm
