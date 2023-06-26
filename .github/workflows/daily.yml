@@ -124,7 +124,7 @@ jobs:
         brotli --keep -4 --output=build/Marktstammdatenregister.db.br build/Marktstammdatenregister.db
         ls -lh build/Marktstammdatenregister.db.br
 
-        flyctl deploy . --config build/fly.toml --dockerfile build/Dockerfile
+        flyctl deploy . --config build/fly.toml --dockerfile build/Dockerfile --wait-timeout 120
 
     - name: Upload SQLite file to storage
       run: |
