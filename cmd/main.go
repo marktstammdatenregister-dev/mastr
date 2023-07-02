@@ -7,7 +7,6 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"golang.org/x/text/encoding/unicode"
 	"io"
 	"io/ioutil"
 	"log"
@@ -107,7 +106,8 @@ func mainWithError() error {
 		}
 		recs = append(recs, w)
 	}
-	dec := unicode.UTF16(unicode.LittleEndian, unicode.IgnoreBOM).NewDecoder()
+	// 2023-07-02: Looks like this is no longer necessary?
+	// dec := unicode.UTF16(unicode.LittleEndian, unicode.IgnoreBOM).NewDecoder()
 	for _, ed := range export {
 		if err := func() error {
 			if err := enterTable(recs, ed.Table); err != nil {
@@ -143,7 +143,7 @@ func mainWithError() error {
 							log.Printf("%v", err)
 						}
 					}()
-					_, err = processFile(recs, dec.Reader(f), &ed.Table)
+					_, err = processFile(recs, f, &ed.Table)
 					if err != nil {
 						return fmt.Errorf("failed to validate xml file %s: %w", name, err)
 					}
