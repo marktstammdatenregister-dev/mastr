@@ -7,6 +7,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"golang.org/x/net/html/charset"
 	"golang.org/x/text/encoding/unicode"
 	"io"
 	"io/ioutil"
@@ -205,6 +206,7 @@ func processFile(recs []internal.Recorder, f io.Reader, td *spec.Table) (int, er
 	// Construct the buffered XML reader.
 	const bufSize = 4096 * 1024
 	d := xml.NewDecoder(bufio.NewReaderSize(f, bufSize))
+	d.CharsetReader = charset.NewReaderLabel
 	r := internal.NewXMLReader(td, d)
 
 	// Validate the file.
