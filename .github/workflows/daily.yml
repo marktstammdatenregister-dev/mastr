@@ -101,21 +101,6 @@ jobs:
 
         rclone copy --include "${{env.SHORT_FILENAME}}.json" . 'wasabi:mastr-validation-1' --config build/rclone.conf
 
-    - name: Update stat
-      run: |
-        set -Eeuxo pipefail
-
-        git clone --depth 1 --branch main "https://${{secrets.MASTRBOT_PAT}}@github.com/marktstammdatenregister-dev/stat"
-        pushd stat
-        ./stat ../build/Marktstammdatenregister.db "${{env.DATE}}" | tee --append stat.json
-
-        git config user.name 'mastrdevbot'
-        git config user.email 'bot@marktstammdatenregister.dev'
-        git add stat.json
-        git commit -m 'Update stat.json'
-        git push
-        popd
-
     - name: Deploy
       run: |
         set -Eeuxo pipefail
