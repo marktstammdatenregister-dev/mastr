@@ -252,5 +252,6 @@ func (v *Validator) reportDuplicate(dup duplicate) {
 }
 
 func (v *Validator) reportBroken(brk broken) {
-	fmt.Fprintf(v.textWriter, "- broken: %s(%s=%s).%s references %s.%s=%s, which is missing\n", brk.table, brk.primary, brk.key, brk.column, brk.targetTable, brk.targetColumn, brk.targetKey)
+	// There are too many broken references, the output is just too long.
+	//fmt.Fprintf(v.textWriter, "- broken: %s(%s=%s).%s references %s.%s=%s, which is missing\n", brk.table, brk.primary, brk.key, brk.column, brk.targetTable, brk.targetColumn, brk.targetKey)
 }

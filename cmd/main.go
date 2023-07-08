@@ -203,6 +203,10 @@ func leaveFile(recs []internal.Recorder) error {
 }
 
 func processFile(recs []internal.Recorder, f io.Reader, td *spec.Table) (int, error) {
+	// HACK: The XML declaration at the beginning messes up the parser.
+	// TODO: Figure out how to parse the XML with XML declaration properly.
+	io.CopyN(io.Discard, f, int64(len("<?xml version='1.0' encoding='UTF-16'?>")))
+
 	// Construct the buffered XML reader.
 	const bufSize = 4096 * 1024
 	d := xml.NewDecoder(bufio.NewReaderSize(f, bufSize))
