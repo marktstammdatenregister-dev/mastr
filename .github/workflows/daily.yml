@@ -116,6 +116,14 @@ jobs:
         git push
         popd
 
+    - name: Upload SQLite file to storage
+      run: |
+        set -Eeuxo pipefail
+
+        # gzip: less compact and slower than brotli, but more likely to already be installed on user's machines.
+        pigz build/Marktstammdatenregister.db
+        rclone copy --include Marktstammdatenregister.db.gz build/ 'wasabi:mastr-backup' --config build/rclone.conf
+
     - name: Deploy
       run: |
         set -Eeuxo pipefail
@@ -125,11 +133,3 @@ jobs:
         ls -lh build/Marktstammdatenregister.db.br
 
         flyctl deploy . --config build/fly.toml --dockerfile build/Dockerfile --wait-timeout 120
-
-    - name: Upload SQLite file to storage
-      run: |
-        set -Eeuxo pipefail
-
-        # gzip: less compact and slower than brotli, but more likely to already be installed on user's machines.
-        pigz build/Marktstammdatenregister.db
-        rclone copy --include Marktstammdatenregister.db.gz build/ 'wasabi:mastr-backup' --config build/rclone.conf
