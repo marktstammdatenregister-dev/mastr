@@ -132,4 +132,5 @@ jobs:
         brotli --keep -4 --output=build/Marktstammdatenregister.db.br build/Marktstammdatenregister.db
         ls -lh build/Marktstammdatenregister.db.br
 
-        flyctl deploy . --config build/fly.toml --dockerfile build/Dockerfile --wait-timeout 120
+        # flyctl deploy fails consistently even though the deployment succeeds. Ignore the error code.
+        flyctl deploy . --config build/fly.toml --dockerfile build/Dockerfile --wait-timeout 120 || true
