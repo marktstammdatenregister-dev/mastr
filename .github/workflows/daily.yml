@@ -121,7 +121,7 @@ jobs:
         set -Eeuxo pipefail
 
         # gzip: less compact and slower than brotli, but more likely to already be installed on user's machines.
-        pigz build/Marktstammdatenregister.db
+        pigz --keep build/Marktstammdatenregister.db
         rclone copy --include Marktstammdatenregister.db.gz build/ 'wasabi:mastr-backup' --config build/rclone.conf
 
     - name: Deploy
