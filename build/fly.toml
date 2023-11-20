@@ -6,6 +6,10 @@ processes = []
 
 [env]
 
+[mounts]
+  source = "mastr_db1"
+  destination = "/data"
+
 [experimental]
   allowed_public_ports = []
   auto_rollback = true
