@@ -35,7 +35,7 @@ func NewSqliteWriter(db string) (*SqliteWriter, error) {
 
 	// Single writer, no reader, don't care about integrity if the import fails.
 	// This roughly halves the runtime of the SQLite writer.
-	sqlitex.Exec(conn, "PRAGMA journal_mode=MEMORY", nil)
+	sqlitex.Exec(conn, "PRAGMA journal_mode=OFF", nil)
 	sqlitex.Exec(conn, "PRAGMA synchronous=OFF", nil)
 	sqlitex.Exec(conn, "PRAGMA locking_mode=EXCLUSIVE", nil)
 
