@@ -61,16 +61,16 @@ type duplicate struct {
 	duplicateFile string
 }
 
-type broken struct {
-	table         string
-	column        string
-	key           string
-	primary       string
-	targetTable   string
-	targetColumn  string
-	targetKey     string
-	referenceFile string
-}
+//type broken struct {
+//	table         string
+//	column        string
+//	key           string
+//	primary       string
+//	targetTable   string
+//	targetColumn  string
+//	targetKey     string
+//	referenceFile string
+//}
 
 func NewValidator(exportName, url string, textWriter, jsonWriter io.Writer) *Validator {
 	return &Validator{
@@ -179,56 +179,56 @@ func (v *Validator) Record(item map[string]string) error {
 	keys[key] = s.index
 
 	// Check for broken references.
-	for _, field := range td.Fields {
-		ref := field.References
-		if ref == nil {
-			continue
-		}
-		if _, ok := item[field.Name]; !ok {
-			continue
-		}
-		x := item[field.Name]
-		brk := broken{
-			table:         td.Element,
-			column:        field.Name,
-			key:           key,
-			primary:       td.Primary,
-			targetTable:   ref.Table,
-			targetColumn:  ref.Column,
-			targetKey:     x,
-			referenceFile: fileName,
-		}
-		if _, ok := v.key[ref.Table]; !ok {
-			v.reportBroken(brk)
-			v.errCount++
+	//for _, field := range td.Fields {
+	//	ref := field.References
+	//	if ref == nil {
+	//		continue
+	//	}
+	//	if _, ok := item[field.Name]; !ok {
+	//		continue
+	//	}
+	//	x := item[field.Name]
+	//	brk := broken{
+	//		table:         td.Element,
+	//		column:        field.Name,
+	//		key:           key,
+	//		primary:       td.Primary,
+	//		targetTable:   ref.Table,
+	//		targetColumn:  ref.Column,
+	//		targetKey:     x,
+	//		referenceFile: fileName,
+	//	}
+	//	if _, ok := v.key[ref.Table]; !ok {
+	//		v.reportBroken(brk)
+	//		v.errCount++
 
-			s.report.Broken = append(s.report.Broken, BrokenReport{
-				SourceKey:       key,
-				ForeignKeyField: field.Name,
-				TargetTable:     ref.Table,
-				TargetKeyField:  ref.Column,
-				TargetKey:       x,
-			})
-			s.report.NumBroken++
+	//		s.report.Broken = append(s.report.Broken, BrokenReport{
+	//			SourceKey:       key,
+	//			ForeignKeyField: field.Name,
+	//			TargetTable:     ref.Table,
+	//			TargetKeyField:  ref.Column,
+	//			TargetKey:       x,
+	//		})
+	//		s.report.NumBroken++
 
-			continue
-		}
-		if _, ok := v.key[ref.Table][x]; !ok {
-			v.reportBroken(brk)
-			v.errCount++
+	//		continue
+	//	}
+	//	if _, ok := v.key[ref.Table][x]; !ok {
+	//		v.reportBroken(brk)
+	//		v.errCount++
 
-			s.report.Broken = append(s.report.Broken, BrokenReport{
-				SourceKey:       key,
-				ForeignKeyField: field.Name,
-				TargetTable:     ref.Table,
-				TargetKeyField:  ref.Column,
-				TargetKey:       x,
-			})
-			s.report.NumBroken++
+	//		s.report.Broken = append(s.report.Broken, BrokenReport{
+	//			SourceKey:       key,
+	//			ForeignKeyField: field.Name,
+	//			TargetTable:     ref.Table,
+	//			TargetKeyField:  ref.Column,
+	//			TargetKey:       x,
+	//		})
+	//		s.report.NumBroken++
 
-			continue
-		}
-	}
+	//		continue
+	//	}
+	//}
 	return nil
 }
 
@@ -251,7 +251,7 @@ func (v *Validator) reportDuplicate(dup duplicate) {
 	fmt.Fprintf(v.textWriter, "- duplicate: %s.%s=%s already appeared in %s\n", dup.table, dup.column, dup.key, dup.originalFile)
 }
 
-func (v *Validator) reportBroken(brk broken) {
-	// There are too many broken references, the output is just too long.
-	//fmt.Fprintf(v.textWriter, "- broken: %s(%s=%s).%s references %s.%s=%s, which is missing\n", brk.table, brk.primary, brk.key, brk.column, brk.targetTable, brk.targetColumn, brk.targetKey)
-}
+//func (v *Validator) reportBroken(brk broken) {
+//	// There are too many broken references, the output is just too long.
+//	//fmt.Fprintf(v.textWriter, "- broken: %s(%s=%s).%s references %s.%s=%s, which is missing\n", brk.table, brk.primary, brk.key, brk.column, brk.targetTable, brk.targetColumn, brk.targetKey)
+//}
